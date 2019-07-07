@@ -1,0 +1,10 @@
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\bin\Debug\HEXtoFLOAT.exe.config
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\bin\Debug\HEXtoFLOAT.exe
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\bin\Debug\HEXtoFLOAT.pdb
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\obj\Debug\HEXtoFLOAT.csprojAssemblyReference.cache
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\obj\Debug\HEXtoFLOAT.Properties.Resources.resources
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\obj\Debug\HEXtoFLOAT.csproj.GenerateResource.cache
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\obj\Debug\HEXtoFLOAT.csproj.CoreCompileInputs.cache
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\obj\Debug\HEXtoFLOAT.exe
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\obj\Debug\HEXtoFLOAT.pdb
+C:\Users\Michel\source\repos\HEXtoFLOAT\HEXtoFLOAT\obj\Debug\HEXtoFLOAT.HEXtoFLOAT.resources
