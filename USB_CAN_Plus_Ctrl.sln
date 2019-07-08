@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USB_CAN_Plus_Ctrl", "HEXtoFLOAT\USB_CAN_Plus_Ctrl.csproj", "{BE756F5E-ADB9-491A-904D-1BE6CD205B0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USB_CAN_Plus_Ctrl", "USB_CAN_Plus_Ctrl\USB_CAN_Plus_Ctrl.csproj", "{BE756F5E-ADB9-491A-904D-1BE6CD205B0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

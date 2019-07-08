@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\USB_CAN_Plus_Ctrl"
+    "\\USB_CAN_Plus_Ctrl",
+    "\\USB_CAN_Plus_Ctrl\\bin",
+    "\\USB_CAN_Plus_Ctrl\\bin\\x64\\Debug",
+    "\\USB_CAN_Plus_Ctrl\\obj",
+    "\\USB_CAN_Plus_Ctrl\\Properties"
   ],
+  "SelectedNode": "\\USB_CAN_Plus_Ctrl.sln",
   "PreviewInSolutionExplorer": false
 }
