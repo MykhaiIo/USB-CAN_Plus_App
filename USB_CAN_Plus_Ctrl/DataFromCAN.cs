@@ -9,6 +9,9 @@ namespace USB_CAN_Plus_Ctrl
 {
     static class DataFromCAN
     {
+        public static VSCAN CanDevice { get; internal set; }
+        private static VSCAN_MSG msg;
+
         public static VSCAN InitCAN()
         {
             VSCAN CanDevice = new VSCAN();
@@ -54,15 +57,22 @@ namespace USB_CAN_Plus_Ctrl
             return CanDevice;
         }
 
-        public static void DeinitCAN(ref VSCAN CanDevice)
+        public static void DeinitCAN(VSCAN CanDevice)
         {
             CanDevice.Close();
         }
 
-        public static void WriteDataValue()
+        /*private static bool SendData(byte CmdNo, UInt32 ID, byte[] Data)
+        {
+            msg.Data = Data;
+            msg.Id = ID;
+        }   
+
+        private static bool GetData(out ref VSCAN_MSG msg)
         {
 
-        }
+            
+        }*/
 
         public static string GetStrHEXCurValue()
         {
@@ -75,7 +85,7 @@ namespace USB_CAN_Plus_Ctrl
             StringBuilder strCur = new StringBuilder("", 8);
 
 
-            VSCAN CanDevice = InitCAN();
+            CanDevice = InitCAN();
 
             msgs[0].Id = 0x029A3FF0;
             msgs[0].Size = 8;
@@ -184,7 +194,7 @@ namespace USB_CAN_Plus_Ctrl
 
             // close CAN channel
 
-            CanDevice.Close();
+            DeinitCAN(CanDevice);
         }
 
 

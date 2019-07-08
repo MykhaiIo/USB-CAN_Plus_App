@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NumRepresentations.cs" />
     <Compile Include="DataFromCAN.cs" />
     <Compile Include="USB_CAN_Plus_Ctrl.cs">
       <SubType>Form</SubType>
