@@ -132,5 +132,10 @@ namespace HEXtoFLOAT
         {
             HEXCurTextBox.Text = DataFromCAN.GetStrHEXCurValue();
         }
+
+        private void TextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
