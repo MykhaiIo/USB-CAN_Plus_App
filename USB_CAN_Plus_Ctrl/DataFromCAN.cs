@@ -28,7 +28,7 @@ namespace USB_CAN_Plus_Ctrl
                 // open CAN channel: please specify the name of your device according to User Manual
 
                 CanDevice.Open(VSCAN.VSCAN_FIRST_FOUND, VSCAN.VSCAN_MODE_SELF_RECEPTION);
-
+                
                 // set some options
 
                 CanDevice.SetSpeed(VSCAN.VSCAN_SPEED_20K);
@@ -62,17 +62,17 @@ namespace USB_CAN_Plus_Ctrl
             CanDevice.Close();
         }
 
-        /*private static bool SendData(byte CmdNo, UInt32 ID, byte[] Data)
+        private static bool SendData(byte CmdNo, UInt32 ID, byte[] Data)
         {
             msg.Data = Data;
             msg.Id = ID;
         }   
 
-        private static bool GetData(out ref VSCAN_MSG msg)
+        private static bool GetData(out VSCAN_MSG msg)
         {
-
-            
-        }*/
+            CanDevice.GetHashCode
+            return true;
+        }
 
         public static string GetStrHEXCurValue()
         {

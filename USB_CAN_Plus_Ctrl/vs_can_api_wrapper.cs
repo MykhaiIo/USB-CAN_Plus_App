@@ -236,18 +236,20 @@ namespace VSCom.CanApi
         /**
          * @name Original API calls
          * @{ */
-        
-        /**
-         * @brief open CAN channel
-         * @param [in] SerialNrORComPortORNet a char pointer with one of the following values:
-         *    - serial number of the specific device
-         *    - COM port or CAN name where the device is located
-         *    - IP address and port number of the device
-         * @param [in] Mode modes
-         *    - #VSCAN_MODE_NORMAL
-         *    - #VSCAN_MODE_LISTEN_ONLY
-         *    - #VSCAN_MODE_SELF_RECEPTION
-         */
+
+
+        ///<summary>open CAN channel</summary>
+        ///<param name="SerialNrORComPortORNet">a char pointer with one of the following values:
+        ///<para>- serial number of the specific device</para>
+        ///<para>- COM port or CAN name where the device is located</para>
+        ///<para>- IP address and port number of the device</para>
+        /// </param>
+        /// <param name="Mode">modes
+        /// <para>- #VSCAN_MODE_NORMAL</para>
+        /// <para>- #VSCAN_MODE_LISTEN_ONLY</para>
+        /// <para>- #VSCAN_MODE_SELF_RECEPTION</para>
+        /// </param>
+
         public void Open(string SerialNrORComPortORNet, UInt32 Mode)
         {
             if (SerialNrORComPortORNet.Length > 0)
@@ -277,9 +279,9 @@ namespace VSCom.CanApi
             }
         }
 
-        /**
-         * @brief close CAN channel
-         */
+        
+         ///<summary>close CAN channel</summary> 
+         
         public void Close()
         {
             Int32 rc = VSCAN_Close(handle);
@@ -293,9 +295,9 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief  get and set special information and commands of the CAN device
-         * @param Ioctl tells the function which of the following ioctl should be called
-         * @param Param a pointer to the data for the ioctls
+         <summary>get and set special information and commands of the CAN device</summary>
+         * <param name="Ioctl">tells the function which of the following ioctl should be called</param> 
+         * <param name="Param">a pointer to the data for the ioctls</param> 
          */
         public void Ioctl(UInt32 Ioctl, IntPtr Param)
         {
@@ -310,15 +312,16 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief send CAN frame(s)
+         * <summary>send CAN frame(s)
          *
-         * The frames will be buffered and send out after some time - this time can grow up to one
-         * time slice of the scheduler (Windows = ~16ms and Linux = ~10ms). If you want to send
-         * the frames immediately, you must call the function Flush()
+         * <remarks>The frames will be buffered and send out after some time - this time can grow up to one
+         * time slice of the scheduler (Windows = ~16ms and Linux = ~10ms).
+         * <para></para>If you want to send the frames immediately, you must call the function Flush()</remarks> 
+         * </summary>
          *
-         * @param Buf a pointer to one element or an array of the structure VSCAN_MSG
-         * @param Size the number of the array elements in Buf
-         * @param Written a pointer to a DWORD that will receive the number of frames written
+         * <param name="Buf"> a pointer to one element or an array of the structure VSCAN_MSG</param>
+         * <param name="Size"> the number of the array elements in Buf</param>
+         * @<param name="Written"> a pointer to a DWORD that will receive the number of frames written</param>
          */
         public void Write(VSCAN_MSG[] Buf, UInt32 Size, ref UInt32 Written)
         {
@@ -333,16 +336,17 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief read CAN frame(s)
+         * <summary>brief read CAN frame(s)
          *
-         * The read mode of this function is set to non-blocking mode per default. This
+         * <remarks>The read mode of this function is set to non-blocking mode per default. This
          * means that Read will return immediately - even when there are no frames at the
-         * moment. To make the  VSCAN_Read blocking, use the ioctl #VSCAN_IOCTL_SET_BLOCKING_READ
-         * then it will return only if frames were received
+         * moment.<para></para>To make the  VSCAN_Read blocking, use the ioctl #VSCAN_IOCTL_SET_BLOCKING_READ
+         * then it will return only if frames were received</remarks>
+         * </summary>
          *
-         * @param Buf a pointer to one element or an array of the structure VSCAN_MSG
-         * @param Size the number of the array elements in Buf
-         * @param Read a pointer to a DWORD that will receive the real number of the frames read
+         * <param name="Buf"> a pointer to one element or an array of the structure VSCAN_MSG</param>
+         * <param name="Size"> the number of the array elements in Buf</param>
+         * <param name="Read"> Read a pointer to a DWORD that will receive the real number of the frames read</param>
          */
         public void Read(ref VSCAN_MSG[] Buf, UInt32 Size, ref UInt32 Read)
         {
@@ -369,7 +373,7 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief send all frames immediately out to the CAN bus
+         * <summary>send all frames immediately out to the CAN bus</summary>
          */
         public void Flush()
         {
@@ -385,12 +389,12 @@ namespace VSCom.CanApi
         /** @} */
 
         /**
-         * @name IOCTL Wrapper
+         * <name>IOCTL Wrapper</name>
          * @{ */
 
         /**
-         * @brief get hardware parameter
-         * @param hw pointer to VSCAN_HWPARAM structure
+         * <summary>get hardware parameter</summary> 
+         * <param name="hw">pointer to VSCAN_HWPARAM structure</param>
          */
         public void GetHwParams(ref VSCAN_HWPARAM hw)
         {
@@ -410,8 +414,8 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief get VSCAN API version
-         * @param ApiVer pointer to VSCAN_API_VERSION structure
+         * <summary>get VSCAN API version</summary>
+         * <param name="ApiVer">pointer to VSCAN_API_VERSION structure</param>
          */
         public void GetApiVersion(ref VSCAN_API_VERSION ApiVer)
         {
@@ -431,8 +435,8 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief  get extended status and error flags
-         * @param Flags pointer to byte
+         * <summary>get extended status and error flags</summary>  
+         * <param name="Flags">Flags pointer to byte</param>
          */
         public void GetFlags(ref byte Flags)
         {
@@ -452,8 +456,8 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief set acceptance code and mask
-         * @param Mask pointer to VSCAN_CODE_MASK structure
+         * <summary>set acceptance code and mask</summary>
+         * <param name="Mask">pointer to VSCAN_CODE_MASK structure</param>
          */
         public void SetACCCodeMask(VSCAN_CODE_MASK Mask)
         {
@@ -471,8 +475,8 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief set bit-timing register
-         * @param Btr pointer to VSCAN_BTR structure
+         * <summary>set bit-timing register</summary>
+         * <param name="Btr">pointer to VSCAN_BTR structure</param>
          */
         public void SetBTR(VSCAN_BTR Btr)
         {
@@ -490,8 +494,8 @@ namespace VSCom.CanApi
         }
 
         /**
-        * @brief set CAN speed
-        * @param Speed CAN speed
+        * <summary>set CAN speed</summary>
+        * <param name="Speed">CAN speed</param>
         */
         public void SetSpeed(int Speed)
         {
@@ -506,10 +510,11 @@ namespace VSCom.CanApi
         }
 
         /**
-        * @brief set filter mode
-        * @param Mode filter mode:
-        *  - #VSCAN_FILTER_MODE_SINGLE
-        *  - #VSCAN_FILTER_MODE_DUAL
+        * <summary>set filter mode</summary>
+        * <param name="Mode">filter mode:
+        *  <para>- #VSCAN_FILTER_MODE_SINGLE</para>
+        *  <para>- #VSCAN_FILTER_MODE_DUAL</para>
+        *  </param>
         */
         public void SetFilterMode(int Mode)
         {
@@ -524,10 +529,11 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief set time stamp mode
-         * @param Mode time stamp mode:
-         *  - #VSCAN_TIMESTAMP_OFF
-         *  - #VSCAN_TIMESTAMP_ON
+         * <summary>set time stamp mode</summary>
+         * <param name="Mode">time stamp mode:
+         *  <para>- #VSCAN_TIMESTAMP_OFF</para>
+         *  <para>- #VSCAN_TIMESTAMP_ON</para>
+         *  </param>
          */
         public void SetTimestamp(int Mode)
         {
@@ -542,10 +548,11 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief set blocking read mode
-         * @param Mode blocking read mode:
-         *  - #VSCAN_IOCTL_OFF
-         *  - #VSCAN_IOCTL_ON
+         * <summary>set blocking read mode</summary>
+         * <param name="Mode">blocking read mode:
+         *  <para>- #VSCAN_IOCTL_OFF</para>
+         *  <para>- #VSCAN_IOCTL_ON</para>
+         *  </param>
          */
         public void SetBlockingRead(int Mode)
         {
@@ -560,12 +567,13 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief set debugging verbosity level
-         * @param Level verbosity level:
-         *  - #VSCAN_DEBUG_NONE
-         *  - #VSCAN_DEBUG_LOW
-         *  - #VSCAN_DEBUG_MID
-         *  - #VSCAN_DEBUG_HIGH
+         * <summary>set debugging verbosity level</summary>
+         * <param name="Level">verbosity level:
+         *  <para>- #VSCAN_DEBUG_NONE</para>
+         *  <para>- #VSCAN_DEBUG_LOW</para>
+         *  <para>- #VSCAN_DEBUG_MID</para>
+         *  <para>- #VSCAN_DEBUG_HIGH</para>
+         *  </param>
          */
         public void SetDebug(int Level)
         {
@@ -580,10 +588,11 @@ namespace VSCom.CanApi
         }
 
         /**
-         * @brief set debug mode
-         * @param FileORConsole debug mode:
-         *  - #VSCAN_DEBUG_MODE_CONSOLE
-         *  - #VSCAN_DEBUG_MODE_FILE
+         * <summary>set debug mode</summary>
+         * <param name="FileORConsole">FileORConsole debug mode:
+         *  <para>- #VSCAN_DEBUG_MODE_CONSOLE</para>
+         *  <para>- #VSCAN_DEBUG_MODE_FILE</para>
+         *  </param>
          */
         public void SetDebugMode(int FileORConsole)
         {
