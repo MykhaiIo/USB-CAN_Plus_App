@@ -10,7 +10,9 @@ namespace USB_CAN_Plus_Ctrl
     static class DataFromCAN
     {
         public static VSCAN CanDevice { get; internal set; }
-        private static VSCAN_MSG msg;
+        private static VSCAN_MSG[] msgs = new VSCAN_MSG[1];
+        private static UInt32 Read = 0, Written = 0;
+        private static byte Flags = 0x0;
 
         public static VSCAN InitCAN()
         {
@@ -62,16 +64,41 @@ namespace USB_CAN_Plus_Ctrl
             CanDevice.Close();
         }
 
-        private static bool SendData(byte CmdNo, UInt32 ID, byte[] Data)
+        public static bool SendData(byte CmdNo, UInt32 ID, byte[] Data)
         {
-            msg.Data = Data;
-            msg.Id = ID;
+            /*try
+            {*/
+                msgs[0].Data = Data;
+                msgs[0].Id = ID;
+                msgs[0].Size = 8;
+                CanDevice.Write(msgs, 1, ref Written);
+                CanDevice.Flush();
+                Console.WriteLine("");
+                Console.WriteLine("Send CAN frames: " + Written);
+                return true;
+            /*}
+
+            catch(Exception e)
+            {
+                Console.WriteLine("Message transmitted " + e.Message);
+                return false;
+            }*/
         }   
 
-        private static bool GetData(out VSCAN_MSG msg)
+        public static VSCAN_MSG[] GetData()
         {
-            CanDevice.GetHashCode
-            return true;
+            try
+            {
+                CanDevice.Read(ref msgs, 1, ref Read);
+                Console.WriteLine("");
+                Console.WriteLine("Read CAN frames: " + Read);
+                return msgs;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Message recieved " + e.Message);
+                return msgs;
+            }
         }
 
         public static string GetStrHEXCurValue()

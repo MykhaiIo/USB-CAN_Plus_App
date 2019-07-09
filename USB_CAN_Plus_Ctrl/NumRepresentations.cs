@@ -8,31 +8,17 @@ namespace USB_CAN_Plus_Ctrl
 {
     static class NumRepresentations
     {
-        private static bool IsValid(string s)
-        {
+        private static bool IsValid(string s) =>
             // For C-style hex notation (0xFF) you can use @"\A\b(0[xX])?[0-9a-fA-F]+\b\Z"
-            return System.Text.RegularExpressions.Regex.IsMatch(s, @"\A\b[0-9a-fA-F]+\b\Z");
-        }
+            System.Text.RegularExpressions.Regex.IsMatch(s, @"\A\b[0-9a-fA-F]+\b\Z");
 
-        public static int INTtoHEX(int i)
-        {
-            return BitConverter.ToInt32(BitConverter.GetBytes(i), 0);
-        }
+        public static byte[] INTtoBYTE(int i) => BitConverter.GetBytes(i);
 
-        public static int FPtoHEX(float fp)
-        {
-            return BitConverter.ToInt32(BitConverter.GetBytes(fp), 0);
-        }
+        public static byte[] FPtoBYTE(float fp) => BitConverter.GetBytes(fp);
 
-        public static float HEXtoFP(int hex)
-        {
-            return BitConverter.ToSingle(BitConverter.GetBytes(hex), 0);
-        }
+        public static float BYTEtoFP(byte[] b) => BitConverter.ToSingle(b, 0);
 
-        private static string ToFormattedDouble(double value)
-        {
-            return string.Format("{0:##0.00}", value);
-        }
+        private static string ToFormattedDouble(double value) => string.Format("{0:##0.00}", value);
 
         private static string ToEngineering(double value, string unitName)
         {

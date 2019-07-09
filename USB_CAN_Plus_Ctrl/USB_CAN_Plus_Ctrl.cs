@@ -13,88 +13,64 @@ namespace USB_CAN_Plus_Ctrl
 {
     public partial class USB_CAN_Plus_Ctrl : Form
     {
-        private int VoltHEXWritten;
-        private int CurntHEXWritten;
-        private int VoltHEXRead;
-        private int CurntHEXRead;
+        private byte[] m_VoltHEXWritten;
+        private byte[] m_CurntHEXWritten;
+        private byte[] m_VoltHEXRead = new byte[4];
+        private byte[] m_CurntHEXRead = new byte[4];
 
-        private struct CanDeviceParams
-        {
-            public static int inVoltOutSI;
-            public static float inCurntOutSI;
-            public static float outVoltOutFP;
-            public static float outCurntOutFP;
-        }
+        public byte[] CurntBWritten { get => m_CurntHEXWritten; set => m_CurntHEXWritten = value; }
+        public byte[] VoltBWritten { get => m_VoltHEXWritten; set => m_VoltHEXWritten = value; }
+        public byte[] VoltBRead { get => m_VoltHEXRead; set => m_VoltHEXRead = value; }
+        public byte[] CurntBRead { get => m_CurntHEXRead; set => m_CurntHEXRead = value; }
 
         public USB_CAN_Plus_Ctrl()
         {
             InitializeComponent();
         }
 
-        
-
-        /*private void HEXtoFLOAT_Click(object sender, EventArgs e)
-        {
-            var cur = HEXCurTextBox.Text;
-            var volt = HEXVoltTextBox.Text;
-
-
-            if (IsValid(cur) && IsValid(volt))
-            {
-                FLOATCurTextBox.Text = ToFormattedDouble(HEXSTRtoFP(cur));
-                FLOATVoltTextBox.Text = ToFormattedDouble(HEXSTRtoFP(volt));
-                SICurVal.Text = ToEngineering(HEXSTRtoFP(cur), "A");
-                SIVoltVal.Text = ToEngineering(HEXSTRtoFP(volt), "V");
-            }
-
-            else if (cur != "")
-            {
-                MessageBox.Show("Tension value is invalid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            else if (volt != "")
-            {
-                MessageBox.Show("Current value is invalid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-        }*/
-
-        private float HEXSTRtoFP(string hex)
-        {
-            bool success = Int32.TryParse(hex, System.Globalization.NumberStyles.AllowHexSpecifier, null, out int hexval);
-            float fval = BitConverter.ToSingle(BitConverter.GetBytes(hexval), 0);
-
-            
-
-            if (!success)
-            {
-                MessageBox.Show("Hexadecimal value is out of range!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return float.MaxValue;
-            }
-            else
-                return fval;
-        }
-
-        
-
-        /*private void GetDataFromCAN_Click(object sender, EventArgs e)
-        {
-            HEXCurTextBox.Text = DataFromCAN.GetStrHEXCurValue();
-        }*/
-
-        private void TextBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void BtnConnect1_Click(object sender, EventArgs e)
         {
             DataFromCAN.CanDevice = DataFromCAN.InitCAN();
-            CanDeviceParams.inVoltOutSI = (int)nudOutVoltSI1.Value*1000;
-            CanDeviceParams.inCurntOutSI = (float)nudOutCurntSI1.Value*1000;
-            VoltHEXWritten =  NumRepresentations.INTtoHEX(CanDeviceParams.inVoltOutSI);
-            CurntHEXWritten = NumRepresentations.FPtoHEX(CanDeviceParams.inCurntOutSI);
-        }
+            VoltBWritten = NumRepresentations.FPtoBYTE((float)nudOutVoltSI1.Value / 1000);
+            CurntBWritten = NumRepresentations.FPtoBYTE((float)nudOutCurntSI1.Value / 1000);
+
+            Array.Reverse(VoltBWritten);
+            Array.Reverse(CurntBWritten);
+
+            byte[] Data = new byte[8];
+
+            // form HEX volt value to be sent
+            for (int i = 0; i < 3; i++)
+            {
+                Data[i] = VoltBWritten[i];
+            }
+
+            // form HEX current value to be sent
+            for (int i = 3; i < 7; i++)
+            {
+                Data[i] = CurntBWritten[i - 3];
+            }
+            DataFromCAN.SendData(Convert.ToByte(0x1B), 0x029B3FF0, Data);
+            VSCAN_MSG[] msg = DataFromCAN.GetData();
+
+            // form volt value to be recieved
+            for (int i = 0; i < 3; i++)
+            {
+                VoltBRead[i] = msg[0].Data[i];
+            }
+
+            // form current value to be recieved
+            for (int i = 3; i < 7; i++)
+            {
+                CurntBRead[i - 3] = msg[0].Data[i];
+            }
+
+            Array.Reverse(VoltBRead);
+            Array.Reverse(CurntBRead);
+
+            txtOutVoltFP1.Text = NumRepresentations.BYTEtoFP(VoltBRead).ToString();
+            txtOutCurntFP1.Text = NumRepresentations.BYTEtoFP(CurntBRead).ToString();
+            }
 
         private void BtnDisconnect1_Click(object sender, EventArgs e)
         {
