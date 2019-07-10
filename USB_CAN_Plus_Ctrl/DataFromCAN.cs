@@ -42,6 +42,7 @@ namespace USB_CAN_Plus_Ctrl
                 CanDevice.GetHwParams(ref hw);
                 Console.WriteLine("Get hardware paramter:");
                 Console.WriteLine("HwVersion:" + hw.HwVersion + " SwVersion:" + (hw.SwVersion >> 4) + "." + (hw.SwVersion & 0x0f));
+                
                 Console.WriteLine("SerNr:" + hw.SerialNr + " HwType:" + hw.HwType);
 
                 // get API version
@@ -53,7 +54,7 @@ namespace USB_CAN_Plus_Ctrl
 
             catch (Exception e)
             {
-                Console.WriteLine("CAN opened " + e.Message);
+                Console.WriteLine("CAN opened and " + e.Message);
             }
 
             return CanDevice;
@@ -61,13 +62,21 @@ namespace USB_CAN_Plus_Ctrl
 
         public static void DeinitCAN(VSCAN CanDevice)
         {
-            CanDevice.Close();
+            try
+            {
+                CanDevice.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CAN closed and " + e.Message);
+            }
+            
         }
 
         public static bool SendData(byte CmdNo, UInt32 ID, byte[] Data)
         {
-            /*try
-            {*/
+            try
+            {
                 msgs[0].Data = Data;
                 msgs[0].Id = ID;
                 msgs[0].Size = 8;
@@ -76,13 +85,13 @@ namespace USB_CAN_Plus_Ctrl
                 Console.WriteLine("");
                 Console.WriteLine("Send CAN frames: " + Written);
                 return true;
-            /*}
+            }
 
             catch(Exception e)
             {
                 Console.WriteLine("Message transmitted " + e.Message);
                 return false;
-            }*/
+            }
         }   
 
         public static VSCAN_MSG[] GetData()
@@ -94,6 +103,7 @@ namespace USB_CAN_Plus_Ctrl
                 Console.WriteLine("Read CAN frames: " + Read);
                 return msgs;
             }
+
             catch (Exception e)
             {
                 Console.WriteLine("Message recieved " + e.Message);
@@ -117,14 +127,14 @@ namespace USB_CAN_Plus_Ctrl
             msgs[0].Id = 0x029A3FF0;
             msgs[0].Size = 8;
             msgs[0].Data = new byte[8];
-            msgs[0].Data[0] = 0x01;
-            msgs[0].Data[1] = 0x00;
-            msgs[0].Data[2] = 0x00;
-            msgs[0].Data[3] = 0x00;
+            msgs[0].Data[0] = 0x00;
+            msgs[0].Data[1] = 0x0b;
+            msgs[0].Data[2] = 0x71;
+            msgs[0].Data[3] = 0xb0;
             msgs[0].Data[4] = 0x00;
             msgs[0].Data[5] = 0x00;
-            msgs[0].Data[6] = 0x00;
-            msgs[0].Data[7] = 0x00;
+            msgs[0].Data[6] = 0x3a;
+            msgs[0].Data[7] = 0x98;
             msgs[0].Flags = VSCAN.VSCAN_FLAGS_EXTENDED;
 
 
@@ -132,13 +142,13 @@ namespace USB_CAN_Plus_Ctrl
             msgs[1].Size = 8;
             msgs[1].Data = new byte[8];
             msgs[1].Data[0] = 0x00;
-            msgs[1].Data[1] = 0x0b;
-            msgs[1].Data[2] = 0x71;
-            msgs[1].Data[3] = 0xb0;
+            msgs[1].Data[1] = 0x00;
+            msgs[1].Data[2] = 0x00;
+            msgs[1].Data[3] = 0x00;
             msgs[1].Data[4] = 0x00;
             msgs[1].Data[5] = 0x00;
-            msgs[1].Data[6] = 0x3a;
-            msgs[1].Data[7] = 0x98;
+            msgs[1].Data[6] = 0x00;
+            msgs[1].Data[7] = 0x01;
             msgs[1].Flags = VSCAN.VSCAN_FLAGS_EXTENDED;
 
             try
@@ -221,7 +231,7 @@ namespace USB_CAN_Plus_Ctrl
 
             // close CAN channel
 
-            DeinitCAN(CanDevice);
+            //DeinitCAN(CanDevice);
         }
 
 

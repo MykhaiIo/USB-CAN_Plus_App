@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.grpModule1 = new System.Windows.Forms.GroupBox();
-            this.btnDisconnect1 = new System.Windows.Forms.Button();
             this.btnConnect1 = new System.Windows.Forms.Button();
             this.grpReadParamsMdl1 = new System.Windows.Forms.GroupBox();
+            this.lblSwVer = new System.Windows.Forms.Label();
+            this.lblHwVer = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -55,7 +56,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.grpModule2 = new System.Windows.Forms.GroupBox();
-            this.btnDisconnect2 = new System.Windows.Forms.Button();
             this.btnConnect2 = new System.Windows.Forms.Button();
             this.grpReadParamsMdl2 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -80,6 +80,9 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
+            this.lblSerialNo = new System.Windows.Forms.Label();
+            this.lblHwType = new System.Windows.Forms.Label();
+            this.lblAPIVer = new System.Windows.Forms.Label();
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
             this.grpSetParamsMdl1.SuspendLayout();
@@ -94,30 +97,19 @@
             // 
             // grpModule1
             // 
-            this.grpModule1.Controls.Add(this.btnDisconnect1);
             this.grpModule1.Controls.Add(this.btnConnect1);
             this.grpModule1.Controls.Add(this.grpReadParamsMdl1);
             this.grpModule1.Controls.Add(this.grpSetParamsMdl1);
-            this.grpModule1.Location = new System.Drawing.Point(41, 21);
+            this.grpModule1.Location = new System.Drawing.Point(14, 21);
             this.grpModule1.Name = "grpModule1";
-            this.grpModule1.Size = new System.Drawing.Size(403, 239);
+            this.grpModule1.Size = new System.Drawing.Size(561, 239);
             this.grpModule1.TabIndex = 1;
             this.grpModule1.TabStop = false;
             this.grpModule1.Text = "Модуль 1";
             // 
-            // btnDisconnect1
-            // 
-            this.btnDisconnect1.Location = new System.Drawing.Point(313, 207);
-            this.btnDisconnect1.Name = "btnDisconnect1";
-            this.btnDisconnect1.Size = new System.Drawing.Size(75, 23);
-            this.btnDisconnect1.TabIndex = 3;
-            this.btnDisconnect1.Text = "Відключити";
-            this.btnDisconnect1.UseVisualStyleBackColor = true;
-            this.btnDisconnect1.Click += new System.EventHandler(this.BtnDisconnect1_Click);
-            // 
             // btnConnect1
             // 
-            this.btnConnect1.Location = new System.Drawing.Point(218, 207);
+            this.btnConnect1.Location = new System.Drawing.Point(219, 207);
             this.btnConnect1.Name = "btnConnect1";
             this.btnConnect1.Size = new System.Drawing.Size(75, 23);
             this.btnConnect1.TabIndex = 2;
@@ -127,6 +119,11 @@
             // 
             // grpReadParamsMdl1
             // 
+            this.grpReadParamsMdl1.Controls.Add(this.lblAPIVer);
+            this.grpReadParamsMdl1.Controls.Add(this.lblHwType);
+            this.grpReadParamsMdl1.Controls.Add(this.lblSerialNo);
+            this.grpReadParamsMdl1.Controls.Add(this.lblSwVer);
+            this.grpReadParamsMdl1.Controls.Add(this.lblHwVer);
             this.grpReadParamsMdl1.Controls.Add(this.label12);
             this.grpReadParamsMdl1.Controls.Add(this.label11);
             this.grpReadParamsMdl1.Controls.Add(this.label10);
@@ -140,10 +137,30 @@
             this.grpReadParamsMdl1.Controls.Add(this.label7);
             this.grpReadParamsMdl1.Location = new System.Drawing.Point(7, 101);
             this.grpReadParamsMdl1.Name = "grpReadParamsMdl1";
-            this.grpReadParamsMdl1.Size = new System.Drawing.Size(381, 100);
+            this.grpReadParamsMdl1.Size = new System.Drawing.Size(548, 100);
             this.grpReadParamsMdl1.TabIndex = 1;
             this.grpReadParamsMdl1.TabStop = false;
             this.grpReadParamsMdl1.Text = "Характеристики модуля";
+            // 
+            // lblSwVer
+            // 
+            this.lblSwVer.AutoSize = true;
+            this.lblSwVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSwVer.Location = new System.Drawing.Point(358, 27);
+            this.lblSwVer.Name = "lblSwVer";
+            this.lblSwVer.Size = new System.Drawing.Size(61, 13);
+            this.lblSwVer.TabIndex = 20;
+            this.lblSwVer.Text = "Версія ПЗ:";
+            // 
+            // lblHwVer
+            // 
+            this.lblHwVer.AutoSize = true;
+            this.lblHwVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHwVer.Location = new System.Drawing.Point(358, 8);
+            this.lblHwVer.Name = "lblHwVer";
+            this.lblHwVer.Size = new System.Drawing.Size(83, 13);
+            this.lblHwVer.TabIndex = 19;
+            this.lblHwVer.Text = "Версія модуля:";
             // 
             // label12
             // 
@@ -254,7 +271,7 @@
             this.grpSetParamsMdl1.Controls.Add(this.label1);
             this.grpSetParamsMdl1.Location = new System.Drawing.Point(7, 20);
             this.grpSetParamsMdl1.Name = "grpSetParamsMdl1";
-            this.grpSetParamsMdl1.Size = new System.Drawing.Size(381, 74);
+            this.grpSetParamsMdl1.Size = new System.Drawing.Size(548, 74);
             this.grpSetParamsMdl1.TabIndex = 0;
             this.grpSetParamsMdl1.TabStop = false;
             this.grpSetParamsMdl1.Text = "Параметри, що задаються";
@@ -295,7 +312,6 @@
             // 
             // nudOutCurntSI1
             // 
-            this.nudOutCurntSI1.DecimalPlaces = 3;
             this.nudOutCurntSI1.Increment = new decimal(new int[] {
             1,
             0,
@@ -315,6 +331,7 @@
             0,
             0,
             0});
+            this.nudOutCurntSI1.ValueChanged += new System.EventHandler(this.NudOutCurntSI1_ValueChanged);
             // 
             // nudOutVoltSI1
             // 
@@ -337,6 +354,7 @@
             0,
             0,
             0});
+            this.nudOutVoltSI1.ValueChanged += new System.EventHandler(this.NudOutVoltSI1_ValueChanged);
             // 
             // label4
             // 
@@ -380,29 +398,19 @@
             // 
             // grpModule2
             // 
-            this.grpModule2.Controls.Add(this.btnDisconnect2);
             this.grpModule2.Controls.Add(this.btnConnect2);
             this.grpModule2.Controls.Add(this.grpReadParamsMdl2);
             this.grpModule2.Controls.Add(this.grpSetParamsMdl2);
-            this.grpModule2.Location = new System.Drawing.Point(41, 266);
+            this.grpModule2.Location = new System.Drawing.Point(14, 266);
             this.grpModule2.Name = "grpModule2";
-            this.grpModule2.Size = new System.Drawing.Size(403, 239);
+            this.grpModule2.Size = new System.Drawing.Size(561, 239);
             this.grpModule2.TabIndex = 4;
             this.grpModule2.TabStop = false;
             this.grpModule2.Text = "Модуль 2";
             // 
-            // btnDisconnect2
-            // 
-            this.btnDisconnect2.Location = new System.Drawing.Point(313, 207);
-            this.btnDisconnect2.Name = "btnDisconnect2";
-            this.btnDisconnect2.Size = new System.Drawing.Size(75, 23);
-            this.btnDisconnect2.TabIndex = 3;
-            this.btnDisconnect2.Text = "Відключити";
-            this.btnDisconnect2.UseVisualStyleBackColor = true;
-            // 
             // btnConnect2
             // 
-            this.btnConnect2.Location = new System.Drawing.Point(218, 207);
+            this.btnConnect2.Location = new System.Drawing.Point(219, 207);
             this.btnConnect2.Name = "btnConnect2";
             this.btnConnect2.Size = new System.Drawing.Size(75, 23);
             this.btnConnect2.TabIndex = 2;
@@ -424,7 +432,7 @@
             this.grpReadParamsMdl2.Controls.Add(this.label18);
             this.grpReadParamsMdl2.Location = new System.Drawing.Point(7, 101);
             this.grpReadParamsMdl2.Name = "grpReadParamsMdl2";
-            this.grpReadParamsMdl2.Size = new System.Drawing.Size(381, 100);
+            this.grpReadParamsMdl2.Size = new System.Drawing.Size(548, 100);
             this.grpReadParamsMdl2.TabIndex = 1;
             this.grpReadParamsMdl2.TabStop = false;
             this.grpReadParamsMdl2.Text = "Характеристики модуля";
@@ -538,7 +546,7 @@
             this.grpSetParamsMdl2.Controls.Add(this.label24);
             this.grpSetParamsMdl2.Location = new System.Drawing.Point(7, 20);
             this.grpSetParamsMdl2.Name = "grpSetParamsMdl2";
-            this.grpSetParamsMdl2.Size = new System.Drawing.Size(381, 74);
+            this.grpSetParamsMdl2.Size = new System.Drawing.Size(548, 74);
             this.grpSetParamsMdl2.TabIndex = 0;
             this.grpSetParamsMdl2.TabStop = false;
             this.grpSetParamsMdl2.Text = "Параметри, що задаються";
@@ -662,15 +670,45 @@
             this.label24.TabIndex = 0;
             this.label24.Text = "Напруга";
             // 
-            // HEXtoFLOAT
+            // lblSerialNo
+            // 
+            this.lblSerialNo.AutoSize = true;
+            this.lblSerialNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSerialNo.Location = new System.Drawing.Point(358, 46);
+            this.lblSerialNo.Name = "lblSerialNo";
+            this.lblSerialNo.Size = new System.Drawing.Size(90, 13);
+            this.lblSerialNo.TabIndex = 21;
+            this.lblSerialNo.Text = "Серійний номер:";
+            // 
+            // lblHwType
+            // 
+            this.lblHwType.AutoSize = true;
+            this.lblHwType.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHwType.Location = new System.Drawing.Point(358, 64);
+            this.lblHwType.Name = "lblHwType";
+            this.lblHwType.Size = new System.Drawing.Size(69, 13);
+            this.lblHwType.TabIndex = 22;
+            this.lblHwType.Text = "Тип модуля:";
+            // 
+            // lblAPIVer
+            // 
+            this.lblAPIVer.AutoSize = true;
+            this.lblAPIVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAPIVer.Location = new System.Drawing.Point(359, 82);
+            this.lblAPIVer.Name = "lblAPIVer";
+            this.lblAPIVer.Size = new System.Drawing.Size(63, 13);
+            this.lblAPIVer.TabIndex = 22;
+            this.lblAPIVer.Text = "Версія API:";
+            // 
+            // USB_CAN_Plus_Ctrl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 514);
+            this.ClientSize = new System.Drawing.Size(587, 514);
             this.Controls.Add(this.grpModule2);
             this.Controls.Add(this.grpModule1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "HEXtoFLOAT";
+            this.Name = "USB_CAN_Plus_Ctrl";
             this.Text = "USB-CAN Plus Controller";
             this.grpModule1.ResumeLayout(false);
             this.grpReadParamsMdl1.ResumeLayout(false);
@@ -699,7 +737,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown nudOutCurntSI1;
         private System.Windows.Forms.NumericUpDown nudOutVoltSI1;
-        private System.Windows.Forms.Button btnDisconnect1;
         private System.Windows.Forms.Button btnConnect1;
         private System.Windows.Forms.GroupBox grpReadParamsMdl1;
         private System.Windows.Forms.Label label12;
@@ -718,7 +755,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox grpModule2;
-        private System.Windows.Forms.Button btnDisconnect2;
         private System.Windows.Forms.Button btnConnect2;
         private System.Windows.Forms.GroupBox grpReadParamsMdl2;
         private System.Windows.Forms.Label label13;
@@ -743,6 +779,11 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label lblSwVer;
+        private System.Windows.Forms.Label lblHwVer;
+        private System.Windows.Forms.Label lblHwType;
+        private System.Windows.Forms.Label lblSerialNo;
+        private System.Windows.Forms.Label lblAPIVer;
     }
 }
 
