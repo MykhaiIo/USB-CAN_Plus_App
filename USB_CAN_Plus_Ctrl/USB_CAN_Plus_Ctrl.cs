@@ -31,53 +31,7 @@ namespace USB_CAN_Plus_Ctrl
             TimerCallback tm = new TimerCallback(DisplayParams);       
             System.Threading.Timer timer = new System.Threading.Timer(tm, num, 0, 2000);*/
         }
-
-        private void SendCurntVal()
-        {
-            byte[] Data = new byte[8];
-
-            // form HEX current value to be sent
-            for (int i = 4; i < 8; i++)
-            {
-                Data[i] = CurntBWritten[i - 4];
-            }
-            DataFromCAN.SendData(Convert.ToByte(0x1B), 0x029B3FF0, Data);
-        }
-
-        private void SendVoltVal()
-        {
-            byte[] Data = new byte[8];
-
-            // form HEX volt value to be sent
-            for (int i = 0; i < 4; i++)
-            {
-                Data[i] = VoltBWritten[i];
-            }
-            DataFromCAN.SendData(Convert.ToByte(0x1B), 0x029B3FF0, Data);
-        }
-
-        private void RecieveCurntVal()
-        {
-            VSCAN_MSG[] msg = DataFromCAN.GetData();
-
-            // form current value to be recieved
-            for (int i = 4; i < 8; i++)
-            {
-                CurntBRead[i - 4] = msg[0].Data[i];
-            }
-        }
-
-        private void RecieveVoltVal()
-        {
-            VSCAN_MSG[] msg = DataFromCAN.GetData();
-
-            // form volt value to be recieved
-            for (int i = 0; i < 4; i++)
-            {
-                VoltBRead[i] = msg[0].Data[i];
-            }
-        }
-
+        
         private void DisplayDeviceParams()
         {
             VSCAN_HWPARAM hw = new VSCAN_HWPARAM();
@@ -86,13 +40,8 @@ namespace USB_CAN_Plus_Ctrl
             DataFromCAN.CanDevice.GetApiVersion(ref api_ver);
 
             // get HW Params
-
-            lblHwVer.Text = "Версія модуля: " + hw.HwVersion;
-            lblSwVer.Text = "Версія ПЗ: " + (hw.SwVersion >> 4) + "." + (hw.SwVersion & 0x0f);
+                        
             lblSerialNo.Text = "Серійний номер: " + hw.SerialNr;
-            lblHwType.Text = "Тип модуля: " + hw.HwType;
-
-            lblAPIVer.Text = "Версія API: " + api_ver.Major + "." + api_ver.Minor + "." + api_ver.SubMinor;
         }
 
         private void BtnConnect1_Click(object sender, EventArgs e)
@@ -106,35 +55,72 @@ namespace USB_CAN_Plus_Ctrl
             else if (btnConnect1.Text == "Відключити")
             {
                 DataFromCAN.DeinitCAN(DataFromCAN.CanDevice);
-                lblHwVer.Text = "Версія модуля: ";
-                lblSwVer.Text = "Версія ПЗ: ";
                 lblSerialNo.Text = "Серійний номер: ";
-                lblHwType.Text = "Тип модуля: ";
-
-                lblAPIVer.Text = "Версія API: ";
+                
                 btnConnect1.Text = "Підключити";
             }          
         }
 
         private void NudOutVoltSI1_ValueChanged(object sender, EventArgs e)
         {
-            VoltBWritten = NumRepresentations.FPtoBYTE((float)nudOutVoltSI1.Value / 1000);
-            Array.Reverse(VoltBWritten);
-            SendVoltVal();
-            RecieveVoltVal();
-            Array.Reverse(VoltBRead);
-            txtOutVoltFP1.Text = NumRepresentations.BYTEtoFP(VoltBRead).ToString();
+            if (btnConnect1.Text == "Відключити")
+            {
+                VoltBWritten = NumRepresentations.FPtoBYTE((float)nudOutVoltSI1.Value / 1000);
+                Array.Reverse(VoltBWritten);
+
+                byte[] Data = new byte[8];
+                // form HEX volt value to be sent
+                for (int i = 0; i < 4; i++)
+                {
+                    Data[i] = VoltBWritten[i];
+                }
+                if (!DataFromCAN.SendData(Convert.ToByte(0x1B), 0x029B3FF0, Data))
+                    MessageBox.Show("Помилка при передачі даних", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                VSCAN_MSG[] msg = DataFromCAN.GetData();
+
+                // form volt value to be recieved
+                for (int i = 0; i < 4; i++)
+                {
+                    VoltBRead[i] = msg[0].Data[i];
+                }
+
+                Array.Reverse(VoltBRead);
+                txtOutVoltFP1.Text = NumRepresentations.BYTEtoFP(VoltBRead).ToString();
+            }
         }
 
         private void NudOutCurntSI1_ValueChanged(object sender, EventArgs e)
         {
-            CurntBWritten = NumRepresentations.FPtoBYTE((float)nudOutCurntSI1.Value / 1000);
-            Array.Reverse(CurntBWritten);
-            SendCurntVal();
-            RecieveCurntVal();
-            Array.Reverse(CurntBRead);
-            txtOutCurntFP1.Text = NumRepresentations.BYTEtoFP(CurntBRead).ToString();
+            if (btnConnect1.Text == "Відключити")
+            {
+                CurntBWritten = NumRepresentations.FPtoBYTE((float)nudOutCurntSI1.Value / 1000);
+                Array.Reverse(CurntBWritten);
 
+                byte[] Data = new byte[8];
+                // form HEX current value to be sent
+                for (int i = 4; i < 8; i++)
+                {
+                    Data[i] = CurntBWritten[i - 4];
+                }
+                if (!DataFromCAN.SendData(Convert.ToByte(0x1B), 0x029B3FF0, Data))
+                    MessageBox.Show("Помилка при передачі даних", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                VSCAN_MSG[] msg = DataFromCAN.GetData();
+
+                // form current value to be recieved
+                for (int i = 4; i < 8; i++)
+                {
+                    CurntBRead[i - 4] = msg[0].Data[i];
+                }
+
+                Array.Reverse(CurntBRead);
+                txtOutCurntFP1.Text = NumRepresentations.BYTEtoFP(CurntBRead).ToString();
+            }
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            DataFromCAN.Test();
         }
     }
 }

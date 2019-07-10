@@ -31,8 +31,6 @@
             this.grpModule1 = new System.Windows.Forms.GroupBox();
             this.btnConnect1 = new System.Windows.Forms.Button();
             this.grpReadParamsMdl1 = new System.Windows.Forms.GroupBox();
-            this.lblSwVer = new System.Windows.Forms.Label();
-            this.lblHwVer = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -81,8 +79,7 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.lblSerialNo = new System.Windows.Forms.Label();
-            this.lblHwType = new System.Windows.Forms.Label();
-            this.lblAPIVer = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
             this.grpSetParamsMdl1.SuspendLayout();
@@ -109,9 +106,10 @@
             // 
             // btnConnect1
             // 
-            this.btnConnect1.Location = new System.Drawing.Point(219, 207);
+            this.btnConnect1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnConnect1.Location = new System.Drawing.Point(3, 213);
             this.btnConnect1.Name = "btnConnect1";
-            this.btnConnect1.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect1.Size = new System.Drawing.Size(555, 23);
             this.btnConnect1.TabIndex = 2;
             this.btnConnect1.Text = "Підключити";
             this.btnConnect1.UseVisualStyleBackColor = true;
@@ -119,11 +117,7 @@
             // 
             // grpReadParamsMdl1
             // 
-            this.grpReadParamsMdl1.Controls.Add(this.lblAPIVer);
-            this.grpReadParamsMdl1.Controls.Add(this.lblHwType);
             this.grpReadParamsMdl1.Controls.Add(this.lblSerialNo);
-            this.grpReadParamsMdl1.Controls.Add(this.lblSwVer);
-            this.grpReadParamsMdl1.Controls.Add(this.lblHwVer);
             this.grpReadParamsMdl1.Controls.Add(this.label12);
             this.grpReadParamsMdl1.Controls.Add(this.label11);
             this.grpReadParamsMdl1.Controls.Add(this.label10);
@@ -142,31 +136,11 @@
             this.grpReadParamsMdl1.TabStop = false;
             this.grpReadParamsMdl1.Text = "Характеристики модуля";
             // 
-            // lblSwVer
-            // 
-            this.lblSwVer.AutoSize = true;
-            this.lblSwVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSwVer.Location = new System.Drawing.Point(358, 27);
-            this.lblSwVer.Name = "lblSwVer";
-            this.lblSwVer.Size = new System.Drawing.Size(61, 13);
-            this.lblSwVer.TabIndex = 20;
-            this.lblSwVer.Text = "Версія ПЗ:";
-            // 
-            // lblHwVer
-            // 
-            this.lblHwVer.AutoSize = true;
-            this.lblHwVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHwVer.Location = new System.Drawing.Point(358, 8);
-            this.lblHwVer.Name = "lblHwVer";
-            this.lblHwVer.Size = new System.Drawing.Size(83, 13);
-            this.lblHwVer.TabIndex = 19;
-            this.lblHwVer.Text = "Версія модуля:";
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(273, 72);
+            this.label12.Location = new System.Drawing.Point(256, 72);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(14, 13);
             this.label12.TabIndex = 18;
@@ -176,7 +150,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(273, 46);
+            this.label11.Location = new System.Drawing.Point(256, 46);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(14, 13);
             this.label11.TabIndex = 17;
@@ -186,7 +160,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(273, 20);
+            this.label10.Location = new System.Drawing.Point(256, 20);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(14, 13);
             this.label10.TabIndex = 10;
@@ -194,21 +168,21 @@
             // 
             // txtPhaseCVolt1
             // 
-            this.txtPhaseCVolt1.Location = new System.Drawing.Point(293, 69);
+            this.txtPhaseCVolt1.Location = new System.Drawing.Point(276, 69);
             this.txtPhaseCVolt1.Name = "txtPhaseCVolt1";
             this.txtPhaseCVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseCVolt1.TabIndex = 16;
             // 
             // txtPhaseBVolt1
             // 
-            this.txtPhaseBVolt1.Location = new System.Drawing.Point(293, 43);
+            this.txtPhaseBVolt1.Location = new System.Drawing.Point(276, 43);
             this.txtPhaseBVolt1.Name = "txtPhaseBVolt1";
             this.txtPhaseBVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseBVolt1.TabIndex = 15;
             // 
             // txtPhaseAVolt1
             // 
-            this.txtPhaseAVolt1.Location = new System.Drawing.Point(293, 17);
+            this.txtPhaseAVolt1.Location = new System.Drawing.Point(276, 17);
             this.txtPhaseAVolt1.Name = "txtPhaseAVolt1";
             this.txtPhaseAVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseAVolt1.TabIndex = 14;
@@ -217,7 +191,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(195, 45);
+            this.label9.Location = new System.Drawing.Point(182, 45);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(72, 13);
             this.label9.TabIndex = 13;
@@ -259,6 +233,7 @@
             // 
             // grpSetParamsMdl1
             // 
+            this.grpSetParamsMdl1.Controls.Add(this.button1);
             this.grpSetParamsMdl1.Controls.Add(this.txtOutCurntFP1);
             this.grpSetParamsMdl1.Controls.Add(this.txtOutVoltFP1);
             this.grpSetParamsMdl1.Controls.Add(this.label6);
@@ -312,6 +287,7 @@
             // 
             // nudOutCurntSI1
             // 
+            this.nudOutCurntSI1.DecimalPlaces = 3;
             this.nudOutCurntSI1.Increment = new decimal(new int[] {
             1,
             0,
@@ -410,9 +386,10 @@
             // 
             // btnConnect2
             // 
-            this.btnConnect2.Location = new System.Drawing.Point(219, 207);
+            this.btnConnect2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnConnect2.Location = new System.Drawing.Point(3, 213);
             this.btnConnect2.Name = "btnConnect2";
-            this.btnConnect2.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect2.Size = new System.Drawing.Size(555, 23);
             this.btnConnect2.TabIndex = 2;
             this.btnConnect2.Text = "Підключити";
             this.btnConnect2.UseVisualStyleBackColor = true;
@@ -673,32 +650,22 @@
             // lblSerialNo
             // 
             this.lblSerialNo.AutoSize = true;
-            this.lblSerialNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSerialNo.Location = new System.Drawing.Point(358, 46);
+            this.lblSerialNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSerialNo.Location = new System.Drawing.Point(331, 43);
             this.lblSerialNo.Name = "lblSerialNo";
-            this.lblSerialNo.Size = new System.Drawing.Size(90, 13);
+            this.lblSerialNo.Size = new System.Drawing.Size(132, 20);
             this.lblSerialNo.TabIndex = 21;
             this.lblSerialNo.Text = "Серійний номер:";
             // 
-            // lblHwType
+            // button1
             // 
-            this.lblHwType.AutoSize = true;
-            this.lblHwType.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHwType.Location = new System.Drawing.Point(358, 64);
-            this.lblHwType.Name = "lblHwType";
-            this.lblHwType.Size = new System.Drawing.Size(69, 13);
-            this.lblHwType.TabIndex = 22;
-            this.lblHwType.Text = "Тип модуля:";
-            // 
-            // lblAPIVer
-            // 
-            this.lblAPIVer.AutoSize = true;
-            this.lblAPIVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAPIVer.Location = new System.Drawing.Point(359, 82);
-            this.lblAPIVer.Name = "lblAPIVer";
-            this.lblAPIVer.Size = new System.Drawing.Size(63, 13);
-            this.lblAPIVer.TabIndex = 22;
-            this.lblAPIVer.Text = "Версія API:";
+            this.button1.Location = new System.Drawing.Point(459, 26);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Test button";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // USB_CAN_Plus_Ctrl
             // 
@@ -779,11 +746,8 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label lblSwVer;
-        private System.Windows.Forms.Label lblHwVer;
-        private System.Windows.Forms.Label lblHwType;
         private System.Windows.Forms.Label lblSerialNo;
-        private System.Windows.Forms.Label lblAPIVer;
+        private System.Windows.Forms.Button button1;
     }
 }
 
