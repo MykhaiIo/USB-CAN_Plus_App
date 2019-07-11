@@ -68,7 +68,7 @@ namespace USB_CAN_Plus_Ctrl
 
                 CanDevice.Write(msgs, 1, ref Written);
                 CanDevice.Flush();
-                Thread.Sleep(500);
+                //Thread.Sleep(500);
                 Console.WriteLine("");
                 Console.WriteLine("Send CAN frames: " + Written);
                 return true;
@@ -90,6 +90,20 @@ namespace USB_CAN_Plus_Ctrl
                 CanDevice.Read(ref msgs, 1, ref Read);
                 Console.WriteLine("");
                 Console.WriteLine("Read CAN frames: " + Read);
+                for (int i = 0; i < Read; i++)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("CAN frame " + i);
+                    Console.WriteLine("ID: " + msgs[i].Id);
+                    Console.WriteLine("Size: " + msgs[i].Size);
+                    Console.Write("Data: ");
+
+                    for (int j = 0; j < msgs[i].Size; j++)
+                    {
+                        Console.Write(msgs[i].Data[j] + " ");
+                    }
+                }
+                Console.WriteLine("");
                 return msgs;
             }
 

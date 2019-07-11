@@ -34,9 +34,9 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.txtPhaseCVolt1 = new System.Windows.Forms.TextBox();
-            this.txtPhaseBVolt1 = new System.Windows.Forms.TextBox();
-            this.txtPhaseAVolt1 = new System.Windows.Forms.TextBox();
+            this.txtPhaseCAVolt1 = new System.Windows.Forms.TextBox();
+            this.txtPhaseBCVolt1 = new System.Windows.Forms.TextBox();
+            this.txtPhaseABVolt1 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtTemperature1 = new System.Windows.Forms.TextBox();
             this.txtCurVolt1 = new System.Windows.Forms.TextBox();
@@ -121,9 +121,9 @@
             this.grpReadParamsMdl1.Controls.Add(this.label12);
             this.grpReadParamsMdl1.Controls.Add(this.label11);
             this.grpReadParamsMdl1.Controls.Add(this.label10);
-            this.grpReadParamsMdl1.Controls.Add(this.txtPhaseCVolt1);
-            this.grpReadParamsMdl1.Controls.Add(this.txtPhaseBVolt1);
-            this.grpReadParamsMdl1.Controls.Add(this.txtPhaseAVolt1);
+            this.grpReadParamsMdl1.Controls.Add(this.txtPhaseCAVolt1);
+            this.grpReadParamsMdl1.Controls.Add(this.txtPhaseBCVolt1);
+            this.grpReadParamsMdl1.Controls.Add(this.txtPhaseABVolt1);
             this.grpReadParamsMdl1.Controls.Add(this.label9);
             this.grpReadParamsMdl1.Controls.Add(this.txtTemperature1);
             this.grpReadParamsMdl1.Controls.Add(this.txtCurVolt1);
@@ -142,9 +142,9 @@
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(256, 72);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(14, 13);
+            this.label12.Size = new System.Drawing.Size(21, 13);
             this.label12.TabIndex = 18;
-            this.label12.Text = "C";
+            this.label12.Text = "CA";
             // 
             // label11
             // 
@@ -152,9 +152,9 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(256, 46);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(14, 13);
+            this.label11.Size = new System.Drawing.Size(21, 13);
             this.label11.TabIndex = 17;
-            this.label11.Text = "B";
+            this.label11.Text = "BC";
             // 
             // label10
             // 
@@ -162,30 +162,30 @@
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(256, 20);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(14, 13);
+            this.label10.Size = new System.Drawing.Size(21, 13);
             this.label10.TabIndex = 10;
-            this.label10.Text = "A";
+            this.label10.Text = "AB";
             // 
-            // txtPhaseCVolt1
+            // txtPhaseCAVolt1
             // 
-            this.txtPhaseCVolt1.Location = new System.Drawing.Point(276, 69);
-            this.txtPhaseCVolt1.Name = "txtPhaseCVolt1";
-            this.txtPhaseCVolt1.Size = new System.Drawing.Size(46, 20);
-            this.txtPhaseCVolt1.TabIndex = 16;
+            this.txtPhaseCAVolt1.Location = new System.Drawing.Point(278, 69);
+            this.txtPhaseCAVolt1.Name = "txtPhaseCAVolt1";
+            this.txtPhaseCAVolt1.Size = new System.Drawing.Size(46, 20);
+            this.txtPhaseCAVolt1.TabIndex = 16;
             // 
-            // txtPhaseBVolt1
+            // txtPhaseBCVolt1
             // 
-            this.txtPhaseBVolt1.Location = new System.Drawing.Point(276, 43);
-            this.txtPhaseBVolt1.Name = "txtPhaseBVolt1";
-            this.txtPhaseBVolt1.Size = new System.Drawing.Size(46, 20);
-            this.txtPhaseBVolt1.TabIndex = 15;
+            this.txtPhaseBCVolt1.Location = new System.Drawing.Point(278, 43);
+            this.txtPhaseBCVolt1.Name = "txtPhaseBCVolt1";
+            this.txtPhaseBCVolt1.Size = new System.Drawing.Size(46, 20);
+            this.txtPhaseBCVolt1.TabIndex = 15;
             // 
-            // txtPhaseAVolt1
+            // txtPhaseABVolt1
             // 
-            this.txtPhaseAVolt1.Location = new System.Drawing.Point(276, 17);
-            this.txtPhaseAVolt1.Name = "txtPhaseAVolt1";
-            this.txtPhaseAVolt1.Size = new System.Drawing.Size(46, 20);
-            this.txtPhaseAVolt1.TabIndex = 14;
+            this.txtPhaseABVolt1.Location = new System.Drawing.Point(278, 17);
+            this.txtPhaseABVolt1.Name = "txtPhaseABVolt1";
+            this.txtPhaseABVolt1.Size = new System.Drawing.Size(46, 20);
+            this.txtPhaseABVolt1.TabIndex = 14;
             // 
             // label9
             // 
@@ -709,9 +709,9 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtPhaseCVolt1;
-        private System.Windows.Forms.TextBox txtPhaseBVolt1;
-        private System.Windows.Forms.TextBox txtPhaseAVolt1;
+        private System.Windows.Forms.TextBox txtPhaseCAVolt1;
+        private System.Windows.Forms.TextBox txtPhaseBCVolt1;
+        private System.Windows.Forms.TextBox txtPhaseABVolt1;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtTemperature1;
         private System.Windows.Forms.TextBox txtCurVolt1;

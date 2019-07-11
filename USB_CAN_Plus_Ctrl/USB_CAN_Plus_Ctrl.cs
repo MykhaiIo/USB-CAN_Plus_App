@@ -67,12 +67,19 @@ namespace USB_CAN_Plus_Ctrl
             {
                 VoltBWritten = NumRepresentations.FPtoBYTE((float)nudOutVoltSI1.Value / 1000);
                 Array.Reverse(VoltBWritten);
+                CurntBWritten = NumRepresentations.FPtoBYTE((float)nudOutCurntSI1.Value / 1000);
+                Array.Reverse(CurntBWritten);
 
                 byte[] Data = new byte[8];
                 // form HEX volt value to be sent
                 for (int i = 0; i < 4; i++)
                 {
                     Data[i] = VoltBWritten[i];
+                }
+
+                for (int i = 4; i < 8; i++)
+                {
+                    Data[i] = CurntBWritten[i - 4];
                 }
                 if (!DataFromCAN.SendData(Convert.ToByte(0x1B), 0x029B3FF0, Data))
                     MessageBox.Show("Помилка при передачі даних", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -93,10 +100,18 @@ namespace USB_CAN_Plus_Ctrl
         {
             if (btnConnect1.Text == "Відключити")
             {
+                VoltBWritten = NumRepresentations.FPtoBYTE((float)nudOutVoltSI1.Value / 1000);
+                Array.Reverse(VoltBWritten);
                 CurntBWritten = NumRepresentations.FPtoBYTE((float)nudOutCurntSI1.Value / 1000);
                 Array.Reverse(CurntBWritten);
 
                 byte[] Data = new byte[8];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    Data[i] = VoltBWritten[i];
+                }
+
                 // form HEX current value to be sent
                 for (int i = 4; i < 8; i++)
                 {
