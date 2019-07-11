@@ -11,7 +11,7 @@ namespace USB_CAN_Plus_Ctrl
     static class DataFromCAN
     {
         public static VSCAN CanDevice { get; internal set; }
-        // private static byte Flags = 0x0;
+        private static byte Flags = 0x0;
 
         public static VSCAN InitCAN()
         {
@@ -52,7 +52,6 @@ namespace USB_CAN_Plus_Ctrl
             {
                 Console.WriteLine("CAN not closed " + e.Message);
             }
-
         }
 
         public static bool SendData(byte CmdNo, UInt32 ID, byte[] Data)
@@ -68,7 +67,6 @@ namespace USB_CAN_Plus_Ctrl
 
                 CanDevice.Write(msgs, 1, ref Written);
                 CanDevice.Flush();
-                //Thread.Sleep(500);
                 Console.WriteLine("");
                 Console.WriteLine("Send CAN frames: " + Written);
                 return true;
@@ -94,16 +92,44 @@ namespace USB_CAN_Plus_Ctrl
                 {
                     Console.WriteLine("");
                     Console.WriteLine("CAN frame " + i);
-                    Console.WriteLine("ID: " + msgs[i].Id);
+                    Console.WriteLine("ID: " + msgs[i].Id.ToString("X"));
                     Console.WriteLine("Size: " + msgs[i].Size);
                     Console.Write("Data: ");
 
                     for (int j = 0; j < msgs[i].Size; j++)
                     {
-                        Console.Write(msgs[i].Data[j] + " ");
+                        Console.Write(msgs[i].Data[j].ToString("X") + " ");
                     }
+
+                    Console.WriteLine("");
+
+                    if ((msgs[i].Flags & VSCAN.VSCAN_FLAGS_STANDARD) != 0)
+
+                        Console.WriteLine("VSCAN_FLAGS_STANDARD");
+
+                    if ((msgs[i].Flags & VSCAN.VSCAN_FLAGS_EXTENDED) != 0)
+
+                        Console.WriteLine("VSCAN_FLAGS_EXTENDED");
+
+                    if ((msgs[i].Flags & VSCAN.VSCAN_FLAGS_REMOTE) != 0)
+
+                        Console.WriteLine("VSCAN_FLAGS_REMOTE");
+
+                    if ((msgs[i].Flags & VSCAN.VSCAN_FLAGS_TIMESTAMP) != 0)
+
+                        Console.WriteLine("VSCAN_FLAGS_TIMESTAMP");
+
+                    Console.WriteLine("TS: " + msgs[i].TimeStamp);
                 }
+
+                CanDevice.GetFlags(ref Flags);
+
                 Console.WriteLine("");
+
+                Console.WriteLine("Extended status and error flags: " + Flags);
+
+                DecodeFlags(Flags);
+
                 return msgs;
             }
 
@@ -114,14 +140,87 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        public static void Test()
+        
+
+        private static void DecodeFlags(int flags)
+        {
+            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_API_RX_FIFO_FULL) > 0)
+            {
+                Console.WriteLine("API RX FIFO full");
+            }
+
+            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_ARBIT_LOST) > 0)
+            {
+                Console.WriteLine("Arbitration lost");
+            }
+
+            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_BUS_ERROR) > 0)
+            {
+                Console.WriteLine("Bus error");
+            }
+
+            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_DATA_OVERRUN) > 0)
+            {
+                Console.WriteLine("Data overrun");
+            }
+
+            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_ERR_PASSIVE) > 0)
+            {
+                Console.WriteLine("Passive error");
+            }
+
+            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_ERR_WARNING) > 0)
+            {
+                Console.WriteLine("Error warning");
+            }
+
+            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_RX_FIFO_FULL) > 0)
+            {
+                Console.WriteLine("RX FIFO full");
+            }
+
+            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_TX_FIFO_FULL) > 0)
+            {
+                Console.WriteLine("TX FIFO full");
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*public static void Test()
         {
             VSCAN_MSG[] msgs = new VSCAN_MSG[10];
             UInt32 Written = 0;
             UInt32 Read = 0;
 
             byte Flags = 0x0;
-            
+
             msgs[0].Id = 0x029A3FF0;
             msgs[0].Size = 8;
             msgs[0].Data = new byte[8];
@@ -259,7 +358,6 @@ namespace USB_CAN_Plus_Ctrl
 
             try
             {
-
                 // send CAN frames
 
                 CanDevice.Write(msgs, 10, ref Written);
@@ -297,8 +395,6 @@ namespace USB_CAN_Plus_Ctrl
                         Console.Write(msgs[i].Data[j] + " ");
                     }
 
-
-
                     Console.WriteLine("");
 
                     if ((msgs[i].Flags & VSCAN.VSCAN_FLAGS_STANDARD) != 0)
@@ -318,11 +414,8 @@ namespace USB_CAN_Plus_Ctrl
                         Console.WriteLine("VSCAN_FLAGS_TIMESTAMP");
 
                     Console.WriteLine("TS: " + msgs[i].TimeStamp);
-
                 }
-
-
-
+                
                 // get extended status and error flags
 
                 CanDevice.GetFlags(ref Flags);
@@ -334,55 +427,10 @@ namespace USB_CAN_Plus_Ctrl
                 DecodeFlags(Flags);
             }
 
-
             catch (Exception e)
             {
                 Console.WriteLine("CAN opened and " + e.Message);
             }
-        }
-
-        private static void DecodeFlags(int flags)
-        {
-            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_API_RX_FIFO_FULL) > 0)
-            {
-                Console.WriteLine("API RX FIFO full");
-            }
-
-            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_ARBIT_LOST) > 0)
-            {
-                Console.WriteLine("Arbitration lost");
-            }
-
-            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_BUS_ERROR) > 0)
-            {
-                Console.WriteLine("Bus error");
-            }
-
-            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_DATA_OVERRUN) > 0)
-            {
-                Console.WriteLine("Data overrun");
-            }
-
-            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_ERR_PASSIVE) > 0)
-            {
-                Console.WriteLine("Passive error");
-            }
-
-            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_ERR_WARNING) > 0)
-            {
-                Console.WriteLine("Error warning");
-            }
-
-            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_RX_FIFO_FULL) > 0)
-            {
-                Console.WriteLine("RX FIFO full");
-            }
-
-            if ((flags & VSCAN.VSCAN_IOCTL_FLAG_TX_FIFO_FULL) > 0)
-            {
-                Console.WriteLine("TX FIFO full");
-            }
-
-        }
+        }*/
     }
 }

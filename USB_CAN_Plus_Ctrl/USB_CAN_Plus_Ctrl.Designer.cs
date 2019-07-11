@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.grpModule1 = new System.Windows.Forms.GroupBox();
             this.btnConnect1 = new System.Windows.Forms.Button();
             this.grpReadParamsMdl1 = new System.Windows.Forms.GroupBox();
+            this.lblSerialNo = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -78,8 +80,7 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.lblSerialNo = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tmrDeviceParams = new System.Windows.Forms.Timer(this.components);
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
             this.grpSetParamsMdl1.SuspendLayout();
@@ -135,6 +136,16 @@
             this.grpReadParamsMdl1.TabIndex = 1;
             this.grpReadParamsMdl1.TabStop = false;
             this.grpReadParamsMdl1.Text = "Характеристики модуля";
+            // 
+            // lblSerialNo
+            // 
+            this.lblSerialNo.AutoSize = true;
+            this.lblSerialNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSerialNo.Location = new System.Drawing.Point(331, 43);
+            this.lblSerialNo.Name = "lblSerialNo";
+            this.lblSerialNo.Size = new System.Drawing.Size(132, 20);
+            this.lblSerialNo.TabIndex = 21;
+            this.lblSerialNo.Text = "Серійний номер:";
             // 
             // label12
             // 
@@ -233,7 +244,6 @@
             // 
             // grpSetParamsMdl1
             // 
-            this.grpSetParamsMdl1.Controls.Add(this.button1);
             this.grpSetParamsMdl1.Controls.Add(this.txtOutCurntFP1);
             this.grpSetParamsMdl1.Controls.Add(this.txtOutVoltFP1);
             this.grpSetParamsMdl1.Controls.Add(this.label6);
@@ -271,9 +281,9 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(179, 45);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(22, 13);
+            this.label6.Size = new System.Drawing.Size(14, 13);
             this.label6.TabIndex = 7;
-            this.label6.Text = "мА";
+            this.label6.Text = "А";
             // 
             // label5
             // 
@@ -281,9 +291,9 @@
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(179, 20);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(22, 13);
+            this.label5.Size = new System.Drawing.Size(14, 13);
             this.label5.TabIndex = 6;
-            this.label5.Text = "мВ";
+            this.label5.Text = "В";
             // 
             // nudOutCurntSI1
             // 
@@ -302,11 +312,6 @@
             this.nudOutCurntSI1.Name = "nudOutCurntSI1";
             this.nudOutCurntSI1.Size = new System.Drawing.Size(60, 20);
             this.nudOutCurntSI1.TabIndex = 5;
-            this.nudOutCurntSI1.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
             this.nudOutCurntSI1.ValueChanged += new System.EventHandler(this.NudOutCurntSI1_ValueChanged);
             // 
             // nudOutVoltSI1
@@ -584,6 +589,7 @@
             0,
             0,
             0});
+            this.nudOutCurntSI2.ValueChanged += new System.EventHandler(this.NudOutCurntSI2_ValueChanged);
             // 
             // nudOutVoltSI2
             // 
@@ -606,6 +612,7 @@
             0,
             0,
             0});
+            this.nudOutVoltSI2.ValueChanged += new System.EventHandler(this.NudOutVoltSI2_ValueChanged);
             // 
             // label21
             // 
@@ -647,25 +654,11 @@
             this.label24.TabIndex = 0;
             this.label24.Text = "Напруга";
             // 
-            // lblSerialNo
+            // tmrDeviceParams
             // 
-            this.lblSerialNo.AutoSize = true;
-            this.lblSerialNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSerialNo.Location = new System.Drawing.Point(331, 43);
-            this.lblSerialNo.Name = "lblSerialNo";
-            this.lblSerialNo.Size = new System.Drawing.Size(132, 20);
-            this.lblSerialNo.TabIndex = 21;
-            this.lblSerialNo.Text = "Серійний номер:";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(459, 26);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Test button";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            this.tmrDeviceParams.Enabled = true;
+            this.tmrDeviceParams.Interval = 1000;
+            this.tmrDeviceParams.Tick += new System.EventHandler(this.tmrDeviceParams_Tick);
             // 
             // USB_CAN_Plus_Ctrl
             // 
@@ -747,7 +740,7 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label lblSerialNo;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer tmrDeviceParams;
     }
 }
 
