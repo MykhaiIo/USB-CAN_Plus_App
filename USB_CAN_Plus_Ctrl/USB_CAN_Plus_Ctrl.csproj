@@ -83,7 +83,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ByteExtension.cs" />
     <Compile Include="NumRepresentations.cs" />
     <Compile Include="DataFromCAN.cs" />
     <Compile Include="USB_CAN_Plus_Ctrl.cs">

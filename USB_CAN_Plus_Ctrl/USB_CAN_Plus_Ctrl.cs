@@ -73,8 +73,8 @@ namespace USB_CAN_Plus_Ctrl
                                    byte SourceAddress)
         {
             string[] idParams = new string[5];
-            idParams[0] = ErrorCode.ToString("X1"); // 00000111 -> 111 or 07 -> 7
-            idParams[1] = DeviceNo.ToString("X1");  // 00001111 -> 1111 or 0F -> F
+            idParams[0] = ErrorCode.ToString("X").Remove(0); // 00000111 -> 111 or 07 -> 7
+            idParams[1] = DeviceNo.ToString("X").Remove(0);  // 00001111 -> 1111 or 0F -> F
             idParams[2] = CommandNo.ToString("X2");
             idParams[3] = DestAddress.ToString("X2");
             idParams[4] = SourceAddress.ToString("X2");
