@@ -65,6 +65,34 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
+
+        private UInt32 FormIDField(byte ErrorCode,
+                                   byte DeviceNo,
+                                   byte CommandNo,
+                                   byte DestAddress,
+                                   byte SourceAddress)
+        {
+            string[] idParams = new string[5];
+            idParams[0] = ErrorCode.ToString("X1"); // 00000111 -> 111 or 07 -> 7
+            idParams[1] = DeviceNo.ToString("X1");  // 00001111 -> 1111 or 0F -> F
+            idParams[2] = CommandNo.ToString("X2");
+            idParams[3] = DestAddress.ToString("X2");
+            idParams[4] = SourceAddress.ToString("X2");
+            StringBuilder strID = new StringBuilder("", 8);
+
+            foreach (string str in idParams)
+            {
+                strID.Append(str);
+            }
+
+            strID.Replace(" ", "");
+
+            if (UInt32.TryParse(strID.ToString(), System.Globalization.NumberStyles.AllowHexSpecifier, null, out uint ID))
+                return ID; // 29 bits -> 32 bits
+            else
+                return 0x00000000;
+        }
+
         private void SendChargeParams()
         {
             VoltBWritten = NumRepresentations.UINTtoBYTE((uint)nudOutVoltSI1.Value * 1000);
@@ -75,6 +103,7 @@ namespace USB_CAN_Plus_Ctrl
             Array.Reverse(CurntBWritten);
 
             byte[] Data = new byte[8];
+
             // form HEX volt value to be sent
             for (int i = 0; i < 4; i++)
             {
@@ -85,7 +114,8 @@ namespace USB_CAN_Plus_Ctrl
             {
                 Data[i] = CurntBWritten[i - 4];
             }
-            if (!DataFromCAN.SendData(Convert.ToByte(0x1B), 0x029B3FF0, Data))
+
+            if (!DataFromCAN.SendData(0x029B3FF0, Data))
                 MessageBox.Show("Помилка при передачі даних",
                                 "Error",
                                 MessageBoxButtons.OK,
@@ -94,15 +124,15 @@ namespace USB_CAN_Plus_Ctrl
 
         private void GetAmbientDeviceTemp()
         {
-            DataFromCAN.SendData(Convert.ToByte(0x04), 0x028401F0, new byte[8]);
+            DataFromCAN.SendData(0x028401F0, new byte[8]);
             VSCAN_MSG[] msgs = DataFromCAN.GetData();
             AmbientTemp[0] = msgs[0].Data[4];
-            txtTemperature1.Text = NumRepresentations.BYTEtoFP(AmbientTemp).ToString();
+            txtTemperature1.Text = NumRepresentations.BYTEtoINT(AmbientTemp).ToString();
         }
 
         private void GetCurrentVoltage()
         {
-            DataFromCAN.SendData(Convert.ToByte(0x06), 0x028601F0, new byte[8]);
+            DataFromCAN.SendData(0x028601F0, new byte[8]);
             VSCAN_MSG[] msgs  = DataFromCAN.GetData();
 
             for (int i = 0; i < 2; i++)
@@ -146,8 +176,8 @@ namespace USB_CAN_Plus_Ctrl
             Array.Reverse(VoltBRead);
             Array.Reverse(CurntBRead);
 
-            txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead).ToString();
-            txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead).ToString();
+            txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead) + " мВ";
+            txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead) + " мА";
         }
 
         private void NudOutVoltSI1_ValueChanged(object sender, EventArgs e)
@@ -165,7 +195,7 @@ namespace USB_CAN_Plus_Ctrl
 
                 // handle endianness
                 Array.Reverse(VoltBRead);
-                txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead).ToString();
+                txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead) + " мВ";
             }
         }
 
@@ -184,7 +214,7 @@ namespace USB_CAN_Plus_Ctrl
 
                 // handle endianness
                 Array.Reverse(CurntBRead);
-                txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead).ToString();
+                txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead) + " мА";
             }
         }
 

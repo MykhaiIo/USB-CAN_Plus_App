@@ -54,7 +54,7 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        public static bool SendData(byte CmdNo, UInt32 ID, byte[] Data)
+        public static bool SendData(UInt32 ID, byte[] Data)
         {
             VSCAN_MSG[] msgs = new VSCAN_MSG[1];
             UInt32 Written = 0;
@@ -140,7 +140,6 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        
 
         private static void DecodeFlags(int flags)
         {
@@ -183,9 +182,36 @@ namespace USB_CAN_Plus_Ctrl
             {
                 Console.WriteLine("TX FIFO full");
             }
-
-
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
