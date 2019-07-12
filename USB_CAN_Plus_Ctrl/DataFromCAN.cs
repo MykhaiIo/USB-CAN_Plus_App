@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using VSCom.CanApi;
+using System.Diagnostics;
 
 namespace USB_CAN_Plus_Ctrl
 {
     static class DataFromCAN
     {
-        public static VSCAN CanDevice { get; internal set; }
         private static byte Flags = 0x0;
 
         public static VSCAN InitCAN()
@@ -29,14 +29,14 @@ namespace USB_CAN_Plus_Ctrl
 
                 // set some options
 
-                CanDevice.SetSpeed(VSCAN.VSCAN_SPEED_20K);
+                CanDevice.SetSpeed(VSCAN.VSCAN_SPEED_125K);
                 CanDevice.SetTimestamp(VSCAN.VSCAN_TIMESTAMP_ON);
                 CanDevice.SetBlockingRead(VSCAN.VSCAN_IOCTL_ON);
             }
 
             catch (Exception e)
             {
-                Console.WriteLine("CAN not opened " + e.Message);
+                Console.WriteLine($"CAN not opened {e.Message}");
             }
 
             return CanDevice;
@@ -50,11 +50,11 @@ namespace USB_CAN_Plus_Ctrl
             }
             catch (Exception e)
             {
-                Console.WriteLine("CAN not closed " + e.Message);
+                Console.WriteLine($"CAN not closed {e.Message}");
             }
         }
 
-        public static bool SendData(UInt32 ID, byte[] Data)
+        public static bool SendData(VSCAN CanDevice, UInt32 ID, byte[] Data)
         {
             VSCAN_MSG[] msgs = new VSCAN_MSG[1];
             UInt32 Written = 0;
@@ -68,18 +68,18 @@ namespace USB_CAN_Plus_Ctrl
                 CanDevice.Write(msgs, 1, ref Written);
                 CanDevice.Flush();
                 Console.WriteLine("");
-                Console.WriteLine("Send CAN frames: " + Written);
+                Console.WriteLine($"Send CAN frames: {Written}");
                 return true;
             }
 
             catch (Exception e)
             {
-                Console.WriteLine("Message not transmitted " + e.Message);
+                Console.WriteLine($"Message not transmitted {e.Message}");
                 return false;
             }
         }
 
-        public static VSCAN_MSG[] GetData()
+        public static VSCAN_MSG[] GetData(VSCAN CanDevice)
         {
             VSCAN_MSG[] msgs = new VSCAN_MSG[1];
             UInt32 Read = 0;
@@ -87,13 +87,13 @@ namespace USB_CAN_Plus_Ctrl
             {
                 CanDevice.Read(ref msgs, 1, ref Read);
                 Console.WriteLine("");
-                Console.WriteLine("Read CAN frames: " + Read);
+                Console.WriteLine($"Read CAN frames: {Read}");
                 for (int i = 0; i < Read; i++)
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("CAN frame " + i);
-                    Console.WriteLine("ID: " + msgs[i].Id.ToString("X"));
-                    Console.WriteLine("Size: " + msgs[i].Size);
+                    Console.WriteLine($"CAN frame {i}");
+                    Console.WriteLine($"ID: {msgs[i].Id.ToString("X")}");
+                    Console.WriteLine($"Size: {msgs[i].Size}");
                     Console.Write("Data: ");
 
                     for (int j = 0; j < msgs[i].Size; j++)
@@ -126,7 +126,7 @@ namespace USB_CAN_Plus_Ctrl
 
                 Console.WriteLine("");
 
-                Console.WriteLine("Extended status and error flags: " + Flags);
+                Console.WriteLine($"Extended status and error flags: {Flags}");
 
                 DecodeFlags(Flags);
 
@@ -135,7 +135,7 @@ namespace USB_CAN_Plus_Ctrl
 
             catch (Exception e)
             {
-                Console.WriteLine("Message not recieved " + e.Message);
+                Console.WriteLine($"Message not recieved {e.Message}");
                 return msgs;
             }
         }
