@@ -14,10 +14,14 @@ namespace USB_CAN_Plus_Ctrl
 {
     public partial class USB_CAN_Plus_Ctrl : Form
     {
+        enum DevicesStates
+        {
+            NoActive, ActiveFirst, ActiveSecond, ActiveBoth
+        }
+
         public byte[][] CurntBWritten { get; private set; } = new byte[2][];
         public byte[][] VoltBWritten { get; private set; } = new byte[2][];
-        public byte[][] VoltBRead { get; private set; } = new byte[2][];
-        
+        public byte[][] VoltBRead { get; private set; } = new byte[2][];      
         public byte[][] CurntBRead { get; private set; } = new byte[2][];
         public byte[][] AmbientTemp { get; private set; } = new byte[2][];
         public byte[][] VoltAB { get; private set; } = new byte[2][];
@@ -37,6 +41,7 @@ namespace USB_CAN_Plus_Ctrl
         public TextBox[] TxtsVoltCA { get; private set; }
         public Label[] LblsSerialNo { get; private set; }
         internal VSCAN[] CanDevices { get; set; } = new VSCAN[2];
+        private DevicesStates State { get; set; }       
 
         public USB_CAN_Plus_Ctrl()
         {
@@ -95,36 +100,6 @@ namespace USB_CAN_Plus_Ctrl
                     BtnsDevice[DeviceNo].Text = "Підключити";
                 }
             }
-            /*else if (grpModule2.Enabled)
-            {
-
-                if (btnConnect2.Text == "Підключити")
-                {
-                    try
-                    {
-                        CanDevice = DataFromCAN.InitCAN();
-                        DisplayDeviceParams();
-                        UpdateChargeParams();
-                        btnConnect2.Text = "Відключити";
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("Не вдалося пдключити модуль USB-CAN Plus",
-                                        "Error",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
-                    }
-                }
-                else if (btnConnect2.Text == "Відключити")
-                {
-                    DataFromCAN.DeinitCAN(CanDevice);
-
-                    lblSerialNo2.Text = "Серійний номер:";
-                    btnConnect2.Text = "Підключити";
-                }
-            
-
-            }*/
         }
         private void BtnConnect1_Click(object sender, EventArgs e)
         {
@@ -194,18 +169,36 @@ namespace USB_CAN_Plus_Ctrl
                 Data[i] = CurntBWritten[DeviceNo][i - 4];
             }
 
-            if (!DataFromCAN.SendData(CanDevices[DeviceNo], 0x029B3FF0, Data))
-                MessageBox.Show("Помилка при передачі даних",
-                                "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+            if(State == DevicesStates.ActiveFirst && DeviceNo == 0)
+            {
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x02DB01F0, Data);
+            }
+            else if(State == DevicesStates.ActiveSecond && DeviceNo == 1)
+            {
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x02DB02F0, Data);
+            }
+            else if(State == DevicesStates.ActiveBoth)
+            {
+                foreach(VSCAN device in CanDevices)
+                {
+                    DataFromCAN.SendData(device, 0x029B3FF0, Data);
+                }
+            }
         }
 
 
 
         private void GetAmbientDeviceTemp(short DeviceNo)
         {
-            DataFromCAN.SendData(CanDevices[DeviceNo], 0x028401F0, new byte[8]);
+            if (State == DevicesStates.ActiveFirst && DeviceNo == 0)
+            {
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x028401F0, new byte[8]);
+            }
+            else if (State == DevicesStates.ActiveSecond && DeviceNo == 1)
+            {
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x028402F0, new byte[8]);
+            }
+
             try
             {
                 AmbientTemp[DeviceNo] = new byte[4];
@@ -225,7 +218,22 @@ namespace USB_CAN_Plus_Ctrl
 
         private void GetCurrentVoltage(short DeviceNo)
         {
-            DataFromCAN.SendData(CanDevices[DeviceNo], 0x028601F0, new byte[8]);
+            if (State == DevicesStates.ActiveFirst && DeviceNo == 0)
+            {
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x02C101F0, new byte[8]);
+            }
+            else if (State == DevicesStates.ActiveSecond && DeviceNo == 1)
+            {
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x02C102F0, new byte[8]);
+            }
+            else if (State == DevicesStates.ActiveBoth)
+            {
+                foreach (VSCAN device in CanDevices)
+                {
+                    DataFromCAN.SendData(device, 0x02813FF0, new byte[8]);
+                }
+            }
+
             try
             {
                 VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevices[DeviceNo]);
@@ -442,17 +450,23 @@ namespace USB_CAN_Plus_Ctrl
                     GrpsModules[0].Enabled = true;
                     GrpsModules[1].Enabled = false;
                     BtnsDevice[1].Text = "Підключити";
+                    State = DevicesStates.ActiveFirst;
                     break;
                 case "Активний другий модуль":
                     GrpsModules[0].Enabled = false;
                     GrpsModules[1].Enabled = true;
                     BtnsDevice[0].Text = "Підключити";
+                    State = DevicesStates.ActiveSecond;
                     break;
                 case "Активні обидва модулі":
                     GrpsModules[0].Enabled = true;
                     GrpsModules[1].Enabled = true;
                     BtnsDevice[0].Text = "Підключити";
                     BtnsDevice[1].Text = "Підключити";
+                    State = DevicesStates.ActiveBoth;
+                    break;
+                default:
+                    State = DevicesStates.NoActive;
                     break;
                 
             }
