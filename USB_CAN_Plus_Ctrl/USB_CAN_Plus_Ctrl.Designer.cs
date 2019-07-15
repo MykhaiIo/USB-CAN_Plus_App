@@ -683,7 +683,7 @@
             // 
             this.tmrDeviceParams.Enabled = true;
             this.tmrDeviceParams.Interval = 5000;
-            this.tmrDeviceParams.Tick += new System.EventHandler(this.tmrDeviceParams_Tick);
+            this.tmrDeviceParams.Tick += new System.EventHandler(this.TmrDeviceParams_Tick);
             // 
             // cmbDevices
             // 

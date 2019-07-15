@@ -24,14 +24,37 @@ namespace USB_CAN_Plus_Ctrl
         public byte[][] VoltBC { get; private set; } = new byte[2][];
         public byte[][] VoltCA { get; private set; } = new byte[2][];
 
-
-        private VSCAN[] CanDevice = new VSCAN[2];
+        public GroupBox[] GrpsModules { get; private set; }
+        public Button[] BtnsDevice { get; private set; }
+        public NumericUpDown[] NudsVoltSI { get; private set; }
+        public NumericUpDown[] NudsCurntSI { get; private set; }
+        public TextBox[] TxtsVoltFP { get; private set; }
+        public TextBox[] TxtsCurntFP { get; private set; }
+        public TextBox[] TxtsAmbTemperature { get; private set; }
+        public TextBox[] TxtsVoltage { get; private set; }
+        public TextBox[] TxtsVoltAB { get; private set; }
+        public TextBox[] TxtsVoltBC { get; private set; }
+        public TextBox[] TxtsVoltCA { get; private set; }
+        public Label[] LblsSerialNo { get; private set; }
+        internal VSCAN[] CanDevice { get; set; } = new VSCAN[2];
 
         public USB_CAN_Plus_Ctrl()
         {
             InitializeComponent();
             grpModule1.Enabled = false;
             grpModule2.Enabled = false;
+            GrpsModules = new GroupBox[] { grpModule1, grpModule2 };
+            BtnsDevice = new Button[] { btnConnect1, btnConnect2 };
+            NudsVoltSI = new NumericUpDown[] { nudOutVoltSI1, nudOutVoltSI2 };
+            NudsCurntSI = new NumericUpDown[] { nudOutCurntSI1, nudOutCurntSI2 };
+            TxtsVoltFP = new TextBox[] { txtOutVoltFP1, txtOutVoltFP2 };
+            TxtsCurntFP = new TextBox[] { txtOutCurntFP1, txtOutCurntFP2 };
+            TxtsAmbTemperature = new TextBox[] { txtTemperature1, txtTemperature2 };
+            TxtsVoltage = new TextBox[] { txtCurVolt1, txtCurVolt2 };
+            TxtsVoltAB = new TextBox[] { txtPhaseABVolt1, txtPhaseABVolt2 };
+            TxtsVoltBC = new TextBox[] { txtPhaseBCVolt1, txtPhaseBCVolt2 };
+            TxtsVoltCA = new TextBox[] { txtPhaseCAVolt1, txtPhaseCAVolt2 };
+            LblsSerialNo = new Label[] { lblSerialNo1, lblSerialNo2 };
         }
 
         private void DisplayDeviceParams()
@@ -40,21 +63,21 @@ namespace USB_CAN_Plus_Ctrl
             CanDevice[0].GetHwParams(ref hw);
 
             // get HW Params
-            lblSerialNo1.Text = $"Серійний номер: {hw.SerialNr}";
+            LblsSerialNo[0].Text = $"Серійний номер: {hw.SerialNr}";
         }
 
         private void ConnectDisconnectCAN(ref VSCAN CanDevice)
         {
-            if (grpModule1.Enabled)
+            if (GrpsModules[0].Enabled)
             {
-                if (btnConnect1.Text == "Підключити")
+                if (BtnsDevice[0].Text == "Підключити")
                 {
                     try
                     {
                         CanDevice = DataFromCAN.InitCAN();
                         DisplayDeviceParams();
                         UpdateChargeParams();
-                        btnConnect1.Text = "Відключити";
+                        BtnsDevice[0].Text = "Відключити";
                     }
                     catch (Exception)
                     {
@@ -64,12 +87,12 @@ namespace USB_CAN_Plus_Ctrl
                                         MessageBoxIcon.Warning);
                     }
                 }
-                else if (btnConnect1.Text == "Відключити" && grpModule1.Enabled)
+                else if (BtnsDevice[0].Text == "Відключити" && GrpsModules[0].Enabled)
                 {
                     DataFromCAN.DeinitCAN(CanDevice);
 
-                    lblSerialNo1.Text = "Серійний номер:";
-                    btnConnect1.Text = "Підключити";
+                    LblsSerialNo[0].Text = "Серійний номер:";
+                    BtnsDevice[0].Text = "Підключити";
                 }
             }
             /*else if (grpModule2.Enabled)
@@ -110,7 +133,7 @@ namespace USB_CAN_Plus_Ctrl
 
         private void BtnConnect2_Click(object sender, EventArgs e)
         {
-            ConnectDisconnectCAN(ref CanDevice[0]);
+            ConnectDisconnectCAN(ref CanDevice[1]);
         }
 
         private UInt32 GetID(byte ErrorCode,
@@ -151,8 +174,8 @@ namespace USB_CAN_Plus_Ctrl
 
         private void SendChargeParams()
         {
-            VoltBWritten[0] = NumRepresentations.UINTtoBYTE((uint)nudOutVoltSI1.Value * 1000);
-            CurntBWritten[0] = NumRepresentations.UINTtoBYTE((uint)nudOutCurntSI1.Value * 1000);
+            VoltBWritten[0] = NumRepresentations.UINTtoBYTE((uint)NudsVoltSI[0].Value * 1000);
+            CurntBWritten[0] = NumRepresentations.UINTtoBYTE((uint)NudsCurntSI[0].Value * 1000);
 
             // handle endianness
             Array.Reverse(VoltBWritten[0]);
@@ -189,7 +212,7 @@ namespace USB_CAN_Plus_Ctrl
                 VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice);
                 AmbientTemp[0][0] = msgs[0].Data[4];
                 Array.Reverse(AmbientTemp[0]);
-                txtTemperature1.Text = NumRepresentations.BYTEtoINT(AmbientTemp[0]).ToString();
+                TxtsAmbTemperature[0].Text = NumRepresentations.BYTEtoINT(AmbientTemp[0]).ToString();
             }
             catch (Exception)
             {
@@ -266,8 +289,8 @@ namespace USB_CAN_Plus_Ctrl
                 Array.Reverse(VoltBRead[0]);
                 Array.Reverse(CurntBRead[0]);
 
-                txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead[0]) + " мВ";
-                txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead[0]) + " мА";
+                TxtsVoltFP[0].Text = NumRepresentations.BYTEtoUINT(VoltBRead[0]) + " мВ";
+                TxtsCurntFP[0].Text = NumRepresentations.BYTEtoUINT(CurntBRead[0]) + " мА";
             }
             catch (Exception)
             {
@@ -280,7 +303,7 @@ namespace USB_CAN_Plus_Ctrl
 
         private void NudOutVoltSI1_ValueChanged(object sender, EventArgs e)
         {
-            if (btnConnect1.Text == "Відключити")
+            if (BtnsDevice[0].Text == "Відключити")
             {
                 SendChargeParams();
                 try
@@ -296,7 +319,7 @@ namespace USB_CAN_Plus_Ctrl
 
                     // handle endianness
                     Array.Reverse(VoltBRead[0]);
-                    txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead[0]) + " мВ";
+                    TxtsVoltFP[0].Text = NumRepresentations.BYTEtoUINT(VoltBRead[0]) + " мВ";
                 }
                 catch (Exception)
                 {
@@ -310,7 +333,7 @@ namespace USB_CAN_Plus_Ctrl
 
         private void NudOutCurntSI1_ValueChanged(object sender, EventArgs e)
         {
-            if (btnConnect1.Text == "Відключити")
+            if (BtnsDevice[0].Text == "Відключити")
             {
                 SendChargeParams();
                 try
@@ -326,7 +349,7 @@ namespace USB_CAN_Plus_Ctrl
 
                     // handle endianness
                     Array.Reverse(CurntBRead[0]);
-                    txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead[0]) + " мА";
+                    TxtsCurntFP[0].Text = NumRepresentations.BYTEtoUINT(CurntBRead[0]) + " мА";
                 }
                 catch (Exception)
                 {
@@ -340,7 +363,7 @@ namespace USB_CAN_Plus_Ctrl
 
         private void NudOutVoltSI2_ValueChanged(object sender, EventArgs e)
         {
-            if (btnConnect2.Text == "Відключити")
+            if (BtnsDevice[1].Text == "Відключити")
             {
                 SendChargeParams();
                 try
@@ -356,7 +379,7 @@ namespace USB_CAN_Plus_Ctrl
 
                     // handle endianness
                     Array.Reverse(VoltBRead[1]);
-                    txtOutVoltFP2.Text = NumRepresentations.BYTEtoUINT(VoltBRead[1]) + " мВ";
+                    TxtsVoltFP[1].Text = NumRepresentations.BYTEtoUINT(VoltBRead[1]) + " мВ";
                 }
                 catch (Exception)
                 {
@@ -370,7 +393,7 @@ namespace USB_CAN_Plus_Ctrl
 
         private void NudOutCurntSI2_ValueChanged(object sender, EventArgs e)
         {
-            if (btnConnect2.Text == "Відключити")
+            if (BtnsDevice[1].Text == "Відключити")
             {
                 SendChargeParams();
                 try
@@ -386,7 +409,7 @@ namespace USB_CAN_Plus_Ctrl
 
                     // handle endianness
                     Array.Reverse(CurntBRead[1]);
-                    txtOutCurntFP2.Text = NumRepresentations.BYTEtoUINT(CurntBRead[1]) + " мА";
+                    TxtsCurntFP[1].Text = NumRepresentations.BYTEtoUINT(CurntBRead[1]) + " мА";
                 }
                 catch (Exception)
                 {
@@ -398,15 +421,15 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        private void tmrDeviceParams_Tick(object sender, EventArgs e)
+        private void TmrDeviceParams_Tick(object sender, EventArgs e)
         {
-            if (btnConnect1.Text == "Відключити")
+            if (BtnsDevice[0].Text == "Відключити")
             {
                 GetAmbientDeviceTemp(CanDevice[0]);
                 GetCurrentVoltage(CanDevice[0]);
-                txtPhaseABVolt1.Text = NumRepresentations.BYTEtoFP(VoltAB[0]).ToString();
-                txtPhaseBCVolt1.Text = NumRepresentations.BYTEtoFP(VoltBC[0]).ToString();
-                txtPhaseCAVolt1.Text = NumRepresentations.BYTEtoFP(VoltCA[0]).ToString();
+                TxtsVoltAB[0].Text = NumRepresentations.BYTEtoFP(VoltAB[0]).ToString();
+                TxtsVoltBC[0].Text = NumRepresentations.BYTEtoFP(VoltBC[0]).ToString();
+                TxtsVoltCA[0].Text = NumRepresentations.BYTEtoFP(VoltCA[0]).ToString();
             }
         }
 
@@ -416,20 +439,20 @@ namespace USB_CAN_Plus_Ctrl
             switch (selectedState)
             {
                 case "Активний перший модуль":
-                    grpModule1.Enabled = true;
-                    grpModule2.Enabled = false;
-                    btnConnect2.Text = "Підключити";
+                    GrpsModules[0].Enabled = true;
+                    GrpsModules[1].Enabled = false;
+                    BtnsDevice[1].Text = "Підключити";
                     break;
                 case "Активний другий модуль":
-                    grpModule1.Enabled = false;
-                    grpModule2.Enabled = true;
-                    btnConnect1.Text = "Підключити";
+                    GrpsModules[0].Enabled = false;
+                    GrpsModules[1].Enabled = true;
+                    BtnsDevice[0].Text = "Підключити";
                     break;
                 case "Активні обидва модулі":
-                    grpModule1.Enabled = true;
-                    grpModule2.Enabled = true;
-                    btnConnect1.Text = "Підключити";
-                    btnConnect2.Text = "Підключити";
+                    GrpsModules[0].Enabled = true;
+                    GrpsModules[1].Enabled = true;
+                    BtnsDevice[0].Text = "Підключити";
+                    BtnsDevice[1].Text = "Підключити";
                     break;
                 
             }
