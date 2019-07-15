@@ -14,26 +14,18 @@ namespace USB_CAN_Plus_Ctrl
 {
     public partial class USB_CAN_Plus_Ctrl : Form
     {
-        public byte[] CurntBWritten1 { get; private set; }
-        public byte[] VoltBWritten1 { get; private set; }
-        public byte[] VoltBRead1 { get; private set; } = new byte[4];
-        public byte[] CurntBRead1 { get; private set; } = new byte[4];
-        public byte[] AmbientTemp1 { get; private set; } = new byte[4];
-        public byte[] VoltAB1 { get; private set; } = new byte[4];
-        public byte[] VoltBC1 { get; private set; } = new byte[4];
-        public byte[] VoltCA1 { get; private set; } = new byte[4];
+        public byte[][] CurntBWritten { get; private set; } = new byte[2][];
+        public byte[][] VoltBWritten { get; private set; } = new byte[2][];
+        public byte[][] VoltBRead { get; private set; } = new byte[2][];
+        
+        public byte[][] CurntBRead { get; private set; } = new byte[2][];
+        public byte[][] AmbientTemp { get; private set; } = new byte[2][];
+        public byte[][] VoltAB { get; private set; } = new byte[2][];
+        public byte[][] VoltBC { get; private set; } = new byte[2][];
+        public byte[][] VoltCA { get; private set; } = new byte[2][];
 
-        public byte[] CurntBWritten2 { get; private set; }
-        public byte[] VoltBWritten2 { get; private set; }
-        public byte[] VoltBRead2 { get; private set; } = new byte[4];
-        public byte[] CurntBRead2 { get; private set; } = new byte[4];
-        public byte[] AmbientTemp2 { get; private set; } = new byte[4];
-        public byte[] VoltAB2 { get; private set; } = new byte[4];
-        public byte[] VoltBC2 { get; private set; } = new byte[4];
-        public byte[] VoltCA2 { get; private set; } = new byte[4];
 
-        private VSCAN CanDevice1;
-        private VSCAN CanDevice2;
+        private VSCAN[] CanDevice = new VSCAN[2];
 
         public USB_CAN_Plus_Ctrl()
         {
@@ -45,7 +37,7 @@ namespace USB_CAN_Plus_Ctrl
         private void DisplayDeviceParams()
         {
             VSCAN_HWPARAM hw = new VSCAN_HWPARAM();
-            CanDevice1.GetHwParams(ref hw);
+            CanDevice[0].GetHwParams(ref hw);
 
             // get HW Params
             lblSerialNo1.Text = $"Серійний номер: {hw.SerialNr}";
@@ -113,12 +105,12 @@ namespace USB_CAN_Plus_Ctrl
         }
         private void BtnConnect1_Click(object sender, EventArgs e)
         {
-            ConnectDisconnectCAN(ref CanDevice1);
+            ConnectDisconnectCAN(ref CanDevice[0]);
         }
 
         private void BtnConnect2_Click(object sender, EventArgs e)
         {
-            ConnectDisconnectCAN(ref CanDevice2);
+            ConnectDisconnectCAN(ref CanDevice[0]);
         }
 
         private UInt32 GetID(byte ErrorCode,
@@ -159,27 +151,27 @@ namespace USB_CAN_Plus_Ctrl
 
         private void SendChargeParams()
         {
-            VoltBWritten1 = NumRepresentations.UINTtoBYTE((uint)nudOutVoltSI1.Value * 1000);
-            CurntBWritten1 = NumRepresentations.UINTtoBYTE((uint)nudOutCurntSI1.Value * 1000);
+            VoltBWritten[0] = NumRepresentations.UINTtoBYTE((uint)nudOutVoltSI1.Value * 1000);
+            CurntBWritten[0] = NumRepresentations.UINTtoBYTE((uint)nudOutCurntSI1.Value * 1000);
 
             // handle endianness
-            Array.Reverse(VoltBWritten1);
-            Array.Reverse(CurntBWritten1);
+            Array.Reverse(VoltBWritten[0]);
+            Array.Reverse(CurntBWritten[0]);
 
             byte[] Data = new byte[8];
 
             // form HEX volt value to be sent
             for (int i = 0; i < 4; i++)
             {
-                Data[i] = VoltBWritten1[i];
+                Data[i] = VoltBWritten[0][i];
             }
 
             for (int i = 4; i < 8; i++)
             {
-                Data[i] = CurntBWritten1[i - 4];
+                Data[i] = CurntBWritten[0][i - 4];
             }
 
-            if (!DataFromCAN.SendData(CanDevice1, 0x029B3FF0, Data))
+            if (!DataFromCAN.SendData(CanDevice[0], 0x029B3FF0, Data))
                 MessageBox.Show("Помилка при передачі даних",
                                 "Error",
                                 MessageBoxButtons.OK,
@@ -193,10 +185,11 @@ namespace USB_CAN_Plus_Ctrl
             DataFromCAN.SendData(CanDevice, 0x028401F0, new byte[8]);
             try
             {
-                VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice1);
-                AmbientTemp1[0] = msgs[0].Data[4];
-                Array.Reverse(AmbientTemp1);
-                txtTemperature1.Text = NumRepresentations.BYTEtoINT(AmbientTemp1).ToString();
+                AmbientTemp[0] = new byte[4];
+                VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice);
+                AmbientTemp[0][0] = msgs[0].Data[4];
+                Array.Reverse(AmbientTemp[0]);
+                txtTemperature1.Text = NumRepresentations.BYTEtoINT(AmbientTemp[0]).ToString();
             }
             catch (Exception)
             {
@@ -212,27 +205,31 @@ namespace USB_CAN_Plus_Ctrl
             DataFromCAN.SendData(CanDevice, 0x028601F0, new byte[8]);
             try
             {
-                VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice1);
+                VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice);
+                VoltAB[0] = new byte[4];
+                VoltBC[0] = new byte[4];
+                VoltCA[0] = new byte[4];
+
 
                 for (int i = 0; i < 2; i++)
                 {
-                    VoltAB1[i] = msgs[0].Data[i];
+                    VoltAB[0][i] = msgs[0].Data[i];
                 }
 
                 for (int i = 2; i < 4; i++)
                 {
-                    VoltBC1[i - 2] = msgs[0].Data[i];
+                    VoltBC[0][i - 2] = msgs[0].Data[i];
                 }
 
                 for (int i = 4; i < 6; i++)
                 {
-                    VoltCA1[i - 4] = msgs[0].Data[i];
+                    VoltCA[0][i - 4] = msgs[0].Data[i];
                 }
 
                 // handle endianness
-                Array.Reverse(VoltAB1);
-                Array.Reverse(VoltBC1);
-                Array.Reverse(VoltCA1);
+                Array.Reverse(VoltAB[0]);
+                Array.Reverse(VoltBC[0]);
+                Array.Reverse(VoltCA[0]);
             }
             catch (Exception)
             {
@@ -245,28 +242,32 @@ namespace USB_CAN_Plus_Ctrl
 
         private void UpdateChargeParams()
         {
+
+            VoltBRead[0] = new byte[4];
+            CurntBRead[0] = new byte[4];
+
             SendChargeParams();
             try
             {
-                VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice1);
+                VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice[0]);
 
                 // form volt value to be recieved
                 for (int i = 0; i < 4; i++)
                 {
-                    VoltBRead1[i] = msgs[0].Data[i];
+                    VoltBRead[0][i] = msgs[0].Data[i];
                 }
 
                 for (int i = 4; i < 8; i++)
                 {
-                    CurntBRead1[i - 4] = msgs[0].Data[i];
+                    CurntBRead[0][i - 4] = msgs[0].Data[i];
                 }
 
                 // handle endianness
-                Array.Reverse(VoltBRead1);
-                Array.Reverse(CurntBRead1);
+                Array.Reverse(VoltBRead[0]);
+                Array.Reverse(CurntBRead[0]);
 
-                txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead1) + " мВ";
-                txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead1) + " мА";
+                txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead[0]) + " мВ";
+                txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead[0]) + " мА";
             }
             catch (Exception)
             {
@@ -284,17 +285,18 @@ namespace USB_CAN_Plus_Ctrl
                 SendChargeParams();
                 try
                 {
-                    VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice1);
+                    VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice[0]);
+                    VoltBRead[0] = new byte[4];
 
                     // form volt value to be recieved
                     for (int i = 0; i < 4; i++)
                     {
-                        VoltBRead1[i] = msgs[0].Data[i];
+                        VoltBRead[0][i] = msgs[0].Data[i];
                     }
 
                     // handle endianness
-                    Array.Reverse(VoltBRead1);
-                    txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead1) + " мВ";
+                    Array.Reverse(VoltBRead[0]);
+                    txtOutVoltFP1.Text = NumRepresentations.BYTEtoUINT(VoltBRead[0]) + " мВ";
                 }
                 catch (Exception)
                 {
@@ -313,17 +315,18 @@ namespace USB_CAN_Plus_Ctrl
                 SendChargeParams();
                 try
                 {
-                    VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice1);
+                    VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice[0]);
+                    CurntBRead[0] = new byte[4];
 
                     // form current value to be recieved
                     for (int i = 4; i < 8; i++)
                     {
-                        CurntBRead1[i - 4] = msgs[0].Data[i];
+                        CurntBRead[0][i - 4] = msgs[0].Data[i];
                     }
 
                     // handle endianness
-                    Array.Reverse(CurntBRead1);
-                    txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead1) + " мА";
+                    Array.Reverse(CurntBRead[0]);
+                    txtOutCurntFP1.Text = NumRepresentations.BYTEtoUINT(CurntBRead[0]) + " мА";
                 }
                 catch (Exception)
                 {
@@ -342,17 +345,18 @@ namespace USB_CAN_Plus_Ctrl
                 SendChargeParams();
                 try
                 {
-                    VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice2);
+                    VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice[1]);
+                    VoltBRead[1] = new byte[4];
 
                     // form volt value to be recieved
                     for (int i = 0; i < 4; i++)
                     {
-                        VoltBRead2[i] = msgs[0].Data[i];
+                        VoltBRead[1][i] = msgs[0].Data[i];
                     }
 
                     // handle endianness
-                    Array.Reverse(VoltBRead2);
-                    txtOutVoltFP2.Text = NumRepresentations.BYTEtoUINT(VoltBRead2) + " мВ";
+                    Array.Reverse(VoltBRead[1]);
+                    txtOutVoltFP2.Text = NumRepresentations.BYTEtoUINT(VoltBRead[1]) + " мВ";
                 }
                 catch (Exception)
                 {
@@ -371,17 +375,18 @@ namespace USB_CAN_Plus_Ctrl
                 SendChargeParams();
                 try
                 {
-                    VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice2);
+                    VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice[1]);
+                    CurntBRead[1] = new byte[4];
 
                     // form current value to be recieved
                     for (int i = 4; i < 8; i++)
                     {
-                        CurntBRead2[i - 4] = msgs[0].Data[i];
+                        CurntBRead[1][i - 4] = msgs[0].Data[i];
                     }
 
                     // handle endianness
-                    Array.Reverse(CurntBRead2);
-                    txtOutCurntFP2.Text = NumRepresentations.BYTEtoUINT(CurntBRead2) + " мА";
+                    Array.Reverse(CurntBRead[1]);
+                    txtOutCurntFP2.Text = NumRepresentations.BYTEtoUINT(CurntBRead[1]) + " мА";
                 }
                 catch (Exception)
                 {
@@ -397,11 +402,11 @@ namespace USB_CAN_Plus_Ctrl
         {
             if (btnConnect1.Text == "Відключити")
             {
-                GetAmbientDeviceTemp(CanDevice1);
-                GetCurrentVoltage(CanDevice1);
-                txtPhaseABVolt1.Text = NumRepresentations.BYTEtoFP(VoltAB1).ToString();
-                txtPhaseBCVolt1.Text = NumRepresentations.BYTEtoFP(VoltBC1).ToString();
-                txtPhaseCAVolt1.Text = NumRepresentations.BYTEtoFP(VoltCA1).ToString();
+                GetAmbientDeviceTemp(CanDevice[0]);
+                GetCurrentVoltage(CanDevice[0]);
+                txtPhaseABVolt1.Text = NumRepresentations.BYTEtoFP(VoltAB[0]).ToString();
+                txtPhaseBCVolt1.Text = NumRepresentations.BYTEtoFP(VoltBC[0]).ToString();
+                txtPhaseCAVolt1.Text = NumRepresentations.BYTEtoFP(VoltCA[0]).ToString();
             }
         }
 
