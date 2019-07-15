@@ -583,9 +583,9 @@
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.Location = new System.Drawing.Point(179, 45);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(22, 13);
+            this.label19.Size = new System.Drawing.Size(14, 13);
             this.label19.TabIndex = 7;
-            this.label19.Text = "мА";
+            this.label19.Text = "А";
             // 
             // label20
             // 
@@ -593,9 +593,9 @@
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.Location = new System.Drawing.Point(179, 20);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(22, 13);
+            this.label20.Size = new System.Drawing.Size(14, 13);
             this.label20.TabIndex = 6;
-            this.label20.Text = "мВ";
+            this.label20.Text = "В";
             // 
             // nudOutCurntSI2
             // 
@@ -703,9 +703,10 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(84, 17);
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(11, 15);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(210, 13);
+            this.label25.Size = new System.Drawing.Size(268, 16);
             this.label25.TabIndex = 6;
             this.label25.Text = "Оберіть зарядний модуль для взаємодії";
             // 

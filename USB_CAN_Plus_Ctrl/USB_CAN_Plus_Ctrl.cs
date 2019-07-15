@@ -186,9 +186,11 @@ namespace USB_CAN_Plus_Ctrl
                                 MessageBoxIcon.Warning);
         }
 
-        private void GetAmbientDeviceTemp()
+
+
+        private void GetAmbientDeviceTemp(VSCAN CanDevice)
         {
-            DataFromCAN.SendData(CanDevice1, 0x028401F0, new byte[8]);
+            DataFromCAN.SendData(CanDevice, 0x028401F0, new byte[8]);
             try
             {
                 VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice1);
@@ -205,9 +207,9 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        private void GetCurrentVoltage()
+        private void GetCurrentVoltage(VSCAN CanDevice)
         {
-            DataFromCAN.SendData(CanDevice1, 0x028601F0, new byte[8]);
+            DataFromCAN.SendData(CanDevice, 0x028601F0, new byte[8]);
             try
             {
                 VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevice1);
@@ -395,8 +397,8 @@ namespace USB_CAN_Plus_Ctrl
         {
             if (btnConnect1.Text == "Відключити")
             {
-                GetAmbientDeviceTemp();
-                GetCurrentVoltage();
+                GetAmbientDeviceTemp(CanDevice1);
+                GetCurrentVoltage(CanDevice1);
                 txtPhaseABVolt1.Text = NumRepresentations.BYTEtoFP(VoltAB1).ToString();
                 txtPhaseBCVolt1.Text = NumRepresentations.BYTEtoFP(VoltBC1).ToString();
                 txtPhaseCAVolt1.Text = NumRepresentations.BYTEtoFP(VoltCA1).ToString();

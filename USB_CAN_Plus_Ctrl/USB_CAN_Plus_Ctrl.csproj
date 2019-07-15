@@ -97,6 +97,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="vs_can_api_wrapper.cs" />
+    <EmbeddedResource Include="Resources.en.resx" />
     <EmbeddedResource Include="USB_CAN_Plus_Ctrl.resx">
       <DependentUpon>USB_CAN_Plus_Ctrl.cs</DependentUpon>
     </EmbeddedResource>
