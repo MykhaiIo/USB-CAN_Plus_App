@@ -45,8 +45,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.grpSetParamsMdl1 = new System.Windows.Forms.GroupBox();
-            this.txtOutCurntFP1 = new System.Windows.Forms.TextBox();
-            this.txtOutVoltFP1 = new System.Windows.Forms.TextBox();
+            this.txtOutCurntINT1 = new System.Windows.Forms.TextBox();
+            this.txtOutVoltINT1 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.nudOutCurntSI1 = new System.Windows.Forms.NumericUpDown();
@@ -71,8 +71,8 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.grpSetParamsMdl2 = new System.Windows.Forms.GroupBox();
-            this.txtOutCurntFP2 = new System.Windows.Forms.TextBox();
-            this.txtOutVoltFP2 = new System.Windows.Forms.TextBox();
+            this.txtOutCurntINT2 = new System.Windows.Forms.TextBox();
+            this.txtOutVoltINT2 = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.nudOutCurntSI2 = new System.Windows.Forms.NumericUpDown();
@@ -255,8 +255,8 @@
             // 
             // grpSetParamsMdl1
             // 
-            this.grpSetParamsMdl1.Controls.Add(this.txtOutCurntFP1);
-            this.grpSetParamsMdl1.Controls.Add(this.txtOutVoltFP1);
+            this.grpSetParamsMdl1.Controls.Add(this.txtOutCurntINT1);
+            this.grpSetParamsMdl1.Controls.Add(this.txtOutVoltINT1);
             this.grpSetParamsMdl1.Controls.Add(this.label6);
             this.grpSetParamsMdl1.Controls.Add(this.label5);
             this.grpSetParamsMdl1.Controls.Add(this.nudOutCurntSI1);
@@ -274,19 +274,19 @@
             // 
             // txtOutCurntFP1
             // 
-            this.txtOutCurntFP1.Location = new System.Drawing.Point(269, 40);
-            this.txtOutCurntFP1.Name = "txtOutCurntFP1";
-            this.txtOutCurntFP1.ReadOnly = true;
-            this.txtOutCurntFP1.Size = new System.Drawing.Size(100, 20);
-            this.txtOutCurntFP1.TabIndex = 9;
+            this.txtOutCurntINT1.Location = new System.Drawing.Point(269, 40);
+            this.txtOutCurntINT1.Name = "txtOutCurntFP1";
+            this.txtOutCurntINT1.ReadOnly = true;
+            this.txtOutCurntINT1.Size = new System.Drawing.Size(100, 20);
+            this.txtOutCurntINT1.TabIndex = 9;
             // 
             // txtOutVoltFP1
             // 
-            this.txtOutVoltFP1.Location = new System.Drawing.Point(269, 16);
-            this.txtOutVoltFP1.Name = "txtOutVoltFP1";
-            this.txtOutVoltFP1.ReadOnly = true;
-            this.txtOutVoltFP1.Size = new System.Drawing.Size(100, 20);
-            this.txtOutVoltFP1.TabIndex = 8;
+            this.txtOutVoltINT1.Location = new System.Drawing.Point(269, 16);
+            this.txtOutVoltINT1.Name = "txtOutVoltFP1";
+            this.txtOutVoltINT1.ReadOnly = true;
+            this.txtOutVoltINT1.Size = new System.Drawing.Size(100, 20);
+            this.txtOutVoltINT1.TabIndex = 8;
             // 
             // label6
             // 
@@ -546,8 +546,8 @@
             // 
             // grpSetParamsMdl2
             // 
-            this.grpSetParamsMdl2.Controls.Add(this.txtOutCurntFP2);
-            this.grpSetParamsMdl2.Controls.Add(this.txtOutVoltFP2);
+            this.grpSetParamsMdl2.Controls.Add(this.txtOutCurntINT2);
+            this.grpSetParamsMdl2.Controls.Add(this.txtOutVoltINT2);
             this.grpSetParamsMdl2.Controls.Add(this.label19);
             this.grpSetParamsMdl2.Controls.Add(this.label20);
             this.grpSetParamsMdl2.Controls.Add(this.nudOutCurntSI2);
@@ -565,19 +565,19 @@
             // 
             // txtOutCurntFP2
             // 
-            this.txtOutCurntFP2.Location = new System.Drawing.Point(269, 40);
-            this.txtOutCurntFP2.Name = "txtOutCurntFP2";
-            this.txtOutCurntFP2.ReadOnly = true;
-            this.txtOutCurntFP2.Size = new System.Drawing.Size(100, 20);
-            this.txtOutCurntFP2.TabIndex = 9;
+            this.txtOutCurntINT2.Location = new System.Drawing.Point(269, 40);
+            this.txtOutCurntINT2.Name = "txtOutCurntFP2";
+            this.txtOutCurntINT2.ReadOnly = true;
+            this.txtOutCurntINT2.Size = new System.Drawing.Size(100, 20);
+            this.txtOutCurntINT2.TabIndex = 9;
             // 
             // txtOutVoltFP2
             // 
-            this.txtOutVoltFP2.Location = new System.Drawing.Point(269, 16);
-            this.txtOutVoltFP2.Name = "txtOutVoltFP2";
-            this.txtOutVoltFP2.ReadOnly = true;
-            this.txtOutVoltFP2.Size = new System.Drawing.Size(100, 20);
-            this.txtOutVoltFP2.TabIndex = 8;
+            this.txtOutVoltINT2.Location = new System.Drawing.Point(269, 16);
+            this.txtOutVoltINT2.Name = "txtOutVoltFP2";
+            this.txtOutVoltINT2.ReadOnly = true;
+            this.txtOutVoltINT2.Size = new System.Drawing.Size(100, 20);
+            this.txtOutVoltINT2.TabIndex = 8;
             // 
             // label19
             // 
@@ -789,8 +789,8 @@
         private System.Windows.Forms.TextBox txtCurVolt1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtOutCurntFP1;
-        private System.Windows.Forms.TextBox txtOutVoltFP1;
+        private System.Windows.Forms.TextBox txtOutCurntINT1;
+        private System.Windows.Forms.TextBox txtOutVoltINT1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox grpModule2;
@@ -801,8 +801,8 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.GroupBox grpSetParamsMdl2;
-        private System.Windows.Forms.TextBox txtOutCurntFP2;
-        private System.Windows.Forms.TextBox txtOutVoltFP2;
+        private System.Windows.Forms.TextBox txtOutCurntINT2;
+        private System.Windows.Forms.TextBox txtOutVoltINT2;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.NumericUpDown nudOutCurntSI2;

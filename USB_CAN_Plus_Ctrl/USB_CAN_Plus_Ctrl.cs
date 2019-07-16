@@ -9,39 +9,44 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
 using VSCom.CanApi;
+using System.IO.Ports;
 
 namespace USB_CAN_Plus_Ctrl
 {
     public partial class USB_CAN_Plus_Ctrl : Form
     {
-        enum DevicesStates
+        private const int DevicesCnt = 2;
+
+        private enum DevicesStates
         {
             NoActive, ActiveFirst, ActiveSecond, ActiveBoth
         }
+        private DevicesStates State { get; set; }
 
-        public byte[][] CurntBWritten { get; private set; } = new byte[2][];
-        public byte[][] VoltBWritten { get; private set; } = new byte[2][];
-        public byte[][] VoltBRead { get; private set; } = new byte[2][];
-        public byte[][] CurntBRead { get; private set; } = new byte[2][];
-        public byte[][] AmbientTemp { get; private set; } = new byte[2][];
-        public byte[][] VoltAB { get; private set; } = new byte[2][];
-        public byte[][] VoltBC { get; private set; } = new byte[2][];
-        public byte[][] VoltCA { get; private set; } = new byte[2][];
+        public byte[][] CurntBWritten { get; private set; } = new byte[DevicesCnt][];
+        public byte[][] VoltBWritten { get; private set; } = new byte[DevicesCnt][];
+        public byte[][] VoltBRead { get; private set; } = new byte[DevicesCnt][];
+        public byte[][] CurntBRead { get; private set; } = new byte[DevicesCnt][];
+        public byte[][] AmbientTemp { get; private set; } = new byte[DevicesCnt][];
+        public byte[][] VoltAB { get; private set; } = new byte[DevicesCnt][];
+        public byte[][] VoltBC { get; private set; } = new byte[DevicesCnt][];
+        public byte[][] VoltCA { get; private set; } = new byte[DevicesCnt][];
 
         public GroupBox[] GrpsModules { get; private set; }
         public Button[] BtnsDevice { get; private set; }
         public NumericUpDown[] NudsVoltSI { get; private set; }
         public NumericUpDown[] NudsCurntSI { get; private set; }
-        public TextBox[] TxtsVoltFP { get; private set; }
-        public TextBox[] TxtsCurntFP { get; private set; }
+        public TextBox[] TxtsVoltINT { get; private set; }
+        public TextBox[] TxtsCurntINT { get; private set; }
         public TextBox[] TxtsAmbTemperature { get; private set; }
         public TextBox[] TxtsVoltage { get; private set; }
         public TextBox[] TxtsVoltAB { get; private set; }
         public TextBox[] TxtsVoltBC { get; private set; }
         public TextBox[] TxtsVoltCA { get; private set; }
         public Label[] LblsSerialNo { get; private set; }
-        internal VSCAN[] CanDevices { get; set; } = new VSCAN[2];
-        private DevicesStates State { get; set; }
+
+        internal VSCAN[] CanDevices { get; set; } = new VSCAN[DevicesCnt];
+        internal string[] Ports { get; set; }
 
         public USB_CAN_Plus_Ctrl()
         {
@@ -54,8 +59,8 @@ namespace USB_CAN_Plus_Ctrl
             BtnsDevice = new Button[] { btnConnect1, btnConnect2 };
             NudsVoltSI = new NumericUpDown[] { nudOutVoltSI1, nudOutVoltSI2 };
             NudsCurntSI = new NumericUpDown[] { nudOutCurntSI1, nudOutCurntSI2 };
-            TxtsVoltFP = new TextBox[] { txtOutVoltFP1, txtOutVoltFP2 };
-            TxtsCurntFP = new TextBox[] { txtOutCurntFP1, txtOutCurntFP2 };
+            TxtsVoltINT = new TextBox[] { txtOutVoltINT1, txtOutVoltINT2 };
+            TxtsCurntINT = new TextBox[] { txtOutCurntINT1, txtOutCurntINT2 };
             TxtsAmbTemperature = new TextBox[] { txtTemperature1, txtTemperature2 };
             TxtsVoltage = new TextBox[] { txtCurVolt1, txtCurVolt2 };
             TxtsVoltAB = new TextBox[] { txtPhaseABVolt1, txtPhaseABVolt2 };
@@ -86,7 +91,7 @@ namespace USB_CAN_Plus_Ctrl
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show($"Не вдалося пдключити модуль {DeviceNo + 1} USB-CAN Plus",
+                    MessageBox.Show($"Не вдалося пдключити {DeviceNo + 1} модуль USB-CAN Plus",
                                     "Error",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Warning);
@@ -98,6 +103,11 @@ namespace USB_CAN_Plus_Ctrl
                 CanDevices[DeviceNo] = null;
                 LblsSerialNo[DeviceNo].Text = "Серійний номер:";
                 BtnsDevice[DeviceNo].Text = "Підключити";
+                NudsVoltSI[DeviceNo].Value = NudsVoltSI[DeviceNo].Minimum;
+                NudsCurntSI[DeviceNo].Value = NudsCurntSI[DeviceNo].Minimum;
+                TxtsVoltINT[DeviceNo].Text = "";
+                TxtsCurntINT[DeviceNo].Text = "";
+
             }
         }
 
@@ -281,7 +291,7 @@ namespace USB_CAN_Plus_Ctrl
 
                 // handle endianness
                 Array.Reverse(VoltBRead[DeviceNo]);
-                TxtsVoltFP[DeviceNo].Text = NumRepresentations.BYTEtoUINT(VoltBRead[DeviceNo]) + " мВ";
+                TxtsVoltINT[DeviceNo].Text = $"{NumRepresentations.BYTEtoUINT(VoltBRead[DeviceNo])} мВ";
             }
             catch (Exception)
             {
@@ -308,7 +318,7 @@ namespace USB_CAN_Plus_Ctrl
 
                 // handle endianness
                 Array.Reverse(CurntBRead[DeviceNo]);
-                TxtsCurntFP[DeviceNo].Text = NumRepresentations.BYTEtoUINT(CurntBRead[DeviceNo]) + " мА";
+                TxtsCurntINT[DeviceNo].Text = $"{NumRepresentations.BYTEtoUINT(CurntBRead[DeviceNo])} мА";
             }
             catch (Exception)
             {
@@ -363,8 +373,7 @@ namespace USB_CAN_Plus_Ctrl
 
         private void CmbDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selectedState = cmbDevices.SelectedItem.ToString();
-            switch (selectedState)
+            switch (cmbDevices.SelectedItem.ToString())
             {
                 case "Активний перший модуль":
                     GrpsModules[0].Enabled = true;
@@ -377,8 +386,13 @@ namespace USB_CAN_Plus_Ctrl
                         CanDevices[1] = null;
                     }
                     LblsSerialNo[1].Text = "Серійний номер:";
+                    NudsVoltSI[1].Value = NudsVoltSI[1].Minimum;
+                    NudsCurntSI[1].Value = NudsCurntSI[1].Minimum;
+                    TxtsVoltINT[1].Text = "";
+                    TxtsCurntINT[1].Text = "";
                     State = DevicesStates.ActiveFirst;
                     break;
+
                 case "Активний другий модуль":
                     GrpsModules[0].Enabled = false;
                     GrpsModules[1].Enabled = true;
@@ -390,16 +404,25 @@ namespace USB_CAN_Plus_Ctrl
                         CanDevices[0] = null;
                     }
                     LblsSerialNo[0].Text = "Серійний номер:";
+                    NudsVoltSI[0].Value = NudsVoltSI[0].Minimum;
+                    NudsCurntSI[0].Value = NudsCurntSI[0].Minimum;
+                    TxtsVoltINT[0].Text = "";
+                    TxtsCurntINT[0].Text = "";
                     State = DevicesStates.ActiveSecond;
                     break;
+
                 case "Активні обидва модулі":
                     GrpsModules[0].Enabled = true;
                     GrpsModules[1].Enabled = true;
                     cmbPorts.Enabled = true;
                     BtnsDevice[0].Text = "Підключити";
                     BtnsDevice[1].Text = "Підключити";
+                    Ports = null;
+                    Ports = SerialPort.GetPortNames();
+                    cmbPorts.Items.AddRange(Ports);
                     State = DevicesStates.ActiveBoth;
                     break;
+
                 default:
                     State = DevicesStates.NoActive;
                     break;

@@ -25,7 +25,8 @@ namespace USB_CAN_Plus_Ctrl
 
                 // open CAN channel: please specify the name of your device according to User Manual
 
-                CanDevice.Open(VSCAN.VSCAN_FIRST_FOUND, VSCAN.VSCAN_MODE_SELF_RECEPTION);
+                CanDevice.Open(VSCAN.VSCAN_FIRST_FOUND,
+                               VSCAN.VSCAN_MODE_SELF_RECEPTION);
 
                 // set some options
 
