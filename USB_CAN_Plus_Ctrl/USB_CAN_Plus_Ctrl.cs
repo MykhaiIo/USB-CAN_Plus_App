@@ -48,6 +48,8 @@ namespace USB_CAN_Plus_Ctrl
             InitializeComponent();
             grpModule1.Enabled = false;
             grpModule2.Enabled = false;
+            cmbPorts.Enabled = false;
+
             GrpsModules = new GroupBox[] { grpModule1, grpModule2 };
             BtnsDevice = new Button[] { btnConnect1, btnConnect2 };
             NudsVoltSI = new NumericUpDown[] { nudOutVoltSI1, nudOutVoltSI2 };
@@ -71,51 +73,42 @@ namespace USB_CAN_Plus_Ctrl
             LblsSerialNo[DeviceNo].Text = $"Серійний номер: {hw.SerialNr}";
         }
 
-        private void ConnectDisconnectCAN(short DeviceNo)
+        private void HandleDeviceBtn(short DeviceNo)
         {
-            if (GrpsModules[DeviceNo].Enabled)
+            if (BtnsDevice[DeviceNo].Text == "Підключити")
             {
-                if (BtnsDevice[DeviceNo].Text == "Підключити")
+                try
                 {
-                    try
-                    {
-                        CanDevices[DeviceNo] = DataFromCAN.InitCAN();
-                        DisplayDeviceParams(DeviceNo);
-                        UpdateChargeParams(DeviceNo);
-                        BtnsDevice[DeviceNo].Text = "Відключити";
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("Не вдалося пдключити модуль USB-CAN Plus",
-                                        "Error",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
-                    }
+                    CanDevices[DeviceNo] = DataFromCAN.InitCAN();
+                    DisplayDeviceParams(DeviceNo);
+                    UpdateChargeParams(DeviceNo);
+                    BtnsDevice[DeviceNo].Text = "Відключити";
                 }
-                else if (BtnsDevice[DeviceNo].Text == "Відключити" && GrpsModules[DeviceNo].Enabled)
+                catch (Exception)
                 {
-                    DataFromCAN.DeinitCAN(CanDevices[DeviceNo]);
-
-                    LblsSerialNo[DeviceNo].Text = "Серійний номер:";
-                    BtnsDevice[DeviceNo].Text = "Підключити";
-                }
+                    MessageBox.Show($"Не вдалося пдключити модуль {DeviceNo + 1} USB-CAN Plus",
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                }               
             }
-            if (!GrpsModules[DeviceNo].Enabled)
+            else if (BtnsDevice[DeviceNo].Text == "Відключити")
             {
                 DataFromCAN.DeinitCAN(CanDevices[DeviceNo]);
-
+                CanDevices[DeviceNo] = null;
                 LblsSerialNo[DeviceNo].Text = "Серійний номер:";
                 BtnsDevice[DeviceNo].Text = "Підключити";
             }
         }
+
         private void BtnConnect1_Click(object sender, EventArgs e)
         {
-            ConnectDisconnectCAN(0);
+            HandleDeviceBtn(0);
         }
 
         private void BtnConnect2_Click(object sender, EventArgs e)
         {
-            ConnectDisconnectCAN(1);
+            HandleDeviceBtn(1);
         }
 
         private UInt32 GetID(byte ErrorCode,
@@ -170,7 +163,6 @@ namespace USB_CAN_Plus_Ctrl
             {
                 Data[i] = VoltBWritten[DeviceNo][i];
             }
-
             for (int i = 4; i < 8; i++)
             {
                 Data[i] = CurntBWritten[DeviceNo][i - 4];
@@ -186,10 +178,7 @@ namespace USB_CAN_Plus_Ctrl
             }
             else if (State == DevicesStates.ActiveBoth)
             {
-                foreach (VSCAN device in CanDevices)
-                {
-                    DataFromCAN.SendData(device, 0x029B3FF0, Data);
-                }
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x029B3FF0, Data);
             }
         }
 
@@ -232,11 +221,8 @@ namespace USB_CAN_Plus_Ctrl
                 DataFromCAN.SendData(CanDevices[DeviceNo], 0x02C102F0, new byte[8]);
             }
             else if (State == DevicesStates.ActiveBoth)
-            {
-                foreach (VSCAN device in CanDevices)
-                {
-                    DataFromCAN.SendData(device, 0x02813FF0, new byte[8]);
-                }
+            {               
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x02813FF0, new byte[8]);
             }
 
             try
@@ -246,17 +232,14 @@ namespace USB_CAN_Plus_Ctrl
                 VoltBC[DeviceNo] = new byte[4];
                 VoltCA[DeviceNo] = new byte[4];
 
-
                 for (int i = 0; i < 2; i++)
                 {
                     VoltAB[DeviceNo][i] = msgs[0].Data[i];
                 }
-
                 for (int i = 2; i < 4; i++)
                 {
                     VoltBC[DeviceNo][i - 2] = msgs[0].Data[i];
                 }
-
                 for (int i = 4; i < 6; i++)
                 {
                     VoltCA[DeviceNo][i - 4] = msgs[0].Data[i];
@@ -307,7 +290,6 @@ namespace USB_CAN_Plus_Ctrl
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
             }
-
         }
 
         private void UpdateCurrentValue(short DeviceNo)
@@ -335,7 +317,6 @@ namespace USB_CAN_Plus_Ctrl
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
             }
-
         }
 
         private void NudOutVoltSI1_ValueChanged(object sender, EventArgs e)
@@ -388,18 +369,33 @@ namespace USB_CAN_Plus_Ctrl
                 case "Активний перший модуль":
                     GrpsModules[0].Enabled = true;
                     GrpsModules[1].Enabled = false;
+                    cmbPorts.Enabled = false;
                     BtnsDevice[1].Text = "Підключити";
+                    if (CanDevices[1] != null)
+                    {
+                        DataFromCAN.DeinitCAN(CanDevices[1]);
+                        CanDevices[1] = null;
+                    }
+                    LblsSerialNo[1].Text = "Серійний номер:";
                     State = DevicesStates.ActiveFirst;
                     break;
                 case "Активний другий модуль":
                     GrpsModules[0].Enabled = false;
                     GrpsModules[1].Enabled = true;
+                    cmbPorts.Enabled = false;
                     BtnsDevice[0].Text = "Підключити";
+                    if (CanDevices[0] != null)
+                    {
+                        DataFromCAN.DeinitCAN(CanDevices[0]);
+                        CanDevices[0] = null;
+                    }
+                    LblsSerialNo[0].Text = "Серійний номер:";
                     State = DevicesStates.ActiveSecond;
                     break;
                 case "Активні обидва модулі":
                     GrpsModules[0].Enabled = true;
                     GrpsModules[1].Enabled = true;
+                    cmbPorts.Enabled = true;
                     BtnsDevice[0].Text = "Підключити";
                     BtnsDevice[1].Text = "Підключити";
                     State = DevicesStates.ActiveBoth;
@@ -407,7 +403,6 @@ namespace USB_CAN_Plus_Ctrl
                 default:
                     State = DevicesStates.NoActive;
                     break;
-
             }
         }
     }

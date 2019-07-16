@@ -85,6 +85,8 @@
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
+            this.cmbPorts = new System.Windows.Forms.ComboBox();
+            this.label26 = new System.Windows.Forms.Label();
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
             this.grpSetParamsMdl1.SuspendLayout();
@@ -710,11 +712,33 @@
             this.label25.TabIndex = 6;
             this.label25.Text = "Оберіть зарядний модуль для взаємодії";
             // 
+            // cmbPorts
+            // 
+            this.cmbPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPorts.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbPorts.FormattingEnabled = true;
+            this.cmbPorts.Location = new System.Drawing.Point(370, 345);
+            this.cmbPorts.Name = "cmbPorts";
+            this.cmbPorts.Size = new System.Drawing.Size(121, 24);
+            this.cmbPorts.TabIndex = 7;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(228, 348);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(127, 16);
+            this.label26.TabIndex = 8;
+            this.label26.Text = "Оберіть COM-порт";
+            // 
             // USB_CAN_Plus_Ctrl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(850, 348);
+            this.ClientSize = new System.Drawing.Size(850, 396);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.cmbPorts);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.cmbDevices);
             this.Controls.Add(this.grpModule2);
@@ -800,6 +824,8 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.ComboBox cmbDevices;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.ComboBox cmbPorts;
+        private System.Windows.Forms.Label label26;
     }
 }
 
