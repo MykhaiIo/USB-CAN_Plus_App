@@ -31,6 +31,7 @@ namespace USB_CAN_Plus_Ctrl
         public byte[][] VoltAB { get; private set; } = new byte[DevicesCnt][];
         public byte[][] VoltBC { get; private set; } = new byte[DevicesCnt][];
         public byte[][] VoltCA { get; private set; } = new byte[DevicesCnt][];
+        public byte[][] Voltage { get; private set; } = new byte[DevicesCnt][];
 
         public GroupBox[] GrpsModules { get; private set; }
         public Button[] BtnsDevice { get; private set; }
@@ -220,7 +221,7 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        private void GetCurrentVoltage(short DeviceNo)
+        private void GetVoltage(short DeviceNo)
         {
             if (State == DevicesStates.ActiveFirst && DeviceNo == 0)
             {
@@ -231,8 +232,45 @@ namespace USB_CAN_Plus_Ctrl
                 DataFromCAN.SendData(CanDevices[DeviceNo], 0x02C102F0, new byte[8]);
             }
             else if (State == DevicesStates.ActiveBoth)
-            {               
+            {
                 DataFromCAN.SendData(CanDevices[DeviceNo], 0x02813FF0, new byte[8]);
+            }
+
+            try
+            {
+                VSCAN_MSG[] msgs = DataFromCAN.GetData(CanDevices[DeviceNo]);
+                Voltage[DeviceNo] = new byte[4];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    Voltage[DeviceNo][i] = msgs[0].Data[i];
+                }
+
+                // handle endianness
+                Array.Reverse(Voltage[DeviceNo]);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Помилка при передачі даних",
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            }
+        }
+
+        private void GetPhaseVoltage(short DeviceNo)
+        {
+            if (State == DevicesStates.ActiveFirst && DeviceNo == 0)
+            {
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x028601F0, new byte[8]);
+            }
+            else if (State == DevicesStates.ActiveSecond && DeviceNo == 1)
+            {
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x028602F0, new byte[8]);
+            }
+            else if (State == DevicesStates.ActiveBoth)
+            {               
+                DataFromCAN.SendData(CanDevices[DeviceNo], 0x02863FF0, new byte[8]);
             }
 
             try
@@ -271,11 +309,11 @@ namespace USB_CAN_Plus_Ctrl
 
         private void UpdateChargeParams(short DeviceNo)
         {
-            UpdateVoltageValue(DeviceNo);
-            UpdateCurrentValue(DeviceNo);
+            UpdateVoltValue(DeviceNo);
+            UpdateCurntValue(DeviceNo);
         }
 
-        private void UpdateVoltageValue(short DeviceNo)
+        private void UpdateVoltValue(short DeviceNo)
         {
             SendChargeParams(DeviceNo);
             try
@@ -302,7 +340,7 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        private void UpdateCurrentValue(short DeviceNo)
+        private void UpdateCurntValue(short DeviceNo)
         {
             SendChargeParams(DeviceNo);
             try
@@ -332,25 +370,25 @@ namespace USB_CAN_Plus_Ctrl
         private void NudOutVoltSI1_ValueChanged(object sender, EventArgs e)
         {
             if (BtnsDevice[0].Text == "Відключити")
-                UpdateVoltageValue(0);
+                UpdateVoltValue(0);
         }
 
         private void NudOutCurntSI1_ValueChanged(object sender, EventArgs e)
         {
             if (BtnsDevice[0].Text == "Відключити")
-                UpdateCurrentValue(0);
+                UpdateCurntValue(0);
         }
 
         private void NudOutVoltSI2_ValueChanged(object sender, EventArgs e)
         {
             if (BtnsDevice[1].Text == "Відключити")
-                UpdateVoltageValue(1);
+                UpdateVoltValue(1);
         }
 
         private void NudOutCurntSI2_ValueChanged(object sender, EventArgs e)
         {
             if (BtnsDevice[1].Text == "Відключити")
-                UpdateCurrentValue(1);
+                UpdateCurntValue(1);
         }
 
         private void GetDeviceParams(short DeviceNo)
@@ -358,7 +396,9 @@ namespace USB_CAN_Plus_Ctrl
             if (BtnsDevice[DeviceNo].Text == "Відключити" && GrpsModules[DeviceNo].Enabled)
             {
                 GetAmbientDeviceTemp(DeviceNo);
-                GetCurrentVoltage(DeviceNo);
+                GetPhaseVoltage(DeviceNo);
+                GetVoltage(DeviceNo);
+                TxtsVoltage[DeviceNo].Text = NumRepresentations.BYTEtoFP(Voltage[DeviceNo]).ToString();
                 TxtsVoltAB[DeviceNo].Text = NumRepresentations.BYTEtoFP(VoltAB[DeviceNo]).ToString();
                 TxtsVoltBC[DeviceNo].Text = NumRepresentations.BYTEtoFP(VoltBC[DeviceNo]).ToString();
                 TxtsVoltCA[DeviceNo].Text = NumRepresentations.BYTEtoFP(VoltCA[DeviceNo]).ToString();
