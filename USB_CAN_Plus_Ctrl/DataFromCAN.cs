@@ -74,7 +74,7 @@ namespace USB_CAN_Plus_Ctrl
 
             catch (Exception e)
             {
-                Console.WriteLine($"Message not transmitted {e.Message}");
+                Console.WriteLine($"Message not transmitted {e.Message} {CanDevice.ToString()}");
                 return false;
             }
         }
