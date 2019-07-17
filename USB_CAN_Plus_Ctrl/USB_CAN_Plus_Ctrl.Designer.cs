@@ -30,8 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.grpModule1 = new System.Windows.Forms.GroupBox();
-            this.lblSerialNo1 = new System.Windows.Forms.Label();
-            this.btnConnect1 = new System.Windows.Forms.Button();
             this.grpReadParamsMdl1 = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -55,9 +53,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblSerialNo1 = new System.Windows.Forms.Label();
+            this.btnConnect1 = new System.Windows.Forms.Button();
             this.grpModule2 = new System.Windows.Forms.GroupBox();
-            this.lblSerialNo2 = new System.Windows.Forms.Label();
-            this.btnConnect2 = new System.Windows.Forms.Button();
             this.grpReadParamsMdl2 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -85,8 +83,7 @@
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.cmbPorts = new System.Windows.Forms.ComboBox();
-            this.label26 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
             this.grpSetParamsMdl1.SuspendLayout();
@@ -97,41 +94,19 @@
             this.grpSetParamsMdl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudOutCurntSI2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOutVoltSI2)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpModule1
             // 
-            this.grpModule1.Controls.Add(this.lblSerialNo1);
-            this.grpModule1.Controls.Add(this.btnConnect1);
             this.grpModule1.Controls.Add(this.grpReadParamsMdl1);
             this.grpModule1.Controls.Add(this.grpSetParamsMdl1);
-            this.grpModule1.Location = new System.Drawing.Point(14, 52);
+            this.grpModule1.Location = new System.Drawing.Point(6, 10);
             this.grpModule1.Name = "grpModule1";
-            this.grpModule1.Size = new System.Drawing.Size(397, 276);
+            this.grpModule1.Size = new System.Drawing.Size(397, 214);
             this.grpModule1.TabIndex = 1;
             this.grpModule1.TabStop = false;
             this.grpModule1.Text = "Модуль 1";
-            // 
-            // lblSerialNo1
-            // 
-            this.lblSerialNo1.AutoSize = true;
-            this.lblSerialNo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSerialNo1.Location = new System.Drawing.Point(13, 216);
-            this.lblSerialNo1.Name = "lblSerialNo1";
-            this.lblSerialNo1.Size = new System.Drawing.Size(132, 20);
-            this.lblSerialNo1.TabIndex = 21;
-            this.lblSerialNo1.Text = "Серійний номер:";
-            // 
-            // btnConnect1
-            // 
-            this.btnConnect1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnConnect1.Location = new System.Drawing.Point(3, 250);
-            this.btnConnect1.Name = "btnConnect1";
-            this.btnConnect1.Size = new System.Drawing.Size(391, 23);
-            this.btnConnect1.TabIndex = 2;
-            this.btnConnect1.Text = "Підключити";
-            this.btnConnect1.UseVisualStyleBackColor = true;
-            this.btnConnect1.Click += new System.EventHandler(this.BtnConnect1_Click);
             // 
             // grpReadParamsMdl1
             // 
@@ -272,18 +247,18 @@
             this.grpSetParamsMdl1.TabStop = false;
             this.grpSetParamsMdl1.Text = "Параметри, що задаються";
             // 
-            // txtOutCurntFP1
+            // txtOutCurntINT1
             // 
             this.txtOutCurntINT1.Location = new System.Drawing.Point(269, 40);
-            this.txtOutCurntINT1.Name = "txtOutCurntFP1";
+            this.txtOutCurntINT1.Name = "txtOutCurntINT1";
             this.txtOutCurntINT1.ReadOnly = true;
             this.txtOutCurntINT1.Size = new System.Drawing.Size(100, 20);
             this.txtOutCurntINT1.TabIndex = 9;
             // 
-            // txtOutVoltFP1
+            // txtOutVoltINT1
             // 
             this.txtOutVoltINT1.Location = new System.Drawing.Point(269, 16);
-            this.txtOutVoltINT1.Name = "txtOutVoltFP1";
+            this.txtOutVoltINT1.Name = "txtOutVoltINT1";
             this.txtOutVoltINT1.ReadOnly = true;
             this.txtOutVoltINT1.Size = new System.Drawing.Size(100, 20);
             this.txtOutVoltINT1.TabIndex = 8;
@@ -390,39 +365,37 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Напруга";
             // 
+            // lblSerialNo1
+            // 
+            this.lblSerialNo1.AutoSize = true;
+            this.lblSerialNo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSerialNo1.Location = new System.Drawing.Point(265, 238);
+            this.lblSerialNo1.Name = "lblSerialNo1";
+            this.lblSerialNo1.Size = new System.Drawing.Size(132, 20);
+            this.lblSerialNo1.TabIndex = 21;
+            this.lblSerialNo1.Text = "Серійний номер:";
+            // 
+            // btnConnect1
+            // 
+            this.btnConnect1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnConnect1.Location = new System.Drawing.Point(3, 272);
+            this.btnConnect1.Name = "btnConnect1";
+            this.btnConnect1.Size = new System.Drawing.Size(823, 33);
+            this.btnConnect1.TabIndex = 2;
+            this.btnConnect1.Text = "Підключити";
+            this.btnConnect1.UseVisualStyleBackColor = true;
+            this.btnConnect1.Click += new System.EventHandler(this.BtnConnect1_Click);
+            // 
             // grpModule2
             // 
-            this.grpModule2.Controls.Add(this.lblSerialNo2);
-            this.grpModule2.Controls.Add(this.btnConnect2);
             this.grpModule2.Controls.Add(this.grpReadParamsMdl2);
             this.grpModule2.Controls.Add(this.grpSetParamsMdl2);
-            this.grpModule2.Location = new System.Drawing.Point(439, 52);
+            this.grpModule2.Location = new System.Drawing.Point(425, 10);
             this.grpModule2.Name = "grpModule2";
-            this.grpModule2.Size = new System.Drawing.Size(397, 276);
+            this.grpModule2.Size = new System.Drawing.Size(397, 214);
             this.grpModule2.TabIndex = 4;
             this.grpModule2.TabStop = false;
             this.grpModule2.Text = "Модуль 2";
-            // 
-            // lblSerialNo2
-            // 
-            this.lblSerialNo2.AutoSize = true;
-            this.lblSerialNo2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSerialNo2.Location = new System.Drawing.Point(12, 216);
-            this.lblSerialNo2.Name = "lblSerialNo2";
-            this.lblSerialNo2.Size = new System.Drawing.Size(132, 20);
-            this.lblSerialNo2.TabIndex = 22;
-            this.lblSerialNo2.Text = "Серійний номер:";
-            // 
-            // btnConnect2
-            // 
-            this.btnConnect2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnConnect2.Location = new System.Drawing.Point(3, 250);
-            this.btnConnect2.Name = "btnConnect2";
-            this.btnConnect2.Size = new System.Drawing.Size(391, 23);
-            this.btnConnect2.TabIndex = 2;
-            this.btnConnect2.Text = "Підключити";
-            this.btnConnect2.UseVisualStyleBackColor = true;
-            this.btnConnect2.Click += new System.EventHandler(this.BtnConnect2_Click);
             // 
             // grpReadParamsMdl2
             // 
@@ -563,18 +536,18 @@
             this.grpSetParamsMdl2.TabStop = false;
             this.grpSetParamsMdl2.Text = "Параметри, що задаються";
             // 
-            // txtOutCurntFP2
+            // txtOutCurntINT2
             // 
             this.txtOutCurntINT2.Location = new System.Drawing.Point(269, 40);
-            this.txtOutCurntINT2.Name = "txtOutCurntFP2";
+            this.txtOutCurntINT2.Name = "txtOutCurntINT2";
             this.txtOutCurntINT2.ReadOnly = true;
             this.txtOutCurntINT2.Size = new System.Drawing.Size(100, 20);
             this.txtOutCurntINT2.TabIndex = 9;
             // 
-            // txtOutVoltFP2
+            // txtOutVoltINT2
             // 
             this.txtOutVoltINT2.Location = new System.Drawing.Point(269, 16);
-            this.txtOutVoltINT2.Name = "txtOutVoltFP2";
+            this.txtOutVoltINT2.Name = "txtOutVoltINT2";
             this.txtOutVoltINT2.ReadOnly = true;
             this.txtOutVoltINT2.Size = new System.Drawing.Size(100, 20);
             this.txtOutVoltINT2.TabIndex = 8;
@@ -712,42 +685,30 @@
             this.label25.TabIndex = 6;
             this.label25.Text = "Оберіть зарядний модуль для взаємодії";
             // 
-            // cmbPorts
+            // groupBox1
             // 
-            this.cmbPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPorts.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbPorts.FormattingEnabled = true;
-            this.cmbPorts.Location = new System.Drawing.Point(370, 345);
-            this.cmbPorts.Name = "cmbPorts";
-            this.cmbPorts.Size = new System.Drawing.Size(121, 24);
-            this.cmbPorts.TabIndex = 7;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(228, 348);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(127, 16);
-            this.label26.TabIndex = 8;
-            this.label26.Text = "Оберіть COM-порт";
+            this.groupBox1.Controls.Add(this.btnConnect1);
+            this.groupBox1.Controls.Add(this.lblSerialNo1);
+            this.groupBox1.Controls.Add(this.grpModule1);
+            this.groupBox1.Controls.Add(this.grpModule2);
+            this.groupBox1.Location = new System.Drawing.Point(14, 42);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(829, 308);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
             // 
             // USB_CAN_Plus_Ctrl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(850, 396);
-            this.Controls.Add(this.label26);
-            this.Controls.Add(this.cmbPorts);
+            this.ClientSize = new System.Drawing.Size(850, 379);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.cmbDevices);
-            this.Controls.Add(this.grpModule2);
-            this.Controls.Add(this.grpModule1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "USB_CAN_Plus_Ctrl";
             this.Text = "USB-CAN Plus Controller";
             this.grpModule1.ResumeLayout(false);
-            this.grpModule1.PerformLayout();
             this.grpReadParamsMdl1.ResumeLayout(false);
             this.grpReadParamsMdl1.PerformLayout();
             this.grpSetParamsMdl1.ResumeLayout(false);
@@ -755,13 +716,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudOutCurntSI1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOutVoltSI1)).EndInit();
             this.grpModule2.ResumeLayout(false);
-            this.grpModule2.PerformLayout();
             this.grpReadParamsMdl2.ResumeLayout(false);
             this.grpReadParamsMdl2.PerformLayout();
             this.grpSetParamsMdl2.ResumeLayout(false);
             this.grpSetParamsMdl2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudOutCurntSI2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOutVoltSI2)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -794,7 +756,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox grpModule2;
-        private System.Windows.Forms.Button btnConnect2;
         private System.Windows.Forms.GroupBox grpReadParamsMdl2;
         private System.Windows.Forms.TextBox txtTemperature2;
         private System.Windows.Forms.TextBox txtCurVolt2;
@@ -813,7 +774,6 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label lblSerialNo1;
         private System.Windows.Forms.Timer tmrDeviceParams;
-        private System.Windows.Forms.Label lblSerialNo2;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
@@ -824,8 +784,7 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.ComboBox cmbDevices;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.ComboBox cmbPorts;
-        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 
