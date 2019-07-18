@@ -19,3 +19,7 @@ C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\obj\x64\Debu
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\bin\x64\Debug\en\USB_CAN_Plus_Ctrl.resources.dll
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\obj\x64\Debug\USB_CAN_Plus_Ctrl.Resources.en.resources
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\obj\x64\Debug\en\USB_CAN_Plus_Ctrl.resources.dll
+C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\bin\x64\Debug\MetroFramework.Design.dll
+C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\bin\x64\Debug\MetroFramework.dll
+C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\bin\x64\Debug\MetroFramework.Fonts.dll
+C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\obj\x64\Debug\USB_CAN_Plus_Ctrl.csproj.CopyComplete

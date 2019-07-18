@@ -84,6 +84,8 @@
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
             this.grpSetParamsMdl1.SuspendLayout();
@@ -377,13 +379,16 @@
             // 
             // btnConnect1
             // 
+            this.btnConnect1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnConnect1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnConnect1.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnConnect1.ForeColor = System.Drawing.Color.Black;
             this.btnConnect1.Location = new System.Drawing.Point(3, 272);
             this.btnConnect1.Name = "btnConnect1";
             this.btnConnect1.Size = new System.Drawing.Size(823, 33);
             this.btnConnect1.TabIndex = 2;
             this.btnConnect1.Text = "Підключити";
-            this.btnConnect1.UseVisualStyleBackColor = true;
+            this.btnConnect1.UseVisualStyleBackColor = false;
             this.btnConnect1.Click += new System.EventHandler(this.BtnConnect1_Click);
             // 
             // grpModule2
@@ -687,6 +692,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.progressBar1);
+            this.groupBox1.Controls.Add(this.metroProgressBar1);
             this.groupBox1.Controls.Add(this.btnConnect1);
             this.groupBox1.Controls.Add(this.lblSerialNo1);
             this.groupBox1.Controls.Add(this.grpModule1);
@@ -696,6 +703,23 @@
             this.groupBox1.Size = new System.Drawing.Size(829, 308);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.progressBar1.Location = new System.Drawing.Point(545, 235);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar1.TabIndex = 24;
+            // 
+            // metroProgressBar1
+            // 
+            this.metroProgressBar1.Location = new System.Drawing.Point(364, 277);
+            this.metroProgressBar1.Name = "metroProgressBar1";
+            this.metroProgressBar1.ProgressBarStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.metroProgressBar1.Size = new System.Drawing.Size(100, 23);
+            this.metroProgressBar1.TabIndex = 23;
             // 
             // USB_CAN_Plus_Ctrl
             // 
@@ -785,6 +809,8 @@
         private System.Windows.Forms.ComboBox cmbDevices;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.GroupBox groupBox1;
+        private MetroFramework.Controls.MetroProgressBar metroProgressBar1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 
