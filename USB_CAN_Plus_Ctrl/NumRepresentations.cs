@@ -22,9 +22,9 @@ namespace USB_CAN_Plus_Ctrl
 
         public static byte[] UINTtoBYTE(uint ui) => BitConverter.GetBytes(ui);
 
-        public static uint BYTEtoUINT(byte[] b) => BitConverter.ToUInt32(b, 0);
+        public static uint BYTEtoUINT(byte[] b) => BitConverter.ToUInt16(b, 0);
 
-        private static string ToFormattedDouble(double value) => string.Format("{0:##0.00}", value);
+        public static string ToFormattedFloat(float value) => string.Format("{0:##0.00}", value);
 
         private static string ToEngineering(double value, string unitName)
         {

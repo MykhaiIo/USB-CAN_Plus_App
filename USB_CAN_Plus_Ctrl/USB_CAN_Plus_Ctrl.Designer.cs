@@ -30,7 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.grpModule1 = new System.Windows.Forms.GroupBox();
+            this.chkPowerDevice1 = new System.Windows.Forms.CheckBox();
             this.grpReadParamsMdl1 = new System.Windows.Forms.GroupBox();
+            this.txtCurCurnt1 = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -56,7 +59,14 @@
             this.lblSerialNo1 = new System.Windows.Forms.Label();
             this.btnConnect1 = new System.Windows.Forms.Button();
             this.grpModule2 = new System.Windows.Forms.GroupBox();
+            this.chkPowerDevice2 = new System.Windows.Forms.CheckBox();
             this.grpReadParamsMdl2 = new System.Windows.Forms.GroupBox();
+            this.txtCurCurnt2 = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtTemperature2 = new System.Windows.Forms.TextBox();
+            this.txtCurVolt2 = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -64,10 +74,6 @@
             this.txtPhaseBCVolt2 = new System.Windows.Forms.TextBox();
             this.txtPhaseABVolt2 = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.txtTemperature2 = new System.Windows.Forms.TextBox();
-            this.txtCurVolt2 = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.grpSetParamsMdl2 = new System.Windows.Forms.GroupBox();
             this.txtOutCurntINT2 = new System.Windows.Forms.TextBox();
             this.txtOutVoltINT2 = new System.Windows.Forms.TextBox();
@@ -84,8 +90,8 @@
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
             this.grpSetParamsMdl1.SuspendLayout();
@@ -101,17 +107,31 @@
             // 
             // grpModule1
             // 
+            this.grpModule1.Controls.Add(this.chkPowerDevice1);
             this.grpModule1.Controls.Add(this.grpReadParamsMdl1);
             this.grpModule1.Controls.Add(this.grpSetParamsMdl1);
             this.grpModule1.Location = new System.Drawing.Point(6, 10);
             this.grpModule1.Name = "grpModule1";
-            this.grpModule1.Size = new System.Drawing.Size(397, 214);
+            this.grpModule1.Size = new System.Drawing.Size(397, 250);
             this.grpModule1.TabIndex = 1;
             this.grpModule1.TabStop = false;
             this.grpModule1.Text = "Модуль 1";
             // 
+            // chkPowerDevice1
+            // 
+            this.chkPowerDevice1.AutoSize = true;
+            this.chkPowerDevice1.Location = new System.Drawing.Point(7, 225);
+            this.chkPowerDevice1.Name = "chkPowerDevice1";
+            this.chkPowerDevice1.Size = new System.Drawing.Size(124, 17);
+            this.chkPowerDevice1.TabIndex = 2;
+            this.chkPowerDevice1.Text = "Підключити модуль";
+            this.chkPowerDevice1.UseVisualStyleBackColor = true;
+            this.chkPowerDevice1.CheckedChanged += new System.EventHandler(this.ChkPowerDevice1_CheckedChanged);
+            // 
             // grpReadParamsMdl1
             // 
+            this.grpReadParamsMdl1.Controls.Add(this.txtCurCurnt1);
+            this.grpReadParamsMdl1.Controls.Add(this.label26);
             this.grpReadParamsMdl1.Controls.Add(this.label12);
             this.grpReadParamsMdl1.Controls.Add(this.label11);
             this.grpReadParamsMdl1.Controls.Add(this.label10);
@@ -125,16 +145,34 @@
             this.grpReadParamsMdl1.Controls.Add(this.label7);
             this.grpReadParamsMdl1.Location = new System.Drawing.Point(7, 101);
             this.grpReadParamsMdl1.Name = "grpReadParamsMdl1";
-            this.grpReadParamsMdl1.Size = new System.Drawing.Size(384, 100);
+            this.grpReadParamsMdl1.Size = new System.Drawing.Size(384, 111);
             this.grpReadParamsMdl1.TabIndex = 1;
             this.grpReadParamsMdl1.TabStop = false;
             this.grpReadParamsMdl1.Text = "Характеристики модуля";
+            // 
+            // txtCurCurnt1
+            // 
+            this.txtCurCurnt1.Location = new System.Drawing.Point(127, 45);
+            this.txtCurCurnt1.Name = "txtCurCurnt1";
+            this.txtCurCurnt1.ReadOnly = true;
+            this.txtCurCurnt1.Size = new System.Drawing.Size(46, 20);
+            this.txtCurCurnt1.TabIndex = 19;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(7, 48);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(38, 13);
+            this.label26.TabIndex = 20;
+            this.label26.Text = "Струм";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(301, 71);
+            this.label12.Location = new System.Drawing.Point(301, 76);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(21, 13);
             this.label12.TabIndex = 18;
@@ -144,7 +182,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(301, 45);
+            this.label11.Location = new System.Drawing.Point(301, 50);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(21, 13);
             this.label11.TabIndex = 17;
@@ -154,7 +192,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(301, 19);
+            this.label10.Location = new System.Drawing.Point(301, 24);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(21, 13);
             this.label10.TabIndex = 10;
@@ -162,7 +200,7 @@
             // 
             // txtPhaseCAVolt1
             // 
-            this.txtPhaseCAVolt1.Location = new System.Drawing.Point(323, 68);
+            this.txtPhaseCAVolt1.Location = new System.Drawing.Point(323, 71);
             this.txtPhaseCAVolt1.Name = "txtPhaseCAVolt1";
             this.txtPhaseCAVolt1.ReadOnly = true;
             this.txtPhaseCAVolt1.Size = new System.Drawing.Size(46, 20);
@@ -170,7 +208,7 @@
             // 
             // txtPhaseBCVolt1
             // 
-            this.txtPhaseBCVolt1.Location = new System.Drawing.Point(323, 42);
+            this.txtPhaseBCVolt1.Location = new System.Drawing.Point(323, 45);
             this.txtPhaseBCVolt1.Name = "txtPhaseBCVolt1";
             this.txtPhaseBCVolt1.ReadOnly = true;
             this.txtPhaseBCVolt1.Size = new System.Drawing.Size(46, 20);
@@ -178,7 +216,7 @@
             // 
             // txtPhaseABVolt1
             // 
-            this.txtPhaseABVolt1.Location = new System.Drawing.Point(323, 16);
+            this.txtPhaseABVolt1.Location = new System.Drawing.Point(323, 19);
             this.txtPhaseABVolt1.Name = "txtPhaseABVolt1";
             this.txtPhaseABVolt1.ReadOnly = true;
             this.txtPhaseABVolt1.Size = new System.Drawing.Size(46, 20);
@@ -188,7 +226,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(227, 44);
+            this.label9.Location = new System.Drawing.Point(227, 49);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(72, 13);
             this.label9.TabIndex = 13;
@@ -196,7 +234,7 @@
             // 
             // txtTemperature1
             // 
-            this.txtTemperature1.Location = new System.Drawing.Point(126, 54);
+            this.txtTemperature1.Location = new System.Drawing.Point(127, 71);
             this.txtTemperature1.Name = "txtTemperature1";
             this.txtTemperature1.ReadOnly = true;
             this.txtTemperature1.Size = new System.Drawing.Size(46, 20);
@@ -204,7 +242,7 @@
             // 
             // txtCurVolt1
             // 
-            this.txtCurVolt1.Location = new System.Drawing.Point(127, 25);
+            this.txtCurVolt1.Location = new System.Drawing.Point(127, 19);
             this.txtCurVolt1.Name = "txtCurVolt1";
             this.txtCurVolt1.ReadOnly = true;
             this.txtCurVolt1.Size = new System.Drawing.Size(46, 20);
@@ -214,7 +252,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(6, 57);
+            this.label8.Location = new System.Drawing.Point(7, 74);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(114, 13);
             this.label8.TabIndex = 11;
@@ -224,7 +262,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(7, 28);
+            this.label7.Location = new System.Drawing.Point(7, 22);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 10;
@@ -371,7 +409,7 @@
             // 
             this.lblSerialNo1.AutoSize = true;
             this.lblSerialNo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSerialNo1.Location = new System.Drawing.Point(265, 238);
+            this.lblSerialNo1.Location = new System.Drawing.Point(265, 265);
             this.lblSerialNo1.Name = "lblSerialNo1";
             this.lblSerialNo1.Size = new System.Drawing.Size(132, 20);
             this.lblSerialNo1.TabIndex = 21;
@@ -383,7 +421,7 @@
             this.btnConnect1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnConnect1.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             this.btnConnect1.ForeColor = System.Drawing.Color.Black;
-            this.btnConnect1.Location = new System.Drawing.Point(3, 272);
+            this.btnConnect1.Location = new System.Drawing.Point(3, 297);
             this.btnConnect1.Name = "btnConnect1";
             this.btnConnect1.Size = new System.Drawing.Size(823, 33);
             this.btnConnect1.TabIndex = 2;
@@ -393,17 +431,35 @@
             // 
             // grpModule2
             // 
+            this.grpModule2.Controls.Add(this.chkPowerDevice2);
             this.grpModule2.Controls.Add(this.grpReadParamsMdl2);
             this.grpModule2.Controls.Add(this.grpSetParamsMdl2);
             this.grpModule2.Location = new System.Drawing.Point(425, 10);
             this.grpModule2.Name = "grpModule2";
-            this.grpModule2.Size = new System.Drawing.Size(397, 214);
+            this.grpModule2.Size = new System.Drawing.Size(397, 250);
             this.grpModule2.TabIndex = 4;
             this.grpModule2.TabStop = false;
             this.grpModule2.Text = "Модуль 2";
             // 
+            // chkPowerDevice2
+            // 
+            this.chkPowerDevice2.AutoSize = true;
+            this.chkPowerDevice2.Location = new System.Drawing.Point(7, 225);
+            this.chkPowerDevice2.Name = "chkPowerDevice2";
+            this.chkPowerDevice2.Size = new System.Drawing.Size(124, 17);
+            this.chkPowerDevice2.TabIndex = 3;
+            this.chkPowerDevice2.Text = "Підключити модуль";
+            this.chkPowerDevice2.UseVisualStyleBackColor = true;
+            this.chkPowerDevice2.CheckedChanged += new System.EventHandler(this.ChkPowerDevice2_CheckedChanged);
+            // 
             // grpReadParamsMdl2
             // 
+            this.grpReadParamsMdl2.Controls.Add(this.txtCurCurnt2);
+            this.grpReadParamsMdl2.Controls.Add(this.label17);
+            this.grpReadParamsMdl2.Controls.Add(this.txtTemperature2);
+            this.grpReadParamsMdl2.Controls.Add(this.txtCurVolt2);
+            this.grpReadParamsMdl2.Controls.Add(this.label18);
+            this.grpReadParamsMdl2.Controls.Add(this.label27);
             this.grpReadParamsMdl2.Controls.Add(this.label13);
             this.grpReadParamsMdl2.Controls.Add(this.label14);
             this.grpReadParamsMdl2.Controls.Add(this.label15);
@@ -411,22 +467,72 @@
             this.grpReadParamsMdl2.Controls.Add(this.txtPhaseBCVolt2);
             this.grpReadParamsMdl2.Controls.Add(this.txtPhaseABVolt2);
             this.grpReadParamsMdl2.Controls.Add(this.label16);
-            this.grpReadParamsMdl2.Controls.Add(this.txtTemperature2);
-            this.grpReadParamsMdl2.Controls.Add(this.txtCurVolt2);
-            this.grpReadParamsMdl2.Controls.Add(this.label17);
-            this.grpReadParamsMdl2.Controls.Add(this.label18);
             this.grpReadParamsMdl2.Location = new System.Drawing.Point(7, 101);
             this.grpReadParamsMdl2.Name = "grpReadParamsMdl2";
-            this.grpReadParamsMdl2.Size = new System.Drawing.Size(384, 100);
+            this.grpReadParamsMdl2.Size = new System.Drawing.Size(384, 111);
             this.grpReadParamsMdl2.TabIndex = 1;
             this.grpReadParamsMdl2.TabStop = false;
             this.grpReadParamsMdl2.Text = "Характеристики модуля";
+            // 
+            // txtCurCurnt2
+            // 
+            this.txtCurCurnt2.Location = new System.Drawing.Point(127, 45);
+            this.txtCurCurnt2.Name = "txtCurCurnt2";
+            this.txtCurCurnt2.ReadOnly = true;
+            this.txtCurCurnt2.Size = new System.Drawing.Size(46, 20);
+            this.txtCurCurnt2.TabIndex = 30;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(7, 48);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(38, 13);
+            this.label17.TabIndex = 31;
+            this.label17.Text = "Струм";
+            // 
+            // txtTemperature2
+            // 
+            this.txtTemperature2.Location = new System.Drawing.Point(127, 71);
+            this.txtTemperature2.Name = "txtTemperature2";
+            this.txtTemperature2.ReadOnly = true;
+            this.txtTemperature2.Size = new System.Drawing.Size(46, 20);
+            this.txtTemperature2.TabIndex = 29;
+            // 
+            // txtCurVolt2
+            // 
+            this.txtCurVolt2.Location = new System.Drawing.Point(127, 19);
+            this.txtCurVolt2.Name = "txtCurVolt2";
+            this.txtCurVolt2.ReadOnly = true;
+            this.txtCurVolt2.Size = new System.Drawing.Size(46, 20);
+            this.txtCurVolt2.TabIndex = 26;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(7, 74);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(114, 13);
+            this.label18.TabIndex = 28;
+            this.label18.Text = "Температура модуля";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(7, 22);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(49, 13);
+            this.label27.TabIndex = 27;
+            this.label27.Text = "Напруга";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(301, 71);
+            this.label13.Location = new System.Drawing.Point(301, 74);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(21, 13);
             this.label13.TabIndex = 25;
@@ -436,7 +542,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(301, 45);
+            this.label14.Location = new System.Drawing.Point(301, 48);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(21, 13);
             this.label14.TabIndex = 24;
@@ -446,7 +552,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(301, 19);
+            this.label15.Location = new System.Drawing.Point(301, 22);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(21, 13);
             this.label15.TabIndex = 19;
@@ -454,7 +560,7 @@
             // 
             // txtPhaseCAVolt2
             // 
-            this.txtPhaseCAVolt2.Location = new System.Drawing.Point(323, 68);
+            this.txtPhaseCAVolt2.Location = new System.Drawing.Point(323, 71);
             this.txtPhaseCAVolt2.Name = "txtPhaseCAVolt2";
             this.txtPhaseCAVolt2.ReadOnly = true;
             this.txtPhaseCAVolt2.Size = new System.Drawing.Size(46, 20);
@@ -462,7 +568,7 @@
             // 
             // txtPhaseBCVolt2
             // 
-            this.txtPhaseBCVolt2.Location = new System.Drawing.Point(323, 42);
+            this.txtPhaseBCVolt2.Location = new System.Drawing.Point(323, 46);
             this.txtPhaseBCVolt2.Name = "txtPhaseBCVolt2";
             this.txtPhaseBCVolt2.ReadOnly = true;
             this.txtPhaseBCVolt2.Size = new System.Drawing.Size(46, 20);
@@ -470,7 +576,7 @@
             // 
             // txtPhaseABVolt2
             // 
-            this.txtPhaseABVolt2.Location = new System.Drawing.Point(323, 16);
+            this.txtPhaseABVolt2.Location = new System.Drawing.Point(323, 21);
             this.txtPhaseABVolt2.Name = "txtPhaseABVolt2";
             this.txtPhaseABVolt2.ReadOnly = true;
             this.txtPhaseABVolt2.Size = new System.Drawing.Size(46, 20);
@@ -480,47 +586,11 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(227, 44);
+            this.label16.Location = new System.Drawing.Point(227, 47);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(72, 13);
             this.label16.TabIndex = 20;
             this.label16.Text = "Напруга фаз";
-            // 
-            // txtTemperature2
-            // 
-            this.txtTemperature2.Location = new System.Drawing.Point(126, 54);
-            this.txtTemperature2.Name = "txtTemperature2";
-            this.txtTemperature2.ReadOnly = true;
-            this.txtTemperature2.Size = new System.Drawing.Size(46, 20);
-            this.txtTemperature2.TabIndex = 12;
-            // 
-            // txtCurVolt2
-            // 
-            this.txtCurVolt2.Location = new System.Drawing.Point(127, 25);
-            this.txtCurVolt2.Name = "txtCurVolt2";
-            this.txtCurVolt2.ReadOnly = true;
-            this.txtCurVolt2.Size = new System.Drawing.Size(46, 20);
-            this.txtCurVolt2.TabIndex = 10;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(6, 57);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(114, 13);
-            this.label17.TabIndex = 11;
-            this.label17.Text = "Температура модуля";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(7, 28);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(49, 13);
-            this.label18.TabIndex = 10;
-            this.label18.Text = "Напруга";
             // 
             // grpSetParamsMdl2
             // 
@@ -662,7 +732,7 @@
             // tmrDeviceParams
             // 
             this.tmrDeviceParams.Enabled = true;
-            this.tmrDeviceParams.Interval = 5000;
+            this.tmrDeviceParams.Interval = 1000;
             this.tmrDeviceParams.Tick += new System.EventHandler(this.TmrDeviceParams_Tick);
             // 
             // cmbDevices
@@ -692,7 +762,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.metroProgressBar1);
             this.groupBox1.Controls.Add(this.btnConnect1);
             this.groupBox1.Controls.Add(this.lblSerialNo1);
@@ -700,26 +769,23 @@
             this.groupBox1.Controls.Add(this.grpModule2);
             this.groupBox1.Location = new System.Drawing.Point(14, 42);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(829, 308);
+            this.groupBox1.Size = new System.Drawing.Size(829, 333);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             // 
-            // progressBar1
-            // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.progressBar1.Location = new System.Drawing.Point(545, 235);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.progressBar1.TabIndex = 24;
-            // 
             // metroProgressBar1
             // 
-            this.metroProgressBar1.Location = new System.Drawing.Point(364, 277);
+            this.metroProgressBar1.Location = new System.Drawing.Point(364, 302);
             this.metroProgressBar1.Name = "metroProgressBar1";
             this.metroProgressBar1.ProgressBarStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.metroProgressBar1.Size = new System.Drawing.Size(100, 23);
             this.metroProgressBar1.TabIndex = 23;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 30;
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // USB_CAN_Plus_Ctrl
             // 
@@ -733,6 +799,7 @@
             this.Name = "USB_CAN_Plus_Ctrl";
             this.Text = "USB-CAN Plus Controller";
             this.grpModule1.ResumeLayout(false);
+            this.grpModule1.PerformLayout();
             this.grpReadParamsMdl1.ResumeLayout(false);
             this.grpReadParamsMdl1.PerformLayout();
             this.grpSetParamsMdl1.ResumeLayout(false);
@@ -740,6 +807,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudOutCurntSI1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOutVoltSI1)).EndInit();
             this.grpModule2.ResumeLayout(false);
+            this.grpModule2.PerformLayout();
             this.grpReadParamsMdl2.ResumeLayout(false);
             this.grpReadParamsMdl2.PerformLayout();
             this.grpSetParamsMdl2.ResumeLayout(false);
@@ -781,10 +849,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox grpModule2;
         private System.Windows.Forms.GroupBox grpReadParamsMdl2;
-        private System.Windows.Forms.TextBox txtTemperature2;
-        private System.Windows.Forms.TextBox txtCurVolt2;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.GroupBox grpSetParamsMdl2;
         private System.Windows.Forms.TextBox txtOutCurntINT2;
         private System.Windows.Forms.TextBox txtOutVoltINT2;
@@ -810,7 +874,17 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.GroupBox groupBox1;
         private MetroFramework.Controls.MetroProgressBar metroProgressBar1;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.CheckBox chkPowerDevice1;
+        private System.Windows.Forms.CheckBox chkPowerDevice2;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.TextBox txtCurCurnt1;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox txtCurCurnt2;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtTemperature2;
+        private System.Windows.Forms.TextBox txtCurVolt2;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label27;
     }
 }
 

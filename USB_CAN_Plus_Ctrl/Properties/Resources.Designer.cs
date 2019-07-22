@@ -59,5 +59,95 @@ namespace USB_CAN_Plus_Ctrl.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не вдалося підключити адаптер USB-CAN Plus.
+        /// </summary>
+        internal static string AdapterConnectionError {
+            get {
+                return ResourceManager.GetString("AdapterConnectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} А.
+        /// </summary>
+        internal static string Apostfix {
+            get {
+                return ResourceManager.GetString("Apostfix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Підключити.
+        /// </summary>
+        internal static string Connect {
+            get {
+                return ResourceManager.GetString("Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Відключити.
+        /// </summary>
+        internal static string Disconnect {
+            get {
+                return ResourceManager.GetString("Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string ErrorMsg {
+            get {
+                return ResourceManager.GetString("ErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не вдалося надіслати параметри зарядки.
+        /// </summary>
+        internal static string SendingChargeParamsError {
+            get {
+                return ResourceManager.GetString("SendingChargeParamsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Серійний номер: {0}.
+        /// </summary>
+        internal static string SerialNmbActive {
+            get {
+                return ResourceManager.GetString("SerialNmbActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Серійний номер:.
+        /// </summary>
+        internal static string SerialNmbInactive {
+            get {
+                return ResourceManager.GetString("SerialNmbInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при передачі даних.
+        /// </summary>
+        internal static string TransmittingDataError {
+            get {
+                return ResourceManager.GetString("TransmittingDataError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} В.
+        /// </summary>
+        internal static string Vpostfix {
+            get {
+                return ResourceManager.GetString("Vpostfix", resourceCulture);
+            }
+        }
     }
 }

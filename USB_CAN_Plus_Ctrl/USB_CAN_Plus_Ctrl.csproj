@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BE756F5E-ADB9-491A-904D-1BE6CD205B0C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>USB_CAN_Plus_Ctrl</RootNamespace>
     <AssemblyName>USB_CAN_Plus_Ctrl</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>

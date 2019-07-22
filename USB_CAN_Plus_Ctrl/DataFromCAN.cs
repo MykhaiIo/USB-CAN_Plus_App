@@ -15,24 +15,24 @@ namespace USB_CAN_Plus_Ctrl
 
         public static VSCAN InitCAN()
         {
-            VSCAN CanDevice = new VSCAN();
+            VSCAN CanAdapter = new VSCAN();
             try
             {
                 // set debugging options
 
-                CanDevice.SetDebug(VSCAN.VSCAN_DEBUG_NONE);
-                CanDevice.SetDebugMode(VSCAN.VSCAN_DEBUG_MODE_FILE);
+                CanAdapter.SetDebug(VSCAN.VSCAN_DEBUG_NONE);
+                CanAdapter.SetDebugMode(VSCAN.VSCAN_DEBUG_MODE_FILE);
 
                 // open CAN channel: please specify the name of your device according to User Manual
 
-                CanDevice.Open(VSCAN.VSCAN_FIRST_FOUND,
-                               VSCAN.VSCAN_MODE_SELF_RECEPTION);
+                CanAdapter.Open(VSCAN.VSCAN_FIRST_FOUND,
+                               VSCAN.VSCAN_MODE_NORMAL);
 
                 // set some options
 
-                CanDevice.SetSpeed(VSCAN.VSCAN_SPEED_125K);
-                CanDevice.SetTimestamp(VSCAN.VSCAN_TIMESTAMP_ON);
-                CanDevice.SetBlockingRead(VSCAN.VSCAN_IOCTL_ON);
+                CanAdapter.SetSpeed(VSCAN.VSCAN_SPEED_125K);
+                CanAdapter.SetTimestamp(VSCAN.VSCAN_TIMESTAMP_ON);
+                CanAdapter.SetBlockingRead(VSCAN.VSCAN_IOCTL_ON);
             }
 
             catch (Exception e)
@@ -40,14 +40,14 @@ namespace USB_CAN_Plus_Ctrl
                 Console.WriteLine($"CAN not opened {e.Message}");
             }
 
-            return CanDevice;
+            return CanAdapter;
         }
 
-        public static void DeinitCAN(VSCAN CanDevice)
+        public static void DeinitCAN(VSCAN CanAdapter)
         {
             try
             {
-                CanDevice.Close();
+                CanAdapter.Close();
             }
             catch (Exception e)
             {
@@ -55,7 +55,7 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        public static bool SendData(VSCAN CanDevice, UInt32 ID, byte[] Data)
+        public static bool SendData(VSCAN CanAdapter, UInt32 ID, byte[] Data)
         {
             VSCAN_MSG[] msgs = new VSCAN_MSG[1];
             UInt32 Written = 0;
@@ -66,27 +66,43 @@ namespace USB_CAN_Plus_Ctrl
                 msgs[0].Size = 8;
                 msgs[0].Flags = VSCAN.VSCAN_FLAGS_EXTENDED;
 
-                CanDevice.Write(msgs, 1, ref Written);
-                CanDevice.Flush();
+                CanAdapter.Write(msgs, 1, ref Written);
+                CanAdapter.Flush();
                 Console.WriteLine("");
                 Console.WriteLine($"Send CAN frames: {Written}");
+                for (int i = 0; i < Written; i++)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine($"CAN frame {i}");
+                    Console.WriteLine($"ID: {msgs[i].Id.ToString("X")}");
+                    Console.WriteLine($"Size: {msgs[i].Size}");
+                    Console.Write("Data: ");
+
+                    for (int j = 0; j < msgs[i].Size; j++)
+                    {
+                        Console.Write(msgs[i].Data[j].ToString("X") + " ");
+                    }
+
+                    Console.WriteLine("");
+                }
+
                 return true;
             }
 
             catch (Exception e)
             {
-                Console.WriteLine($"Message not transmitted {e.Message} {CanDevice.ToString()}");
+                Console.WriteLine($"Message not transmitted {e.Message} {CanAdapter.ToString()}");
                 return false;
             }
         }
 
-        public static VSCAN_MSG[] GetData(VSCAN CanDevice)
+        public static VSCAN_MSG[] GetData(VSCAN CanAdapter)
         {
             VSCAN_MSG[] msgs = new VSCAN_MSG[1];
             UInt32 Read = 0;
             try
             {
-                CanDevice.Read(ref msgs, 1, ref Read);
+                CanAdapter.Read(ref msgs, 1, ref Read);
                 Console.WriteLine("");
                 Console.WriteLine($"Read CAN frames: {Read}");
                 for (int i = 0; i < Read; i++)
@@ -123,7 +139,7 @@ namespace USB_CAN_Plus_Ctrl
                     Console.WriteLine("TS: " + msgs[i].TimeStamp);
                 }
 
-                CanDevice.GetFlags(ref Flags);
+                CanAdapter.GetFlags(ref Flags);
 
                 Console.WriteLine("");
 
