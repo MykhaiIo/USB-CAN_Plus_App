@@ -79,6 +79,33 @@ namespace USB_CAN_Plus_Ctrl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Помилка при запиті даних температури модуля.
+        /// </summary>
+        internal static string AskingAmbTempError {
+            get {
+                return ResourceManager.GetString("AskingAmbTempError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при запиті даних параметрів модуля {0}.
+        /// </summary>
+        internal static string AskingDeviceParamsError {
+            get {
+                return ResourceManager.GetString("AskingDeviceParamsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при запиті даних фазових напруг модуля.
+        /// </summary>
+        internal static string AskingPhaseVoltagesError {
+            get {
+                return ResourceManager.GetString("AskingPhaseVoltagesError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Підключити.
         /// </summary>
         internal static string Connect {
@@ -106,6 +133,60 @@ namespace USB_CAN_Plus_Ctrl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Помилка при обробці даних параметрів модуля {0}.
+        /// </summary>
+        internal static string HandlingDeviceParamsError {
+            get {
+                return ResourceManager.GetString("HandlingDeviceParamsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при обробці даних фазових напруг модуля {0}.
+        /// </summary>
+        internal static string HandlingPhaseVoltagesError {
+            get {
+                return ResourceManager.GetString("HandlingPhaseVoltagesError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при встановленні режиму живлення модуля.
+        /// </summary>
+        internal static string PoweringDeviceError {
+            get {
+                return ResourceManager.GetString("PoweringDeviceError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при отриманні даних температури модуля {0}.
+        /// </summary>
+        internal static string ReceivingAmbientTempError {
+            get {
+                return ResourceManager.GetString("ReceivingAmbientTempError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при отриманні даних параметрів модуля {0}.
+        /// </summary>
+        internal static string ReceivingDeviceParamsError {
+            get {
+                return ResourceManager.GetString("ReceivingDeviceParamsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при отриманні даних фазових напруг модуля {0}.
+        /// </summary>
+        internal static string ReceivingPhaseVoltagesError {
+            get {
+                return ResourceManager.GetString("ReceivingPhaseVoltagesError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не вдалося надіслати параметри зарядки.
         /// </summary>
         internal static string SendingChargeParamsError {
@@ -129,15 +210,6 @@ namespace USB_CAN_Plus_Ctrl.Properties {
         internal static string SerialNmbInactive {
             get {
                 return ResourceManager.GetString("SerialNmbInactive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Помилка при передачі даних.
-        /// </summary>
-        internal static string TransmittingDataError {
-            get {
-                return ResourceManager.GetString("TransmittingDataError", resourceCulture);
             }
         }
         

@@ -138,13 +138,37 @@
   <data name="Connect" xml:space="preserve">
     <value>Підключити</value>
   </data>
-  <data name="TransmittingDataError" xml:space="preserve">
-    <value>Помилка при передачі даних</value>
-  </data>
   <data name="Vpostfix" xml:space="preserve">
     <value>{0} В</value>
   </data>
   <data name="Apostfix" xml:space="preserve">
     <value>{0} А</value>
+  </data>
+  <data name="ReceivingDeviceParamsError" xml:space="preserve">
+    <value>Помилка при отриманні даних параметрів модуля {0}</value>
+  </data>
+  <data name="HandlingDeviceParamsError" xml:space="preserve">
+    <value>Помилка при обробці даних параметрів модуля {0}</value>
+  </data>
+  <data name="AskingDeviceParamsError" xml:space="preserve">
+    <value>Помилка при запиті даних параметрів модуля {0}</value>
+  </data>
+  <data name="ReceivingAmbientTempError" xml:space="preserve">
+    <value>Помилка при отриманні даних температури модуля {0}</value>
+  </data>
+  <data name="ReceivingPhaseVoltagesError" xml:space="preserve">
+    <value>Помилка при отриманні даних фазових напруг модуля {0}</value>
+  </data>
+  <data name="AskingAmbTempError" xml:space="preserve">
+    <value>Помилка при запиті даних температури модуля</value>
+  </data>
+  <data name="HandlingPhaseVoltagesError" xml:space="preserve">
+    <value>Помилка при обробці даних фазових напруг модуля {0}</value>
+  </data>
+  <data name="AskingPhaseVoltagesError" xml:space="preserve">
+    <value>Помилка при запиті даних фазових напруг модуля</value>
+  </data>
+  <data name="PoweringDeviceError" xml:space="preserve">
+    <value>Помилка при встановленні режиму живлення модуля</value>
   </data>
 </root>
