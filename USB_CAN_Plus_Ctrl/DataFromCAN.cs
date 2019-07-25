@@ -9,30 +9,39 @@ using System.Diagnostics;
 
 namespace USB_CAN_Plus_Ctrl
 {
-    static class DataFromCAN
+    internal static class DataFromCAN
     {
-        private static byte Flags = 0x0;
+        private static byte _flags = 0x0;
+        private static VSCAN_CODE_MASK mask;
 
         public static VSCAN InitCAN()
         {
-            VSCAN CanAdapter = new VSCAN();
+            var canAdapter = new VSCAN();
             try
             {
                 // set debugging options
 
-                CanAdapter.SetDebug(VSCAN.VSCAN_DEBUG_NONE);
-                CanAdapter.SetDebugMode(VSCAN.VSCAN_DEBUG_MODE_FILE);
+                canAdapter.SetDebug(VSCAN.VSCAN_DEBUG_NONE);
+                canAdapter.SetDebugMode(VSCAN.VSCAN_DEBUG_MODE_FILE);
 
                 // open CAN channel: please specify the name of your device according to User Manual
 
-                CanAdapter.Open(VSCAN.VSCAN_FIRST_FOUND,
+                canAdapter.Open(VSCAN.VSCAN_FIRST_FOUND,
                                VSCAN.VSCAN_MODE_NORMAL);
 
                 // set some options
 
-                CanAdapter.SetSpeed(VSCAN.VSCAN_SPEED_125K);
-                CanAdapter.SetTimestamp(VSCAN.VSCAN_TIMESTAMP_ON);
-                CanAdapter.SetBlockingRead(VSCAN.VSCAN_IOCTL_ON);
+                canAdapter.SetSpeed(VSCAN.VSCAN_SPEED_125K);
+                canAdapter.SetTimestamp(VSCAN.VSCAN_TIMESTAMP_ON);
+                canAdapter.SetBlockingRead(VSCAN.VSCAN_IOCTL_ON);
+                /*canAdapter.SetFilterMode(VSCAN.VSCAN_FILTER_MODE_DUAL);
+                // refer to http://www.si-kwadraat.nl/sja1000/codemask.php to establish acceptance code and mask
+                // for the range of Rx IDs in USB_CAN_Plus_Ctrl.MessagesIDs
+                // (http://www.si-kwadraat.nl/sja1000/codemask.php?en=dcia&mo=0&cd=00000000&ma=FFFFFFFF&fm=2&id=0.1&rn=0.5)
+                mask.Code = 0x582F5007;
+                mask.Mask = 0x000000E8;
+                canAdapter.SetACCCodeMask(mask);*/
+
             }
 
             catch (Exception e)
@@ -40,14 +49,14 @@ namespace USB_CAN_Plus_Ctrl
                 Console.WriteLine($"CAN not opened {e.Message}");
             }
 
-            return CanAdapter;
+            return canAdapter;
         }
 
-        public static void DeinitCAN(VSCAN CanAdapter)
+        public static void DeinitCAN(VSCAN canAdapter)
         {
             try
             {
-                CanAdapter.Close();
+                canAdapter.Close();
             }
             catch (Exception e)
             {
@@ -55,22 +64,22 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
-        public static bool SendData(VSCAN CanAdapter, UInt32 ID, byte[] Data)
+        public static bool SendData(VSCAN canAdapter, UInt32 id, byte[] data)
         {
-            VSCAN_MSG[] msgs = new VSCAN_MSG[1];
-            UInt32 Written = 0;
+            var msgs = new VSCAN_MSG[1];
+            UInt32 written = 0;
             try
             {
-                msgs[0].Data = Data;
-                msgs[0].Id = ID;
+                msgs[0].Data = data;
+                msgs[0].Id = id;
                 msgs[0].Size = 8;
                 msgs[0].Flags = VSCAN.VSCAN_FLAGS_EXTENDED;
 
-                CanAdapter.Write(msgs, 1, ref Written);
-                CanAdapter.Flush();
+                canAdapter.Write(msgs, 1, ref written);
+                canAdapter.Flush();
                 Console.WriteLine("");
-                Console.WriteLine($"Send CAN frames: {Written}");
-                for (int i = 0; i < Written; i++)
+                Console.WriteLine($"Send CAN frames: {written}");
+                for (var i = 0; i < written; i++)
                 {
                     Console.WriteLine("");
                     Console.WriteLine($"CAN frame {i}");
@@ -78,9 +87,9 @@ namespace USB_CAN_Plus_Ctrl
                     Console.WriteLine($"Size: {msgs[i].Size}");
                     Console.Write("Data: ");
 
-                    for (int j = 0; j < msgs[i].Size; j++)
+                    for (var j = 0; j < msgs[i].Size; j++)
                     {
-                        Console.Write(msgs[i].Data[j].ToString("X") + " ");
+                        Console.Write($"{msgs[i].Data[j].ToString("X")} ");
                     }
 
                     Console.WriteLine("");
@@ -91,21 +100,21 @@ namespace USB_CAN_Plus_Ctrl
 
             catch (Exception e)
             {
-                Console.WriteLine($"Message not transmitted {e.Message} {CanAdapter.ToString()}");
+                Console.WriteLine($"Message not transmitted {e.Message} {canAdapter.ToString()}");
                 return false;
             }
         }
 
-        public static VSCAN_MSG[] GetData(VSCAN CanAdapter)
+        public static VSCAN_MSG[] GetData(VSCAN canAdapter)
         {
-            VSCAN_MSG[] msgs = new VSCAN_MSG[1];
-            UInt32 Read = 0;
+            var msgs = new VSCAN_MSG[1];
+            UInt32 read = 0;
             try
             {
-                CanAdapter.Read(ref msgs, 1, ref Read);
+                canAdapter.Read(ref msgs, 1, ref read);
                 Console.WriteLine("");
-                Console.WriteLine($"Read CAN frames: {Read}");
-                for (int i = 0; i < Read; i++)
+                Console.WriteLine($"Read CAN frames: {read}");
+                for (var i = 0; i < read; i++)
                 {
                     Console.WriteLine("");
                     Console.WriteLine($"CAN frame {i}");
@@ -113,7 +122,7 @@ namespace USB_CAN_Plus_Ctrl
                     Console.WriteLine($"Size: {msgs[i].Size}");
                     Console.Write("Data: ");
 
-                    for (int j = 0; j < msgs[i].Size; j++)
+                    for (var j = 0; j < msgs[i].Size; j++)
                     {
                         Console.Write(msgs[i].Data[j].ToString("X") + " ");
                     }
@@ -139,13 +148,13 @@ namespace USB_CAN_Plus_Ctrl
                     Console.WriteLine("TS: " + msgs[i].TimeStamp);
                 }
 
-                CanAdapter.GetFlags(ref Flags);
+                canAdapter.GetFlags(ref _flags);
 
                 Console.WriteLine("");
 
-                Console.WriteLine($"Extended status and error flags: {Flags}");
+                Console.WriteLine($"Extended status and error flags: {_flags}");
 
-                DecodeFlags(Flags);
+                DecodeFlags(_flags);
 
                 return msgs;
             }
@@ -158,7 +167,7 @@ namespace USB_CAN_Plus_Ctrl
         }
 
 
-        private static void DecodeFlags(int flags)
+        public static void DecodeFlags(int flags)
         {
             if ((flags & VSCAN.VSCAN_IOCTL_FLAG_API_RX_FIFO_FULL) > 0)
             {
@@ -256,13 +265,14 @@ namespace USB_CAN_Plus_Ctrl
 
 
 
-        /*public static void Test()
+/*
+        public static void Test()
         {
             VSCAN_MSG[] msgs = new VSCAN_MSG[10];
-            UInt32 Written = 0;
-            UInt32 Read = 0;
+            UInt32 written = 0;
+            UInt32 read = 0;
 
-            byte Flags = 0x0;
+            byte flags = 0x0;
 
             msgs[0].Id = 0x029A3FF0;
             msgs[0].Size = 8;
@@ -403,13 +413,13 @@ namespace USB_CAN_Plus_Ctrl
             {
                 // send CAN frames
 
-                CanDevice.Write(msgs, 10, ref Written);
+                canAdapter.Write(msgs, 10, ref written);
 
                 // send immediately 
 
-                CanDevice.Flush();
+                canAdapter.Flush();
                 Console.WriteLine("");
-                Console.WriteLine("Send CAN frames: " + Written);
+                Console.WriteLine("Send CAN frames: " + written);
 
                 msgs = new VSCAN_MSG[10];
 
@@ -417,14 +427,14 @@ namespace USB_CAN_Plus_Ctrl
 
                 // read CAN frames
 
-                CanDevice.Read(ref msgs, 10, ref Read);
+                canAdapter.Read(ref msgs, 10, ref read);
 
                 Console.WriteLine("");
-                Console.WriteLine("Read CAN frames: " + Read);
+                Console.WriteLine("Read CAN frames: " + read);
 
 
 
-                for (int i = 0; i < Read; i++)
+                for (int i = 0; i < read; i++)
 
                 {
                     Console.WriteLine("");
@@ -461,19 +471,20 @@ namespace USB_CAN_Plus_Ctrl
                 
                 // get extended status and error flags
 
-                CanDevice.GetFlags(ref Flags);
+                canAdapter.GetFlags(ref flags);
 
                 Console.WriteLine("");
 
-                Console.WriteLine("Extended status and error flags: " + Flags);
+                Console.WriteLine("Extended status and error flags: " + flags);
 
-                DecodeFlags(Flags);
+                DecodeFlags(flags);
             }
 
             catch (Exception e)
             {
                 Console.WriteLine("CAN opened and " + e.Message);
             }
-        }*/
+        }
+*/
     }
 }

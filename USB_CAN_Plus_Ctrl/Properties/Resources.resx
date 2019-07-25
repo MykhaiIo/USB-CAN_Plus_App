@@ -138,10 +138,10 @@
   <data name="Connect" xml:space="preserve">
     <value>Підключити</value>
   </data>
-  <data name="Vpostfix" xml:space="preserve">
+  <data name="postfixV" xml:space="preserve">
     <value>{0} В</value>
   </data>
-  <data name="Apostfix" xml:space="preserve">
+  <data name="postfixA" xml:space="preserve">
     <value>{0} А</value>
   </data>
   <data name="ReceivingDeviceParamsError" xml:space="preserve">
@@ -151,7 +151,7 @@
     <value>Помилка при обробці даних параметрів модуля {0}</value>
   </data>
   <data name="AskingDeviceParamsError" xml:space="preserve">
-    <value>Помилка при запиті даних параметрів модуля {0}</value>
+    <value>Помилка при запиті даних параметрів модуля</value>
   </data>
   <data name="ReceivingAmbientTempError" xml:space="preserve">
     <value>Помилка при отриманні даних температури модуля {0}</value>
@@ -170,5 +170,20 @@
   </data>
   <data name="PoweringDeviceError" xml:space="preserve">
     <value>Помилка при встановленні режиму живлення модуля</value>
+  </data>
+  <data name="postfixCelsium" xml:space="preserve">
+    <value>{0} °C</value>
+  </data>
+  <data name="HandlingAmbTempError" xml:space="preserve">
+    <value>Помилка при обробці даних температури модуля</value>
+  </data>
+  <data name="ActiveBoth" xml:space="preserve">
+    <value>Активні обидва модулі</value>
+  </data>
+  <data name="ActiveFirst" xml:space="preserve">
+    <value>Активний перший модуль</value>
+  </data>
+  <data name="ActiveSecond" xml:space="preserve">
+    <value>Активний другий модуль</value>
   </data>
 </root>
