@@ -2,9 +2,11 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
+using System.Threading.Tasks;
+/*using System.Globalization;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;*/
 using System.Windows.Forms;
 using USB_CAN_Plus_Ctrl.Properties;
 using VSCom.CanApi;
@@ -28,7 +30,7 @@ namespace USB_CAN_Plus_Ctrl
 
         private enum DevicesStates
         {
-            NoActive, ActiveFirst, ActiveSecond, ActiveBoth
+            ActiveFirst, ActiveSecond, ActiveBoth
         }
 
         private enum MessagesIDs
@@ -71,16 +73,17 @@ namespace USB_CAN_Plus_Ctrl
         public Button[] BtnsAdapter { get; }
         public NumericUpDown[] NudsVoltSI { get; }
         public NumericUpDown[] NudsCurntSI { get; }
-        public TextBox[] TxtsAmbTemperature { get; }
+        public TextBox[] TxtsPower { get; }
         public TextBox[] TxtsVoltage { get; }
         public TextBox[] TxtsCurrent { get; }
+        public TextBox[] TxtsAmbTemperature { get; }
         public TextBox[] TxtsVoltAB { get; }
         public TextBox[] TxtsVoltBC { get; }
         public TextBox[] TxtsVoltCA { get; }
         public Label[] LblsSerialNo { get; }
 
         // counter used to perform continuous devices' params actualization
-        public ushort Cnt { get; private set; } = 0;
+        public ushort Cnt { get; private set; }
 
         // stopwatches used to make textboxes red if it's values hasn't been updated during last second
         // TODO: Convert Stopwatch Sw properties to Stopwatch[] Sw 
@@ -96,25 +99,22 @@ namespace USB_CAN_Plus_Ctrl
         public VSCAN_MSG[][] Msgs { get; private set; } = new VSCAN_MSG[DevicesCnt][];
         internal VSCAN[] CanAdapters { get; set; } = new VSCAN[AdaptersCnt];
 
-        private readonly BackgroundWorker _bgw = new BackgroundWorker();
-
         public USB_CAN_Plus_Ctrl()
         {
             InitializeComponent();
             grpModule1.Enabled = false;
             grpModule2.Enabled = false;
             btnConnect1.Enabled = false;
-            metroProgressBar1.Visible = false;
-            _bgw.DoWork += BgwOnDoWork;
-            _bgw.RunWorkerCompleted += BgwOnRunWorkerCompleted;
+            prgConnection.Visible = false;
 
             GrpsModules = new[] { grpModule1, grpModule2 };
             BtnsAdapter = new[] { btnConnect1 /*btnConnect2*/ };
             NudsVoltSI = new[] { nudOutVoltSI1, nudOutVoltSI2 };
             NudsCurntSI = new[] { nudOutCurntSI1, nudOutCurntSI2 };
-            TxtsAmbTemperature = new[] { txtTemperature1, txtTemperature2 };
+            TxtsPower = new[] { txtPower1, txtPower2 };
             TxtsVoltage = new[] { txtCurVolt1, txtCurVolt2 };
             TxtsCurrent = new[] { txtCurCurnt1, txtCurCurnt2 };
+            TxtsAmbTemperature = new[] { txtTemperature1, txtTemperature2 };
             TxtsVoltAB = new[] { txtPhaseABVolt1, txtPhaseABVolt2 };
             TxtsVoltBC = new[] { txtPhaseBCVolt1, txtPhaseBCVolt2 };
             TxtsVoltCA = new[] { txtPhaseCAVolt1, txtPhaseCAVolt2 };
@@ -123,7 +123,12 @@ namespace USB_CAN_Plus_Ctrl
 
         private void BgwOnDoWork(object sender, DoWorkEventArgs e) => HandleAdapterBtnClick();
 
-        private void BgwOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) => metroProgressBar1.Hide();
+        private void BgwOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            prgConnection.Hide();
+            tmrDisplayDeviceParams.Start();
+            tmrRefreshDeviceParams.Start();
+        }
 
         private void DisplayAdapterParams(/*short AdapterNo*/)
         {
@@ -139,68 +144,61 @@ namespace USB_CAN_Plus_Ctrl
 
         private void HandleAdapterBtnClick(/*short AdapterNo*/)
         {
-            switch (BtnsAdapter[0].Text)
+            if (BtnsAdapter[0].Text == Resources.Connect)
             {
-                case "Підключити":
+                try
                 {
-                    try
-                    {
-                        CanAdapters[0] = DataFromCAN.InitCAN();
-                        Msgs[0] = DataFromCAN.GetData(CanAdapters[0]);
-                        Msgs[1] = DataFromCAN.GetData(CanAdapters[0]);
-                        DisplayAdapterParams();
-
-                        BtnsAdapter[0].Invoke(new Action(() => BtnsAdapter[0].Text = Resources.Disconnect));
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show(Resources.AdapterConnectionError,
-                            Resources.ErrorMsg,
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-                    }
-                    break;
+                    CanAdapters[0] = DataFromCAN.InitCAN();
+                    DisplayAdapterParams();
+                    BtnsAdapter[0].Invoke(new Action(() => BtnsAdapter[0].Text = Resources.Disconnect));
                 }
-                
-                case "Відключити":
+                catch (Exception)
                 {
-                    DataFromCAN.DeinitCAN(CanAdapters[0]);
-                    LblsSerialNo[0].Invoke(new Action(() => LblsSerialNo[0].Text = Resources.SerialNmbInactive));
-                    BtnsAdapter[0].Invoke(new Action(() => BtnsAdapter[0].Text = Resources.Connect));
-
-                    foreach (var nud in NudsVoltSI)
-                        nud.Invoke(new Action(() => nud.Value = nud.Minimum));
-
-                    foreach (var nud in NudsCurntSI)
-                        nud.Invoke(new Action(() => nud.Value = nud.Minimum));
-
-                    foreach (var txt in TxtsVoltage)
-                        txt.Invoke(new Action(() => txt.Text = ""));
-
-                    foreach (var txt in TxtsCurrent)
-                        txt.Invoke(new Action(() => txt.Text = ""));
-
-                    foreach (var txt in TxtsAmbTemperature)
-                        txt.Invoke(new Action(() => txt.Text = ""));
-
-                    foreach (var txt in TxtsVoltAB)
-                        txt.Invoke(new Action(() => txt.Text = ""));
-
-                    foreach (var txt in TxtsVoltBC)
-                        txt.Invoke(new Action(() => txt.Text = ""));
-
-                    foreach (var txt in TxtsVoltCA)
-                        txt.Invoke(new Action(() => txt.Text = ""));
-
-                    break;
+                    MessageBox.Show(Resources.AdapterConnectionError,
+                        Resources.ErrorMsg,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
                 }
+            }
+            else if (BtnsAdapter[0].Text == Resources.Disconnect)
+            {
+                DataFromCAN.DeinitCAN(CanAdapters[0]);
+                LblsSerialNo[0].Invoke(new Action(() => LblsSerialNo[0].Text = Resources.SerialNmbInactive));
+                BtnsAdapter[0].Invoke(new Action(() => BtnsAdapter[0].Text = Resources.Connect));
+
+                tmrDisplayDeviceParams.Stop();
+                tmrRefreshDeviceParams.Stop();
+
+                foreach (var nud in NudsVoltSI)
+                    nud.Invoke(new Action(() => nud.Value = nud.Minimum));
+
+                foreach (var nud in NudsCurntSI)
+                    nud.Invoke(new Action(() => nud.Value = nud.Minimum));
+
+                foreach (var txt in TxtsVoltage)
+                    txt.Invoke(new Action(() => txt.Text = ""));
+
+                foreach (var txt in TxtsCurrent)
+                    txt.Invoke(new Action(() => txt.Text = ""));
+
+                foreach (var txt in TxtsAmbTemperature)
+                    txt.Invoke(new Action(() => txt.Text = ""));
+
+                foreach (var txt in TxtsVoltAB)
+                    txt.Invoke(new Action(() => txt.Text = ""));
+
+                foreach (var txt in TxtsVoltBC)
+                    txt.Invoke(new Action(() => txt.Text = ""));
+
+                foreach (var txt in TxtsVoltCA)
+                    txt.Invoke(new Action(() => txt.Text = ""));
             }
         }
 
         private void BtnConnect1_Click(object sender, EventArgs e)
         {
-            metroProgressBar1.Show();
-            _bgw.RunWorkerAsync();
+            prgConnection.Show();
+            bgwConnection.RunWorkerAsync();
 
             /*foreach (var sw in SwVoltRead)
             {
@@ -230,23 +228,26 @@ namespace USB_CAN_Plus_Ctrl
                 VoltAB[deviceNo]   == null || VoltBC[deviceNo]    == null || VoltCA[deviceNo] == null) return;
 
             TxtsVoltage[deviceNo].Text =
-                string.Format(Resources.Vpostfix, NumRepresentations.ToFormattedFloat(NumRepresentations.BYTEtoFP(VoltRead[deviceNo])));
+                string.Format(Resources.postfixV, NumRepresentations.ToFormattedFloat(NumRepresentations.BYTEtoFP(VoltRead[deviceNo])));
             TxtsCurrent[deviceNo].Text =
-                string.Format(Resources.Apostfix, NumRepresentations.ToFormattedFloat(NumRepresentations.BYTEtoFP(CurntRead[deviceNo])));
+                string.Format(Resources.postfixA, NumRepresentations.ToFormattedFloat(NumRepresentations.BYTEtoFP(CurntRead[deviceNo])));
+            TxtsPower[deviceNo].Text =
+                string.Format(Resources.postfixW,
+                    NumRepresentations.ToFormattedFloat(NumRepresentations.BYTEtoFP(VoltRead[deviceNo]) *
+                                                        NumRepresentations.BYTEtoFP(CurntRead[deviceNo])));
 
             if (SwVoltRead.ElapsedMilliseconds > 2000)
                 TxtsVoltage[deviceNo].ForeColor = Color.Red;
             if (SwCurntRead.ElapsedMilliseconds > 2000)
                 TxtsCurrent[deviceNo].ForeColor = Color.Red;
 
-
-
             TxtsVoltAB[deviceNo].Text =
-                string.Format(Resources.Vpostfix, NumRepresentations.BYTEtoUSHORT(VoltAB[deviceNo]) / 10);
+                string.Format(Resources.postfixV, NumRepresentations.BYTEtoUSHORT(VoltAB[deviceNo]) / 10);
             TxtsVoltBC[deviceNo].Text =
-                string.Format(Resources.Vpostfix, NumRepresentations.BYTEtoUSHORT(VoltBC[deviceNo]) / 10);
+                string.Format(Resources.postfixV, NumRepresentations.BYTEtoUSHORT(VoltBC[deviceNo]) / 10);
             TxtsVoltCA[deviceNo].Text =
-                string.Format(Resources.Vpostfix, NumRepresentations.BYTEtoUSHORT(VoltCA[deviceNo]) / 10);
+                string.Format(Resources.postfixV, NumRepresentations.BYTEtoUSHORT(VoltCA[deviceNo]) / 10);
+
             if (SwPhaseVoltAB.ElapsedMilliseconds > 2000)
                 TxtsVoltAB[deviceNo].ForeColor = Color.Red;
             if (SwPhaseVoltBC.ElapsedMilliseconds > 2000)
@@ -254,7 +255,7 @@ namespace USB_CAN_Plus_Ctrl
             if (SwPhaseVoltCA.ElapsedMilliseconds > 2000)
                 TxtsVoltCA[deviceNo].ForeColor = Color.Red;
 
-            TxtsAmbTemperature[deviceNo].Text = $"{NumRepresentations.BYTEtoINT(AmbientTemp[deviceNo])} °C";
+            TxtsAmbTemperature[deviceNo].Text = string.Format(Resources.postfixCelsium, NumRepresentations.BYTEtoINT(AmbientTemp[deviceNo]));
             SwAmbientTemp.Stop();
             if (SwAmbientTemp.ElapsedMilliseconds > 2000)
                 TxtsAmbTemperature[deviceNo].ForeColor = Color.Red;
@@ -273,8 +274,6 @@ namespace USB_CAN_Plus_Ctrl
                 case DevicesStates.ActiveBoth:
                     DisplayDeviceParams(0);
                     DisplayDeviceParams(1);
-                    break;
-                case DevicesStates.NoActive:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -298,8 +297,6 @@ namespace USB_CAN_Plus_Ctrl
                     break;
                 case DevicesStates.ActiveBoth:
                     break;
-                case DevicesStates.NoActive:
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -311,22 +308,23 @@ namespace USB_CAN_Plus_Ctrl
                     {
                         case DevicesStates.ActiveFirst:
                             SendChargeParams(0);
-                            Thread.Sleep(5);
+                            /*var getFirstMsg = Task.Run(() => Msgs[0] = DataFromCAN.GetData(CanAdapters[0]));
+                            if (!getFirstMsg.Wait(TimeSpan.FromSeconds(5)))
+                                throw new Exception("Timed out");
+                            var getSecondMsg = Task.Run(() => Msgs[1] = DataFromCAN.GetData(CanAdapters[0]));
+                            if (!getSecondMsg.Wait(TimeSpan.FromSeconds(5)))
+                                throw new Exception("Timed out");*/
                             Msgs[0] = DataFromCAN.GetData(CanAdapters[0]);
                             break;
                         case DevicesStates.ActiveSecond:
                             SendChargeParams(1);
-                            Thread.Sleep(5);
                             Msgs[1] = DataFromCAN.GetData(CanAdapters[0]);
                             break;
                         case DevicesStates.ActiveBoth:
                             SendChargeParams(0);
                             SendChargeParams(1);
-                            Thread.Sleep(5);
                             Msgs[0] = DataFromCAN.GetData(CanAdapters[0]);
                             Msgs[1] = DataFromCAN.GetData(CanAdapters[0]);
-                            break;
-                        case DevicesStates.NoActive:
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -334,25 +332,18 @@ namespace USB_CAN_Plus_Ctrl
                     Cnt++;
                     break;
                 case 1:
+                    AskDeviceParams();
                     switch (State)
                     {
                         case DevicesStates.ActiveFirst:
-                            AskDeviceParams();
-                            Thread.Sleep(5);
                             GetDeviceParams(0);
                             break;
                         case DevicesStates.ActiveSecond:
-                            AskDeviceParams();
-                            Thread.Sleep(5);
                             GetDeviceParams(1);
                             break;
                         case DevicesStates.ActiveBoth:
-                            AskDeviceParams();
-                            Thread.Sleep(5);
                             GetDeviceParams(0);
                             GetDeviceParams(1);
-                            break;
-                        case DevicesStates.NoActive:
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -361,25 +352,18 @@ namespace USB_CAN_Plus_Ctrl
                     break;
 
                 case 2:
+                    AskAmbientTemp();
                     switch (State)
                     {
                         case DevicesStates.ActiveFirst:
-                            AskAmbientTemp();
-                            Thread.Sleep(5);
                             GetAmbientDeviceTemp(0);
                             break;
                         case DevicesStates.ActiveSecond:
-                            AskAmbientTemp();
-                            Thread.Sleep(5);
                             GetAmbientDeviceTemp(1);
                             break;
                         case DevicesStates.ActiveBoth:
-                            AskAmbientTemp();
-                            Thread.Sleep(5);
                             GetAmbientDeviceTemp(0);
                             GetAmbientDeviceTemp(1);
-                            break;
-                        case DevicesStates.NoActive:
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -388,25 +372,18 @@ namespace USB_CAN_Plus_Ctrl
                     break;
 
                 case 3:
+                    AskPhaseVoltage();
                     switch (State)
                     {
                         case DevicesStates.ActiveFirst:
-                            AskPhaseVoltage();
-                            Thread.Sleep(5);
                             GetPhaseVoltage(0);
                             break;
                         case DevicesStates.ActiveSecond:
-                            AskPhaseVoltage();
-                            Thread.Sleep(5);
                             GetPhaseVoltage(1);
                             break;
                         case DevicesStates.ActiveBoth:
-                            AskPhaseVoltage();
-                            Thread.Sleep(5);
                             GetPhaseVoltage(0);
                             GetPhaseVoltage(1);
-                            break;
-                        case DevicesStates.NoActive:
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -418,6 +395,7 @@ namespace USB_CAN_Plus_Ctrl
             }
         }
 
+/*
         private UInt32 GetId(byte errorCode,
                              byte deviceNo,
                              byte commandNo,
@@ -441,13 +419,16 @@ namespace USB_CAN_Plus_Ctrl
                 UInt32.TryParse(strId.ToString(), NumberStyles.AllowHexSpecifier, null, out UInt32 id) ? 
                     id : 0;
         }
+*/
 
+/*
         private char GetErrorCodeFromId(UInt32 id)
         {
             string strId = id.ToString();
             char strEC = strId[0];
             return strEC;
         }
+*/
 
         private void SendChargeParams(short deviceNo)
         {
@@ -480,8 +461,6 @@ namespace USB_CAN_Plus_Ctrl
                 case DevicesStates.ActiveBoth:
                     DataFromCAN.SendData(CanAdapters[0], (UInt32)MessagesIDs.TxSetParamsBoth, data);
                     break;
-                case DevicesStates.NoActive:
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -504,26 +483,24 @@ namespace USB_CAN_Plus_Ctrl
 
             try
             {
-                if (Msgs[deviceNo][0].Id == (UInt32) MessagesIDs.RxGetParamsDevice1 && State == DevicesStates.ActiveFirst ||
-                    Msgs[deviceNo][0].Id == (UInt32) MessagesIDs.RxGetParamsDevice2 && State == DevicesStates.ActiveSecond ||
-                    Msgs[deviceNo][0].Id == (UInt32) MessagesIDs.RxGetParamsBoth && State == DevicesStates.ActiveBoth)
+                if ((Msgs[deviceNo][0].Id != (UInt32) MessagesIDs.RxGetParamsDevice1 || State != DevicesStates.ActiveFirst) &&
+                    (Msgs[deviceNo][0].Id != (UInt32) MessagesIDs.RxGetParamsDevice2 || State != DevicesStates.ActiveSecond) &&
+                    (Msgs[deviceNo][0].Id != (UInt32) MessagesIDs.RxGetParamsBoth || State != DevicesStates.ActiveBoth)) return;
+                VoltRead[deviceNo] = new byte[4];
+                CurntRead[deviceNo] = new byte[4];
+
+                for (int i = 0; i < 4; i++)
                 {
-                    VoltRead[deviceNo] = new byte[4];
-                    CurntRead[deviceNo] = new byte[4];
-
-                    for (int i = 0; i < 4; i++)
-                    {
-                        VoltRead[deviceNo][i] = Msgs[deviceNo][0].Data[i];
-                    }
-
-                    for (int i = 4; i < 8; i++)
-                    {
-                        CurntRead[deviceNo][i - 4] = Msgs[deviceNo][0].Data[i];
-                    }
-
-                    Array.Reverse(VoltRead[deviceNo]);
-                    Array.Reverse(CurntRead[deviceNo]);
+                    VoltRead[deviceNo][i] = Msgs[deviceNo][0].Data[i];
                 }
+
+                for (int i = 4; i < 8; i++)
+                {
+                    CurntRead[deviceNo][i - 4] = Msgs[deviceNo][0].Data[i];
+                }
+
+                Array.Reverse(VoltRead[deviceNo]);
+                Array.Reverse(CurntRead[deviceNo]);
             }
             
             catch (Exception)
@@ -550,8 +527,6 @@ namespace USB_CAN_Plus_Ctrl
                     break;
                 case DevicesStates.ActiveBoth:
                     DataFromCAN.SendData(CanAdapters[0], (UInt32) MessagesIDs.TxGetParamsBoth, new byte[8]);
-                    break;
-                case DevicesStates.NoActive:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -584,20 +559,18 @@ namespace USB_CAN_Plus_Ctrl
 
             try
             {
-                if (Msgs[deviceNo][0].Id == (UInt32) MessagesIDs.RxTempDevice1 && State == DevicesStates.ActiveFirst ||
-                    Msgs[deviceNo][0].Id == (UInt32) MessagesIDs.RxTempDevice2 && State == DevicesStates.ActiveSecond)
-                {
-                    AmbientTemp[deviceNo] = new byte[4];
-                    AmbientTemp[deviceNo][0] = Msgs[deviceNo][0].Data[4];
-                }
+                if ((Msgs[deviceNo][0].Id != (UInt32) MessagesIDs.RxTempDevice1 || State != DevicesStates.ActiveFirst) &&
+                    (Msgs[deviceNo][0].Id != (UInt32) MessagesIDs.RxTempDevice2 || State != DevicesStates.ActiveSecond)) return;
+                AmbientTemp[deviceNo] = new byte[4];
+                AmbientTemp[deviceNo][0] = Msgs[deviceNo][0].Data[4];
             }
             catch (Exception)
             {
-                MessageBox.Show("Помилка при обробці даних температури модуля",
+                MessageBox.Show(Resources.HandlingAmbTempError,
                                 Resources.ErrorMsg,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
-                Console.WriteLine("Помилка при обробці даних температури модуля");
+                Console.WriteLine(Resources.HandlingAmbTempError);
             }
         }
 
@@ -617,8 +590,6 @@ namespace USB_CAN_Plus_Ctrl
                 case DevicesStates.ActiveBoth:
                     DataFromCAN.SendData(CanAdapters[0], (UInt32) MessagesIDs.TxTempDevice1, new byte[8]);
                     DataFromCAN.SendData(CanAdapters[0], (UInt32) MessagesIDs.TxTempDevice2, new byte[8]);
-                    break;
-                case DevicesStates.NoActive:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -650,36 +621,34 @@ namespace USB_CAN_Plus_Ctrl
             }
             try
             {
-                if (Msgs[deviceNo][0].Id == (UInt32)MessagesIDs.RxPhaseVoltDevice1 && State == DevicesStates.ActiveFirst ||
-                    Msgs[deviceNo][0].Id == (UInt32)MessagesIDs.RxPhaseVoltDevice2 && State == DevicesStates.ActiveSecond ||
-                    Msgs[deviceNo][0].Id == (UInt32)MessagesIDs.RxPhaseVoltBoth && State == DevicesStates.ActiveBoth)
+                if ((Msgs[deviceNo][0].Id != (UInt32) MessagesIDs.RxPhaseVoltDevice1 || State != DevicesStates.ActiveFirst) &&
+                    (Msgs[deviceNo][0].Id != (UInt32) MessagesIDs.RxPhaseVoltDevice2 || State != DevicesStates.ActiveSecond) &&
+                    (Msgs[deviceNo][0].Id != (UInt32) MessagesIDs.RxPhaseVoltBoth || State != DevicesStates.ActiveBoth)) return;
+
+                VoltAB[deviceNo] = new byte[2];
+                VoltBC[deviceNo] = new byte[2];
+                VoltCA[deviceNo] = new byte[2];
+
+                for (int i = 0; i < 2; i++)
                 {
-                    VoltAB[deviceNo] = new byte[2];
-                    VoltBC[deviceNo] = new byte[2];
-                    VoltCA[deviceNo] = new byte[2];
-
-                    for (int i = 0; i < 2; i++)
-                    {
-                        VoltAB[deviceNo][i] = Msgs[deviceNo][0].Data[i];
-                    }
-
-                    for (int i = 2; i < 4; i++)
-                    {
-                        VoltBC[deviceNo][i - 2] = Msgs[deviceNo][0].Data[i];
-                    }
-
-                    for (int i = 4; i < 6; i++)
-                    {
-                        VoltCA[deviceNo][i - 4] = Msgs[deviceNo][0].Data[i];
-                    }
-
-                    // handle endianness
-
-                    Array.Reverse(VoltAB[deviceNo]);
-                    Array.Reverse(VoltBC[deviceNo]);
-                    Array.Reverse(VoltCA[deviceNo]);
-                    
+                    VoltAB[deviceNo][i] = Msgs[deviceNo][0].Data[i];
                 }
+
+                for (int i = 2; i < 4; i++)
+                {
+                    VoltBC[deviceNo][i - 2] = Msgs[deviceNo][0].Data[i];
+                }
+
+                for (int i = 4; i < 6; i++)
+                {
+                    VoltCA[deviceNo][i - 4] = Msgs[deviceNo][0].Data[i];
+                }
+
+                // handle endianness
+
+                Array.Reverse(VoltAB[deviceNo]);
+                Array.Reverse(VoltBC[deviceNo]);
+                Array.Reverse(VoltCA[deviceNo]);
             }
             catch (Exception)
             {
@@ -706,8 +675,6 @@ namespace USB_CAN_Plus_Ctrl
                     break;
                 case DevicesStates.ActiveBoth:
                     DataFromCAN.SendData(CanAdapters[0], (UInt32) MessagesIDs.TxPhaseVoltBoth, new byte[8]);
-                    break;
-                case DevicesStates.NoActive:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -738,8 +705,6 @@ namespace USB_CAN_Plus_Ctrl
                 case DevicesStates.ActiveBoth:
                     DataFromCAN.SendData(CanAdapters[0], (UInt32)MessagesIDs.TxPowerBoth, new byte[] { isOff, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 });
                     break;
-                case DevicesStates.NoActive:
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
                 }
@@ -756,40 +721,34 @@ namespace USB_CAN_Plus_Ctrl
 
         private void CmbDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (cmbDevices.SelectedItem.ToString())
+            if (cmbDevices.SelectedItem.ToString() == Resources.ActiveFirst)
             {
-                case "Активний перший модуль":
-                    GrpsModules[0].Enabled = true;
-                    GrpsModules[1].Enabled = false;
-                    btnConnect1.Enabled = true;
-                    NudsVoltSI[1].Value =  NudsVoltSI [1].Minimum;
-                    NudsCurntSI[1].Value = NudsCurntSI[1].Minimum;
-                    TxtsVoltage[1].Text = "";
-                    TxtsCurrent[1].Text = "";
-                    State = DevicesStates.ActiveFirst;
-                    break;
-
-                case "Активний другий модуль":
-                    GrpsModules[0].Enabled = false;
-                    GrpsModules[1].Enabled = true;
-                    btnConnect1.Enabled = true;
-                    NudsVoltSI[0].Value =  NudsVoltSI [0].Minimum;
-                    NudsCurntSI[0].Value = NudsCurntSI[0].Minimum;
-                    TxtsVoltage[0].Text = "";
-                    TxtsCurrent[0].Text = "";
-                    State = DevicesStates.ActiveSecond;
-                    break;
-
-                case "Активні обидва модулі":
-                    GrpsModules[0].Enabled = true;
-                    GrpsModules[1].Enabled = true;
-                    btnConnect1.Enabled = true;
-                    State = DevicesStates.ActiveBoth;
-                    break;
-
-                default:
-                    State = DevicesStates.NoActive;
-                    break;
+                GrpsModules[0].Enabled = true;
+                GrpsModules[1].Enabled = false;
+                btnConnect1.Enabled = true;
+                NudsVoltSI[1].Value = NudsVoltSI[1].Minimum;
+                NudsCurntSI[1].Value = NudsCurntSI[1].Minimum;
+                TxtsVoltage[1].Text = "";
+                TxtsCurrent[1].Text = "";
+                State = DevicesStates.ActiveFirst;
+            }
+            else if (cmbDevices.SelectedItem.ToString() == Resources.ActiveSecond)
+            {
+                GrpsModules[0].Enabled = false;
+                GrpsModules[1].Enabled = true;
+                btnConnect1.Enabled = true;
+                NudsVoltSI[0].Value = NudsVoltSI[0].Minimum;
+                NudsCurntSI[0].Value = NudsCurntSI[0].Minimum;
+                TxtsVoltage[0].Text = "";
+                TxtsCurrent[0].Text = "";
+                State = DevicesStates.ActiveSecond;
+            }
+            else if (cmbDevices.SelectedItem.ToString() == Resources.ActiveBoth)
+            {
+                GrpsModules[0].Enabled = true;
+                GrpsModules[1].Enabled = true;
+                btnConnect1.Enabled = true;
+                State = DevicesStates.ActiveBoth;
             }
         }
 
@@ -822,6 +781,8 @@ namespace USB_CAN_Plus_Ctrl
                     break;
             }
         }
+
+        // TODO: Move stopwatches restart to appropriate get<property> method
 
         private void TxtCurVolt1_TextChanged(object sender, EventArgs e)
         {

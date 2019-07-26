@@ -82,12 +82,16 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.tmrDisplayDeviceParams = new System.Windows.Forms.Timer(this.components);
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
+            this.prgConnection = new MetroFramework.Controls.MetroProgressBar();
             this.tmrRefreshDeviceParams = new System.Windows.Forms.Timer(this.components);
+            this.bgwConnection = new System.ComponentModel.BackgroundWorker();
+            this.txtPower1 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.txtPower2 = new System.Windows.Forms.TextBox();
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
             this.grpSetParamsMdl1.SuspendLayout();
@@ -266,6 +270,8 @@
             // 
             // grpSetParamsMdl1
             // 
+            this.grpSetParamsMdl1.Controls.Add(this.label28);
+            this.grpSetParamsMdl1.Controls.Add(this.txtPower1);
             this.grpSetParamsMdl1.Controls.Add(this.label6);
             this.grpSetParamsMdl1.Controls.Add(this.label5);
             this.grpSetParamsMdl1.Controls.Add(this.nudOutCurntSI1);
@@ -311,7 +317,7 @@
             65536});
             this.nudOutCurntSI1.Location = new System.Drawing.Point(113, 40);
             this.nudOutCurntSI1.Maximum = new decimal(new int[] {
-            30,
+            35,
             0,
             0,
             0});
@@ -564,7 +570,9 @@
             // 
             // grpSetParamsMdl2
             // 
+            this.grpSetParamsMdl2.Controls.Add(this.label29);
             this.grpSetParamsMdl2.Controls.Add(this.label19);
+            this.grpSetParamsMdl2.Controls.Add(this.txtPower2);
             this.grpSetParamsMdl2.Controls.Add(this.label20);
             this.grpSetParamsMdl2.Controls.Add(this.nudOutCurntSI2);
             this.grpSetParamsMdl2.Controls.Add(this.nudOutVoltSI2);
@@ -681,7 +689,6 @@
             // 
             // tmrDisplayDeviceParams
             // 
-            this.tmrDisplayDeviceParams.Enabled = true;
             this.tmrDisplayDeviceParams.Interval = 1000;
             this.tmrDisplayDeviceParams.Tick += new System.EventHandler(this.TmrDisplayDeviceParams_Tick);
             // 
@@ -712,7 +719,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.metroProgressBar1);
+            this.groupBox1.Controls.Add(this.prgConnection);
             this.groupBox1.Controls.Add(this.btnConnect1);
             this.groupBox1.Controls.Add(this.lblSerialNo1);
             this.groupBox1.Controls.Add(this.grpModule1);
@@ -723,19 +730,56 @@
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             // 
-            // metroProgressBar1
+            // prgConnection
             // 
-            this.metroProgressBar1.Location = new System.Drawing.Point(364, 302);
-            this.metroProgressBar1.Name = "metroProgressBar1";
-            this.metroProgressBar1.ProgressBarStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.metroProgressBar1.Size = new System.Drawing.Size(100, 23);
-            this.metroProgressBar1.TabIndex = 23;
+            this.prgConnection.Location = new System.Drawing.Point(364, 302);
+            this.prgConnection.Name = "prgConnection";
+            this.prgConnection.ProgressBarStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.prgConnection.Size = new System.Drawing.Size(100, 23);
+            this.prgConnection.TabIndex = 23;
+            this.prgConnection.UseWaitCursor = true;
             // 
             // tmrRefreshDeviceParams
             // 
-            this.tmrRefreshDeviceParams.Enabled = true;
-            this.tmrRefreshDeviceParams.Interval = 30;
+            this.tmrRefreshDeviceParams.Interval = 5;
             this.tmrRefreshDeviceParams.Tick += new System.EventHandler(this.TmrRefreshDeviceParams_Tick);
+            // 
+            // bgwConnection
+            // 
+            this.bgwConnection.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BgwOnDoWork);
+            this.bgwConnection.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BgwOnRunWorkerCompleted);
+            // 
+            // txtPower1
+            // 
+            this.txtPower1.Location = new System.Drawing.Point(303, 29);
+            this.txtPower1.Name = "txtPower1";
+            this.txtPower1.Size = new System.Drawing.Size(66, 20);
+            this.txtPower1.TabIndex = 21;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(232, 32);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(64, 13);
+            this.label28.TabIndex = 22;
+            this.label28.Text = "Потужність";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(232, 32);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(64, 13);
+            this.label29.TabIndex = 24;
+            this.label29.Text = "Потужність";
+            // 
+            // txtPower2
+            // 
+            this.txtPower2.Location = new System.Drawing.Point(303, 29);
+            this.txtPower2.Name = "txtPower2";
+            this.txtPower2.Size = new System.Drawing.Size(66, 20);
+            this.txtPower2.TabIndex = 23;
             // 
             // USB_CAN_Plus_Ctrl
             // 
@@ -815,11 +859,10 @@
         private System.Windows.Forms.TextBox txtPhaseBCVolt2;
         private System.Windows.Forms.TextBox txtPhaseABVolt2;
         private System.Windows.Forms.Label label16;
-        private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.ComboBox cmbDevices;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.GroupBox groupBox1;
-        private MetroFramework.Controls.MetroProgressBar metroProgressBar1;
+        private MetroFramework.Controls.MetroProgressBar prgConnection;
         private System.Windows.Forms.CheckBox chkPowerDevice1;
         private System.Windows.Forms.CheckBox chkPowerDevice2;
         private System.Windows.Forms.Timer tmrRefreshDeviceParams;
@@ -831,6 +874,11 @@
         private System.Windows.Forms.TextBox txtCurVolt2;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label27;
+        private System.ComponentModel.BackgroundWorker bgwConnection;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox txtPower1;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox txtPower2;
     }
 }
 

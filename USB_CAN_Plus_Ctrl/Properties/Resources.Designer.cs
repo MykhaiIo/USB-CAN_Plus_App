@@ -61,20 +61,38 @@ namespace USB_CAN_Plus_Ctrl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Активні обидва модулі.
+        /// </summary>
+        internal static string ActiveBoth {
+            get {
+                return ResourceManager.GetString("ActiveBoth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Активний перший модуль.
+        /// </summary>
+        internal static string ActiveFirst {
+            get {
+                return ResourceManager.GetString("ActiveFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Активний другий модуль.
+        /// </summary>
+        internal static string ActiveSecond {
+            get {
+                return ResourceManager.GetString("ActiveSecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не вдалося підключити адаптер USB-CAN Plus.
         /// </summary>
         internal static string AdapterConnectionError {
             get {
                 return ResourceManager.GetString("AdapterConnectionError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} А.
-        /// </summary>
-        internal static string Apostfix {
-            get {
-                return ResourceManager.GetString("Apostfix", resourceCulture);
             }
         }
         
@@ -88,7 +106,7 @@ namespace USB_CAN_Plus_Ctrl.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Помилка при запиті даних параметрів модуля {0}.
+        ///   Looks up a localized string similar to Помилка при запиті даних параметрів модуля.
         /// </summary>
         internal static string AskingDeviceParamsError {
             get {
@@ -133,6 +151,15 @@ namespace USB_CAN_Plus_Ctrl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Помилка при обробці даних температури модуля.
+        /// </summary>
+        internal static string HandlingAmbTempError {
+            get {
+                return ResourceManager.GetString("HandlingAmbTempError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Помилка при обробці даних параметрів модуля {0}.
         /// </summary>
         internal static string HandlingDeviceParamsError {
@@ -147,6 +174,42 @@ namespace USB_CAN_Plus_Ctrl.Properties {
         internal static string HandlingPhaseVoltagesError {
             get {
                 return ResourceManager.GetString("HandlingPhaseVoltagesError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} А.
+        /// </summary>
+        internal static string postfixA {
+            get {
+                return ResourceManager.GetString("postfixA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} °C.
+        /// </summary>
+        internal static string postfixCelsium {
+            get {
+                return ResourceManager.GetString("postfixCelsium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} В.
+        /// </summary>
+        internal static string postfixV {
+            get {
+                return ResourceManager.GetString("postfixV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Вт.
+        /// </summary>
+        internal static string postfixW {
+            get {
+                return ResourceManager.GetString("postfixW", resourceCulture);
             }
         }
         
@@ -210,15 +273,6 @@ namespace USB_CAN_Plus_Ctrl.Properties {
         internal static string SerialNmbInactive {
             get {
                 return ResourceManager.GetString("SerialNmbInactive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} В.
-        /// </summary>
-        internal static string Vpostfix {
-            get {
-                return ResourceManager.GetString("Vpostfix", resourceCulture);
             }
         }
     }
