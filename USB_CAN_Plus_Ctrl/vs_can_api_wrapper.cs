@@ -366,7 +366,7 @@ namespace VSCom.CanApi
             {
                 Buf[i] = (VSCAN_MSG)Marshal.PtrToStructure(pCurrent, typeof(VSCAN_MSG));
 
-                // pCurrent = (IntPtr)((int)pCurrent + Marshal.SizeOf(Buf[0]));
+                //pCurrent = (IntPtr)((int)pCurrent + Marshal.SizeOf(Buf[0]));
             }
 
 	    	Marshal.FreeHGlobal(pBuf);

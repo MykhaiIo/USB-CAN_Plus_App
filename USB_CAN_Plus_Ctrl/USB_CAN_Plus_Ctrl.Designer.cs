@@ -111,8 +111,17 @@ namespace USB_CAN_Plus_Ctrl
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-<<<<<<< HEAD
             this.tmrDisplayDeviceParams = new System.Windows.Forms.Timer(this.components);
+            this.cmbDevices = new System.Windows.Forms.ComboBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.prgConnection = new MetroFramework.Controls.MetroProgressBar();
+            this.tmrRefreshDeviceParams = new System.Windows.Forms.Timer(this.components);
+            this.bgwConnection = new System.ComponentModel.BackgroundWorker();
+            this.txtPower1 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.txtPower2 = new System.Windows.Forms.TextBox();
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -120,14 +129,12 @@ namespace USB_CAN_Plus_Ctrl
             this.tmrSendDeviceParams = new System.Windows.Forms.Timer(this.components);
             this.bgwConnection = new System.ComponentModel.BackgroundWorker();
             this.tmrGetDeviceParams = new System.Windows.Forms.Timer(this.components);
-=======
             this.tmrDeviceParams = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
->>>>>>> parent of 7ab38d3... Improved performances and added timeout stopwatches to monitor params refreshing
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
@@ -415,6 +422,8 @@ namespace USB_CAN_Plus_Ctrl
             // 
             // grpSetParamsMdl1
             // 
+            this.grpSetParamsMdl1.Controls.Add(this.label28);
+            this.grpSetParamsMdl1.Controls.Add(this.txtPower1);
             this.grpSetParamsMdl1.Controls.Add(this.txtOutCurntINT1);
             this.grpSetParamsMdl1.Controls.Add(this.txtOutVoltINT1);
             this.grpSetParamsMdl1.Controls.Add(this.label6);
@@ -478,7 +487,7 @@ namespace USB_CAN_Plus_Ctrl
             65536});
             this.nudOutCurntSI1.Location = new System.Drawing.Point(113, 40);
             this.nudOutCurntSI1.Maximum = new decimal(new int[] {
-            30,
+            35,
             0,
             0,
             0});
@@ -847,9 +856,11 @@ namespace USB_CAN_Plus_Ctrl
             // 
             // grpSetParamsMdl2
             // 
+            this.grpSetParamsMdl2.Controls.Add(this.label29);
             this.grpSetParamsMdl2.Controls.Add(this.txtOutCurntINT2);
             this.grpSetParamsMdl2.Controls.Add(this.txtOutVoltINT2);
             this.grpSetParamsMdl2.Controls.Add(this.label19);
+            this.grpSetParamsMdl2.Controls.Add(this.txtPower2);
             this.grpSetParamsMdl2.Controls.Add(this.label20);
             this.grpSetParamsMdl2.Controls.Add(this.nudOutCurntSI2);
             this.grpSetParamsMdl2.Controls.Add(this.nudOutVoltSI2);
@@ -984,9 +995,8 @@ namespace USB_CAN_Plus_Ctrl
             // 
             // tmrDeviceParams
             // 
-            this.tmrDeviceParams.Enabled = true;
-            this.tmrDeviceParams.Interval = 1000;
-            this.tmrDeviceParams.Tick += new System.EventHandler(this.TmrDeviceParams_Tick);
+            this.tmrDisplayDeviceParams.Interval = 1000;
+            this.tmrDisplayDeviceParams.Tick += new System.EventHandler(this.TmrDisplayDeviceParams_Tick);
             // 
             // cmbDevices
             // 
@@ -1052,12 +1062,47 @@ namespace USB_CAN_Plus_Ctrl
             // 
             // timer1
             // 
-<<<<<<< HEAD
-=======
-            this.timer1.Enabled = true;
->>>>>>> parent of 7ab38d3... Improved performances and added timeout stopwatches to monitor params refreshing
+            this.tmrRefreshDeviceParams.Interval = 5;
+            this.tmrRefreshDeviceParams.Tick += new System.EventHandler(this.TmrRefreshDeviceParams_Tick);
             this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            // 
+            // bgwConnection
+            // 
+            this.bgwConnection.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BgwOnDoWork);
+            this.bgwConnection.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BgwOnRunWorkerCompleted);
+            // 
+            // txtPower1
+            // 
+            this.txtPower1.Location = new System.Drawing.Point(303, 29);
+            this.txtPower1.Name = "txtPower1";
+            this.txtPower1.Size = new System.Drawing.Size(66, 20);
+            this.txtPower1.TabIndex = 21;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(232, 32);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(64, 13);
+            this.label28.TabIndex = 22;
+            this.label28.Text = "Потужність";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(232, 32);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(64, 13);
+            this.label29.TabIndex = 24;
+            this.label29.Text = "Потужність";
+            // 
+            // txtPower2
+            // 
+            this.txtPower2.Location = new System.Drawing.Point(303, 29);
+            this.txtPower2.Name = "txtPower2";
+            this.txtPower2.Size = new System.Drawing.Size(66, 20);
+            this.txtPower2.TabIndex = 23;
             // 
             // USB_CAN_Plus_Ctrl
             // 
@@ -1147,11 +1192,7 @@ namespace USB_CAN_Plus_Ctrl
         private MetroFramework.Controls.MetroProgressBar prgConnection;
         private System.Windows.Forms.CheckBox chkPowerDevice1;
         private System.Windows.Forms.CheckBox chkPowerDevice2;
-<<<<<<< HEAD
         private System.Windows.Forms.Timer tmrSendDeviceParams;
-=======
-        private System.Windows.Forms.Timer timer1;
->>>>>>> parent of 7ab38d3... Improved performances and added timeout stopwatches to monitor params refreshing
         private System.Windows.Forms.TextBox txtCurCurnt1;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox txtCurCurnt2;
@@ -1161,32 +1202,10 @@ namespace USB_CAN_Plus_Ctrl
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label27;
         private System.ComponentModel.BackgroundWorker bgwConnection;
-        private System.Windows.Forms.Panel pnlGetPhaseCAMsg1;
-        private System.Windows.Forms.Panel pnlSendPhaseCAMsg1;
-        private System.Windows.Forms.Panel pnlGetPhaseBCMsg1;
-        private System.Windows.Forms.Panel pnlSendPhaseBCMsg1;
-        private System.Windows.Forms.Panel pnlGetPhaseABMsg1;
-        private System.Windows.Forms.Panel pnlSendPhaseABMsg1;
-        private System.Windows.Forms.Panel pnlGetAmbTmpMsg1;
-        private System.Windows.Forms.Panel pnlSendAmbTempMsg1;
-        private System.Windows.Forms.Panel pnlGetCurntMsg1;
-        private System.Windows.Forms.Panel pnlSendCurntMsg1;
-        private System.Windows.Forms.Panel pnlGetVoltMsg1;
-        private System.Windows.Forms.Panel pnlSendVoltMsg1;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.Panel panel11;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel12;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Timer tmrGetDeviceParams;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox txtPower1;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox txtPower2;
     }
 }
 

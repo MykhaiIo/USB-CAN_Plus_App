@@ -138,20 +138,15 @@
   <data name="Connect" xml:space="preserve">
     <value>Підключити</value>
   </data>
-<<<<<<< HEAD
   <data name="postfixV" xml:space="preserve">
-=======
+    <value>{0} В</value>
+  </data>
   <data name="TransmittingDataError" xml:space="preserve">
     <value>Помилка при передачі даних</value>
-  </data>
-  <data name="Vpostfix" xml:space="preserve">
->>>>>>> parent of 7ab38d3... Improved performances and added timeout stopwatches to monitor params refreshing
-    <value>{0} В</value>
   </data>
   <data name="postfixA" xml:space="preserve">
     <value>{0} А</value>
   </data>
-<<<<<<< HEAD
   <data name="ReceivingDeviceParamsError" xml:space="preserve">
     <value>Помилка при отриманні даних параметрів модуля {0}</value>
   </data>
@@ -194,6 +189,7 @@
   <data name="ActiveSecond" xml:space="preserve">
     <value>Активний другий модуль</value>
   </data>
-=======
->>>>>>> parent of 7ab38d3... Improved performances and added timeout stopwatches to monitor params refreshing
+  <data name="postfixW" xml:space="preserve">
+    <value>{0} Вт</value>
+  </data>
 </root>
