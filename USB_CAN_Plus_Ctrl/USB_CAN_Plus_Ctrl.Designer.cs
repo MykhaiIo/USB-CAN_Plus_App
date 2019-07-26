@@ -60,6 +60,8 @@ namespace USB_CAN_Plus_Ctrl
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.grpSetParamsMdl1 = new System.Windows.Forms.GroupBox();
+            this.txtOutCurntINT1 = new System.Windows.Forms.TextBox();
+            this.txtOutVoltINT1 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.nudOutCurntSI1 = new System.Windows.Forms.NumericUpDown();
@@ -99,6 +101,8 @@ namespace USB_CAN_Plus_Ctrl
             this.txtPhaseABVolt2 = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.grpSetParamsMdl2 = new System.Windows.Forms.GroupBox();
+            this.txtOutCurntINT2 = new System.Windows.Forms.TextBox();
+            this.txtOutVoltINT2 = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.nudOutCurntSI2 = new System.Windows.Forms.NumericUpDown();
@@ -107,6 +111,7 @@ namespace USB_CAN_Plus_Ctrl
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
+<<<<<<< HEAD
             this.tmrDisplayDeviceParams = new System.Windows.Forms.Timer(this.components);
             this.cmbDevices = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
@@ -115,6 +120,14 @@ namespace USB_CAN_Plus_Ctrl
             this.tmrSendDeviceParams = new System.Windows.Forms.Timer(this.components);
             this.bgwConnection = new System.ComponentModel.BackgroundWorker();
             this.tmrGetDeviceParams = new System.Windows.Forms.Timer(this.components);
+=======
+            this.tmrDeviceParams = new System.Windows.Forms.Timer(this.components);
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.cmbDevices = new System.Windows.Forms.ComboBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
+>>>>>>> parent of 7ab38d3... Improved performances and added timeout stopwatches to monitor params refreshing
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.grpModule1.SuspendLayout();
             this.grpReadParamsMdl1.SuspendLayout();
@@ -286,9 +299,9 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtCurCurnt1.Location = new System.Drawing.Point(127, 45);
             this.txtCurCurnt1.Name = "txtCurCurnt1";
-            this.txtCurCurnt1.Size = new System.Drawing.Size(66, 20);
+            this.txtCurCurnt1.ReadOnly = true;
+            this.txtCurCurnt1.Size = new System.Drawing.Size(46, 20);
             this.txtCurCurnt1.TabIndex = 19;
-            this.txtCurCurnt1.TextChanged += new System.EventHandler(this.TxtCurCurnt1_TextChanged);
             // 
             // label26
             // 
@@ -334,25 +347,25 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseCAVolt1.Location = new System.Drawing.Point(323, 71);
             this.txtPhaseCAVolt1.Name = "txtPhaseCAVolt1";
+            this.txtPhaseCAVolt1.ReadOnly = true;
             this.txtPhaseCAVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseCAVolt1.TabIndex = 16;
-            this.txtPhaseCAVolt1.TextChanged += new System.EventHandler(this.TxtPhaseCAVolt1_TextChanged);
             // 
             // txtPhaseBCVolt1
             // 
             this.txtPhaseBCVolt1.Location = new System.Drawing.Point(323, 45);
             this.txtPhaseBCVolt1.Name = "txtPhaseBCVolt1";
+            this.txtPhaseBCVolt1.ReadOnly = true;
             this.txtPhaseBCVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseBCVolt1.TabIndex = 15;
-            this.txtPhaseBCVolt1.TextChanged += new System.EventHandler(this.TxtPhaseBCVolt1_TextChanged);
             // 
             // txtPhaseABVolt1
             // 
             this.txtPhaseABVolt1.Location = new System.Drawing.Point(323, 19);
             this.txtPhaseABVolt1.Name = "txtPhaseABVolt1";
+            this.txtPhaseABVolt1.ReadOnly = true;
             this.txtPhaseABVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseABVolt1.TabIndex = 14;
-            this.txtPhaseABVolt1.TextChanged += new System.EventHandler(this.TxtPhaseABVolt1_TextChanged);
             // 
             // label9
             // 
@@ -368,17 +381,17 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtTemperature1.Location = new System.Drawing.Point(127, 71);
             this.txtTemperature1.Name = "txtTemperature1";
-            this.txtTemperature1.Size = new System.Drawing.Size(66, 20);
+            this.txtTemperature1.ReadOnly = true;
+            this.txtTemperature1.Size = new System.Drawing.Size(46, 20);
             this.txtTemperature1.TabIndex = 12;
-            this.txtTemperature1.TextChanged += new System.EventHandler(this.TxtTemperature1_TextChanged);
             // 
             // txtCurVolt1
             // 
             this.txtCurVolt1.Location = new System.Drawing.Point(127, 19);
             this.txtCurVolt1.Name = "txtCurVolt1";
-            this.txtCurVolt1.Size = new System.Drawing.Size(66, 20);
+            this.txtCurVolt1.ReadOnly = true;
+            this.txtCurVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtCurVolt1.TabIndex = 10;
-            this.txtCurVolt1.TextChanged += new System.EventHandler(this.TxtCurVolt1_TextChanged);
             // 
             // label8
             // 
@@ -402,6 +415,8 @@ namespace USB_CAN_Plus_Ctrl
             // 
             // grpSetParamsMdl1
             // 
+            this.grpSetParamsMdl1.Controls.Add(this.txtOutCurntINT1);
+            this.grpSetParamsMdl1.Controls.Add(this.txtOutVoltINT1);
             this.grpSetParamsMdl1.Controls.Add(this.label6);
             this.grpSetParamsMdl1.Controls.Add(this.label5);
             this.grpSetParamsMdl1.Controls.Add(this.nudOutCurntSI1);
@@ -416,6 +431,22 @@ namespace USB_CAN_Plus_Ctrl
             this.grpSetParamsMdl1.TabIndex = 0;
             this.grpSetParamsMdl1.TabStop = false;
             this.grpSetParamsMdl1.Text = "Параметри, що задаються";
+            // 
+            // txtOutCurntINT1
+            // 
+            this.txtOutCurntINT1.Location = new System.Drawing.Point(269, 40);
+            this.txtOutCurntINT1.Name = "txtOutCurntINT1";
+            this.txtOutCurntINT1.ReadOnly = true;
+            this.txtOutCurntINT1.Size = new System.Drawing.Size(100, 20);
+            this.txtOutCurntINT1.TabIndex = 9;
+            // 
+            // txtOutVoltINT1
+            // 
+            this.txtOutVoltINT1.Location = new System.Drawing.Point(269, 16);
+            this.txtOutVoltINT1.Name = "txtOutVoltINT1";
+            this.txtOutVoltINT1.ReadOnly = true;
+            this.txtOutVoltINT1.Size = new System.Drawing.Size(100, 20);
+            this.txtOutVoltINT1.TabIndex = 8;
             // 
             // label6
             // 
@@ -454,6 +485,7 @@ namespace USB_CAN_Plus_Ctrl
             this.nudOutCurntSI1.Name = "nudOutCurntSI1";
             this.nudOutCurntSI1.Size = new System.Drawing.Size(60, 20);
             this.nudOutCurntSI1.TabIndex = 5;
+            this.nudOutCurntSI1.ValueChanged += new System.EventHandler(this.NudOutCurntSI1_ValueChanged);
             // 
             // nudOutVoltSI1
             // 
@@ -476,6 +508,7 @@ namespace USB_CAN_Plus_Ctrl
             0,
             0,
             0});
+            this.nudOutVoltSI1.ValueChanged += new System.EventHandler(this.NudOutVoltSI1_ValueChanged);
             // 
             // label4
             // 
@@ -626,7 +659,8 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtCurCurnt2.Location = new System.Drawing.Point(127, 45);
             this.txtCurCurnt2.Name = "txtCurCurnt2";
-            this.txtCurCurnt2.Size = new System.Drawing.Size(66, 20);
+            this.txtCurCurnt2.ReadOnly = true;
+            this.txtCurCurnt2.Size = new System.Drawing.Size(46, 20);
             this.txtCurCurnt2.TabIndex = 30;
             // 
             // panel9
@@ -691,7 +725,8 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtTemperature2.Location = new System.Drawing.Point(127, 71);
             this.txtTemperature2.Name = "txtTemperature2";
-            this.txtTemperature2.Size = new System.Drawing.Size(66, 20);
+            this.txtTemperature2.ReadOnly = true;
+            this.txtTemperature2.Size = new System.Drawing.Size(46, 20);
             this.txtTemperature2.TabIndex = 29;
             // 
             // panel4
@@ -706,7 +741,8 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtCurVolt2.Location = new System.Drawing.Point(127, 19);
             this.txtCurVolt2.Name = "txtCurVolt2";
-            this.txtCurVolt2.Size = new System.Drawing.Size(66, 20);
+            this.txtCurVolt2.ReadOnly = true;
+            this.txtCurVolt2.Size = new System.Drawing.Size(46, 20);
             this.txtCurVolt2.TabIndex = 26;
             // 
             // panel5
@@ -779,6 +815,7 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseCAVolt2.Location = new System.Drawing.Point(323, 71);
             this.txtPhaseCAVolt2.Name = "txtPhaseCAVolt2";
+            this.txtPhaseCAVolt2.ReadOnly = true;
             this.txtPhaseCAVolt2.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseCAVolt2.TabIndex = 23;
             // 
@@ -786,6 +823,7 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseBCVolt2.Location = new System.Drawing.Point(323, 45);
             this.txtPhaseBCVolt2.Name = "txtPhaseBCVolt2";
+            this.txtPhaseBCVolt2.ReadOnly = true;
             this.txtPhaseBCVolt2.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseBCVolt2.TabIndex = 22;
             // 
@@ -793,6 +831,7 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseABVolt2.Location = new System.Drawing.Point(323, 19);
             this.txtPhaseABVolt2.Name = "txtPhaseABVolt2";
+            this.txtPhaseABVolt2.ReadOnly = true;
             this.txtPhaseABVolt2.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseABVolt2.TabIndex = 21;
             // 
@@ -808,6 +847,8 @@ namespace USB_CAN_Plus_Ctrl
             // 
             // grpSetParamsMdl2
             // 
+            this.grpSetParamsMdl2.Controls.Add(this.txtOutCurntINT2);
+            this.grpSetParamsMdl2.Controls.Add(this.txtOutVoltINT2);
             this.grpSetParamsMdl2.Controls.Add(this.label19);
             this.grpSetParamsMdl2.Controls.Add(this.label20);
             this.grpSetParamsMdl2.Controls.Add(this.nudOutCurntSI2);
@@ -822,6 +863,22 @@ namespace USB_CAN_Plus_Ctrl
             this.grpSetParamsMdl2.TabIndex = 0;
             this.grpSetParamsMdl2.TabStop = false;
             this.grpSetParamsMdl2.Text = "Параметри, що задаються";
+            // 
+            // txtOutCurntINT2
+            // 
+            this.txtOutCurntINT2.Location = new System.Drawing.Point(269, 40);
+            this.txtOutCurntINT2.Name = "txtOutCurntINT2";
+            this.txtOutCurntINT2.ReadOnly = true;
+            this.txtOutCurntINT2.Size = new System.Drawing.Size(100, 20);
+            this.txtOutCurntINT2.TabIndex = 9;
+            // 
+            // txtOutVoltINT2
+            // 
+            this.txtOutVoltINT2.Location = new System.Drawing.Point(269, 16);
+            this.txtOutVoltINT2.Name = "txtOutVoltINT2";
+            this.txtOutVoltINT2.ReadOnly = true;
+            this.txtOutVoltINT2.Size = new System.Drawing.Size(100, 20);
+            this.txtOutVoltINT2.TabIndex = 8;
             // 
             // label19
             // 
@@ -860,6 +917,7 @@ namespace USB_CAN_Plus_Ctrl
             this.nudOutCurntSI2.Name = "nudOutCurntSI2";
             this.nudOutCurntSI2.Size = new System.Drawing.Size(60, 20);
             this.nudOutCurntSI2.TabIndex = 5;
+            this.nudOutCurntSI2.ValueChanged += new System.EventHandler(this.NudOutCurntSI2_ValueChanged);
             // 
             // nudOutVoltSI2
             // 
@@ -882,6 +940,7 @@ namespace USB_CAN_Plus_Ctrl
             0,
             0,
             0});
+            this.nudOutVoltSI2.ValueChanged += new System.EventHandler(this.NudOutVoltSI2_ValueChanged);
             // 
             // label21
             // 
@@ -923,11 +982,11 @@ namespace USB_CAN_Plus_Ctrl
             this.label24.TabIndex = 0;
             this.label24.Text = "Напруга";
             // 
-            // tmrDisplayDeviceParams
+            // tmrDeviceParams
             // 
-            this.tmrDisplayDeviceParams.Enabled = true;
-            this.tmrDisplayDeviceParams.Interval = 1000;
-            this.tmrDisplayDeviceParams.Tick += new System.EventHandler(this.TmrDisplayDeviceParams_Tick);
+            this.tmrDeviceParams.Enabled = true;
+            this.tmrDeviceParams.Interval = 1000;
+            this.tmrDeviceParams.Tick += new System.EventHandler(this.TmrDeviceParams_Tick);
             // 
             // cmbDevices
             // 
@@ -993,6 +1052,10 @@ namespace USB_CAN_Plus_Ctrl
             // 
             // timer1
             // 
+<<<<<<< HEAD
+=======
+            this.timer1.Enabled = true;
+>>>>>>> parent of 7ab38d3... Improved performances and added timeout stopwatches to monitor params refreshing
             this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
@@ -1052,11 +1115,15 @@ namespace USB_CAN_Plus_Ctrl
         private System.Windows.Forms.TextBox txtCurVolt1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtOutCurntINT1;
+        private System.Windows.Forms.TextBox txtOutVoltINT1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox grpModule2;
         private System.Windows.Forms.GroupBox grpReadParamsMdl2;
         private System.Windows.Forms.GroupBox grpSetParamsMdl2;
+        private System.Windows.Forms.TextBox txtOutCurntINT2;
+        private System.Windows.Forms.TextBox txtOutVoltINT2;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.NumericUpDown nudOutCurntSI2;
@@ -1066,7 +1133,7 @@ namespace USB_CAN_Plus_Ctrl
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label lblSerialNo1;
-        private System.Windows.Forms.Timer tmrDisplayDeviceParams;
+        private System.Windows.Forms.Timer tmrDeviceParams;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
@@ -1080,7 +1147,11 @@ namespace USB_CAN_Plus_Ctrl
         private MetroFramework.Controls.MetroProgressBar prgConnection;
         private System.Windows.Forms.CheckBox chkPowerDevice1;
         private System.Windows.Forms.CheckBox chkPowerDevice2;
+<<<<<<< HEAD
         private System.Windows.Forms.Timer tmrSendDeviceParams;
+=======
+        private System.Windows.Forms.Timer timer1;
+>>>>>>> parent of 7ab38d3... Improved performances and added timeout stopwatches to monitor params refreshing
         private System.Windows.Forms.TextBox txtCurCurnt1;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox txtCurCurnt2;
