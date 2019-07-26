@@ -141,6 +141,9 @@
   <data name="postfixV" xml:space="preserve">
     <value>{0} В</value>
   </data>
+  <data name="TransmittingDataError" xml:space="preserve">
+    <value>Помилка при передачі даних</value>
+  </data>
   <data name="postfixA" xml:space="preserve">
     <value>{0} А</value>
   </data>

@@ -275,5 +275,23 @@ namespace USB_CAN_Plus_Ctrl.Properties {
                 return ResourceManager.GetString("SerialNmbInactive", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка при передачі даних.
+        /// </summary>
+        internal static string TransmittingDataError {
+            get {
+                return ResourceManager.GetString("TransmittingDataError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} В.
+        /// </summary>
+        internal static string Vpostfix {
+            get {
+                return ResourceManager.GetString("Vpostfix", resourceCulture);
+            }
+        }
     }
 }

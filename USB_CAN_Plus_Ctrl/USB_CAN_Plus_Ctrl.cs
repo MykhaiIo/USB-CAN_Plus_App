@@ -85,7 +85,7 @@ namespace USB_CAN_Plus_Ctrl
         // counter used to perform continuous devices' params actualization
         public ushort Cnt { get; private set; }
 
-        // stopwatches used to make textboxes red if it's values hasn't been updated during last second
+        // stopwatches used to make textboxes red if it's values hasn't been updated during last two seconds
         // TODO: Convert Stopwatch Sw properties to Stopwatch[] Sw 
         public Stopwatch SwVoltRead { get; } = new Stopwatch();
         public Stopwatch SwCurntRead { get; } = new Stopwatch();

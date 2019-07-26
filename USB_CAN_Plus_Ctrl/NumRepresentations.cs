@@ -16,13 +16,15 @@ namespace USB_CAN_Plus_Ctrl
 
         public static float BYTEtoFP(byte[] b) => BitConverter.ToSingle(b, 0);
 
+        public static byte[] INTtoBYTE(int i) => BitConverter.GetBytes(i);
+
         public static int BYTEtoINT(byte[] b) => BitConverter.ToInt32(b, 0);
 
         public static byte[] UINTtoBYTE(uint ui) => BitConverter.GetBytes(ui);
 
-        public static uint BYTEtoUSHORT(byte[] b) => BitConverter.ToUInt16(b, 0);
+        public static uint BYTEtoUINT(byte[] b) => BitConverter.ToUInt16(b, 0);
 
-        public static string ToFormattedFloat(float value) => string.Format("{0:##0.000}", value);
+        public static string ToFormattedFloat(float value) => string.Format("{0:##0.00}", value);
 
         private static string ToEngineering(double value, string unitName)
         {
