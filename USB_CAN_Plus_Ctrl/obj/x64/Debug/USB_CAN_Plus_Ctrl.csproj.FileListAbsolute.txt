@@ -6,7 +6,6 @@ C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\HEXtoFLOAT\obj\x64\Debug\USB_C
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\HEXtoFLOAT\obj\x64\Debug\HEXtoFLOAT.exe
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\HEXtoFLOAT\obj\x64\Debug\HEXtoFLOAT.pdb
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\HEXtoFLOAT\obj\x64\Debug\USB_CAN_Plus_Ctrl.Properties.Resources.resources
-C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\obj\x64\Debug\USB_CAN_Plus_Ctrl.csprojAssemblyReference.cache
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\obj\x64\Debug\USB_CAN_Plus_Ctrl.USB_CAN_Plus_Ctrl.resources
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\obj\x64\Debug\USB_CAN_Plus_Ctrl.Properties.Resources.resources
 C:\Users\Michel\Documents\GitHub\USB-CAN_Plus_App\USB_CAN_Plus_Ctrl\obj\x64\Debug\USB_CAN_Plus_Ctrl.csproj.GenerateResource.cache
