@@ -12,11 +12,7 @@ namespace USB_CAN_Plus_Ctrl
             // For C-style hex notation (0xFF) you can use @"\A\b(0[xX])?[0-9a-fA-F]+\b\Z"
             System.Text.RegularExpressions.Regex.IsMatch(s, @"\A\b[0-9a-fA-F]+\b\Z");
 
-        public static byte[] FPToByte(float fp) => BitConverter.GetBytes(fp);
-
         public static float ByteToFP(byte[] b) => BitConverter.ToSingle(b, 0);
-
-        public static byte[] IntToByte(int i) => BitConverter.GetBytes(i);
 
         public static int ByteToInt(byte[] b) => BitConverter.ToInt32(b, 0);
 

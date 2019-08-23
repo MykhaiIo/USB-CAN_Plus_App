@@ -156,7 +156,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtCurCurnt1.Location = new System.Drawing.Point(127, 45);
             this.txtCurCurnt1.Name = "txtCurCurnt1";
-            this.txtCurCurnt1.ReadOnly = true;
             this.txtCurCurnt1.Size = new System.Drawing.Size(46, 20);
             this.txtCurCurnt1.TabIndex = 19;
             // 
@@ -204,7 +203,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseCAVolt1.Location = new System.Drawing.Point(323, 71);
             this.txtPhaseCAVolt1.Name = "txtPhaseCAVolt1";
-            this.txtPhaseCAVolt1.ReadOnly = true;
             this.txtPhaseCAVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseCAVolt1.TabIndex = 16;
             // 
@@ -212,7 +210,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseBCVolt1.Location = new System.Drawing.Point(323, 45);
             this.txtPhaseBCVolt1.Name = "txtPhaseBCVolt1";
-            this.txtPhaseBCVolt1.ReadOnly = true;
             this.txtPhaseBCVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseBCVolt1.TabIndex = 15;
             // 
@@ -220,7 +217,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseABVolt1.Location = new System.Drawing.Point(323, 19);
             this.txtPhaseABVolt1.Name = "txtPhaseABVolt1";
-            this.txtPhaseABVolt1.ReadOnly = true;
             this.txtPhaseABVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseABVolt1.TabIndex = 14;
             // 
@@ -238,7 +234,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtTemperature1.Location = new System.Drawing.Point(127, 71);
             this.txtTemperature1.Name = "txtTemperature1";
-            this.txtTemperature1.ReadOnly = true;
             this.txtTemperature1.Size = new System.Drawing.Size(46, 20);
             this.txtTemperature1.TabIndex = 12;
             // 
@@ -246,7 +241,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtCurVolt1.Location = new System.Drawing.Point(127, 19);
             this.txtCurVolt1.Name = "txtCurVolt1";
-            this.txtCurVolt1.ReadOnly = true;
             this.txtCurVolt1.Size = new System.Drawing.Size(46, 20);
             this.txtCurVolt1.TabIndex = 10;
             // 
@@ -478,7 +472,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtCurCurnt2.Location = new System.Drawing.Point(127, 45);
             this.txtCurCurnt2.Name = "txtCurCurnt2";
-            this.txtCurCurnt2.ReadOnly = true;
             this.txtCurCurnt2.Size = new System.Drawing.Size(46, 20);
             this.txtCurCurnt2.TabIndex = 30;
             // 
@@ -496,7 +489,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtTemperature2.Location = new System.Drawing.Point(127, 71);
             this.txtTemperature2.Name = "txtTemperature2";
-            this.txtTemperature2.ReadOnly = true;
             this.txtTemperature2.Size = new System.Drawing.Size(46, 20);
             this.txtTemperature2.TabIndex = 29;
             // 
@@ -504,7 +496,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtCurVolt2.Location = new System.Drawing.Point(127, 19);
             this.txtCurVolt2.Name = "txtCurVolt2";
-            this.txtCurVolt2.ReadOnly = true;
             this.txtCurVolt2.Size = new System.Drawing.Size(46, 20);
             this.txtCurVolt2.TabIndex = 26;
             // 
@@ -562,7 +553,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseCAVolt2.Location = new System.Drawing.Point(323, 71);
             this.txtPhaseCAVolt2.Name = "txtPhaseCAVolt2";
-            this.txtPhaseCAVolt2.ReadOnly = true;
             this.txtPhaseCAVolt2.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseCAVolt2.TabIndex = 23;
             // 
@@ -570,7 +560,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseBCVolt2.Location = new System.Drawing.Point(323, 45);
             this.txtPhaseBCVolt2.Name = "txtPhaseBCVolt2";
-            this.txtPhaseBCVolt2.ReadOnly = true;
             this.txtPhaseBCVolt2.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseBCVolt2.TabIndex = 22;
             // 
@@ -578,7 +567,6 @@ namespace USB_CAN_Plus_Ctrl
             // 
             this.txtPhaseABVolt2.Location = new System.Drawing.Point(323, 19);
             this.txtPhaseABVolt2.Name = "txtPhaseABVolt2";
-            this.txtPhaseABVolt2.ReadOnly = true;
             this.txtPhaseABVolt2.Size = new System.Drawing.Size(46, 20);
             this.txtPhaseABVolt2.TabIndex = 21;
             // 
@@ -786,6 +774,7 @@ namespace USB_CAN_Plus_Ctrl
             // 
             // tmrRefreshDeviceParams
             // 
+            this.tmrRefreshDeviceParams.Interval = 10;
             this.tmrRefreshDeviceParams.Tick += new System.EventHandler(this.TmrRefreshDeviceParams_Tick);
             // 
             // USB_CAN_Plus_Ctrl
